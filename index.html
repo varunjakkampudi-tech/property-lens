@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Personal Andhra Pradesh property lead tracker for Vizag, Tanuku, Palakollu and Bhimavaram." />
+  <meta name="description" content="Best property leads across Vizag, Tanuku, Palakollu and Bhimavaram." />
   <meta name="theme-color" content="#0f3d91" />
   <title>Property Lens</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,10 +17,10 @@
     <aside class="sidebar" aria-label="Primary navigation">
       <div class="brand">
         <div class="brand-mark">⌂</div>
-        <div><strong>Property Lens</strong><span>Personal property tracker</span></div>
+        <div><strong>Property Lens</strong><span>Simple home search</span></div>
       </div>
       <nav class="nav-list">
-        <button class="nav-item active" data-nav="dashboard">⌂ <span>Dashboard</span></button>
+        <button class="nav-item active" data-nav="dashboard">⌂ <span>Best leads</span></button>
         <button class="nav-item" data-nav="compare">⇄ <span>Compare</span></button>
         <button class="nav-item" data-nav="shortlist">♡ <span>Shortlisted</span><b id="shortlistCountSide">0</b></button>
         <button class="nav-item" data-nav="visited">✓ <span>Visited</span><b id="visitedCountSide">0</b></button>
@@ -28,97 +28,127 @@
       </nav>
       <div class="tip-card">
         <strong>Before paying token</strong>
-        <ul>
-          <li>Verify title, EC, approvals & OC</li>
-          <li>Check actual plot/UDS</li>
-          <li>Inspect construction & seepage</li>
-          <li>Confirm water and drainage</li>
-          <li>Compare recent registered values</li>
-        </ul>
+        <ul><li>Verify title + EC</li><li>Check plot / UDS</li><li>Inspect construction</li><li>Confirm water + drainage</li></ul>
       </div>
     </aside>
 
     <main id="main" class="main-content">
-      <header class="topbar">
+      <header class="simple-hero">
         <div>
-          <p class="eyebrow">PERSONAL REAL-ESTATE RESEARCH</p>
-          <h1>Andhra Pradesh Property Finder</h1>
-          <p class="subtitle">Vizag · Tanuku · Palakollu · Bhimavaram — researched leads around ₹40–45L, plus useful stretch/value options.</p>
+          <p class="eyebrow">PROPERTY LENS</p>
+          <h1>Best property leads first.</h1>
+          <p class="subtitle">Strong options across Vizag, Tanuku, Palakollu and Bhimavaram around your ₹40–45L budget.</p>
         </div>
         <div class="top-actions">
-          <button id="shortlistBtn" class="secondary-btn">♡ <span id="shortlistCount">0</span> Shortlisted</button>
+          <button id="shortlistBtn" class="secondary-btn">♡ <span id="shortlistCount">0</span> Saved</button>
           <button id="compareBtn" class="primary-btn">⇄ Compare <span id="compareCount">0</span></button>
         </div>
       </header>
 
-      <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
-
-      <section class="filter-panel" aria-label="Property filters">
-        <div class="filter-grid">
-          <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
-          <label>Property type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">Independent house</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option><option value="Watchlist">Project watchlist</option></select></label>
-          <label>Max budget<select id="budgetFilter"><option value="45">₹45L</option><option value="50">₹50L</option><option value="60">₹60L</option><option value="999">Any / price unknown</option></select></label>
-          <label>Property age<select id="ageFilter"><option value="all">Any</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
-          <label>Gated community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Yes / full gated</option><option value="partial">Partial / verify</option><option value="no">Not required</option></select></label>
-          <label>Deal assessment<select id="dealFilter"><option value="all">All assessments</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
+      <section class="best-leads">
+        <div class="section-heading">
+          <div><p class="eyebrow">START HERE</p><h2>Best lead from each location</h2><p>These are the first properties worth checking based on the current research.</p></div>
+          <span class="data-note">Research snapshot · 28 Sep 2026</span>
         </div>
-        <div class="filter-actions">
-          <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Search property, locality, source..." aria-label="Search properties" /></div>
-          <button id="resetFilters" class="ghost-btn">Reset</button>
+        <div class="best-lead-grid">
+          <article class="best-lead-card">
+            <div class="best-city">VIZAG</div><span class="deal-badge strong">Strong Deal</span>
+            <h3>Chakri Meadows</h3><p class="best-place">Sheela Nagar</p>
+            <div class="best-price">₹43L <small>Target ₹40–42L</small></div>
+            <div class="best-facts"><span>2BHK</span><span>1,040 sq.ft</span><span>Gated</span></div>
+            <p class="best-why">Pool, clubhouse, gym and a strong price fit for Vizag.</p>
+            <a class="best-link" href="https://www.magicbricks.com/independent-house-for-sale-in-bhpv-township-visakhapatnam-price-40-lakhs-to-50-lakhs-pppfs" target="_blank" rel="noopener">Check source ↗</a>
+          </article>
+          <article class="best-lead-card">
+            <div class="best-city">TANUKU</div><span class="deal-badge strong">Strong Deal</span>
+            <h3>Palangi–Savaram New House</h3><p class="best-place">Palangi–Savaram Road</p>
+            <div class="best-price">₹42L <small>Target ₹39–41L</small></div>
+            <div class="best-facts"><span>2BHK</span><span>132 sq.yd</span><span>New</span></div>
+            <p class="best-why">Independent house with meaningful land and new construction.</p>
+            <a class="best-link" href="https://www.prasadmcdrealestate.in/sell/2-bhk-individual-houses-villas-tanuku-west-godavari_1044826.htm" target="_blank" rel="noopener">Check source ↗</a>
+          </article>
+          <article class="best-lead-card">
+            <div class="best-city">PALAKOLLU</div><span class="deal-badge good">Good Value</span>
+            <h3>Dagguluru / Poolapalli 4BHK</h3><p class="best-place">Poolapalli side</p>
+            <div class="best-price">₹45L <small>Target ₹40–42L</small></div>
+            <div class="best-facts"><span>4BHK</span><span>902 sq.ft</span><span>House</span></div>
+            <p class="best-why">At budget ceiling with strong land-backed value potential.</p>
+            <a class="best-link" href="https://www.olx.in/palacole_g4058561/properties_c3/q-houses-sale" target="_blank" rel="noopener">Check source ↗</a>
+          </article>
+          <article class="best-lead-card">
+            <div class="best-city">BHIMAVARAM</div><span class="deal-badge bargain">Potential Bargain</span>
+            <h3>House + 2 Shops</h3><p class="best-place">Kumudavalli</p>
+            <div class="best-price">₹45L <small>Target ₹41–43L</small></div>
+            <div class="best-facts"><span>2BHK</span><span>1,500 sq.ft</span><span>+ 2 shops</span></div>
+            <p class="best-why">Residential use plus possible rental income from two shops.</p>
+            <a class="best-link" href="https://www.olx.in/en-in/bhimavaram_g4058508/properties_c3/q-house-sale" target="_blank" rel="noopener">Check source ↗</a>
+          </article>
         </div>
       </section>
 
-      <section class="toolbar">
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-view="all">All leads</button>
-          <button class="tab" data-view="recommended">Recommended</button>
-          <button class="tab" data-view="gated">Gated</button>
-          <button class="tab" data-view="houses">Independent houses</button>
-          <button class="tab" data-view="shortlisted">My shortlist</button>
-        </div>
-        <label class="sort-control">Sort
-          <select id="sortSelect">
-            <option value="recommended">Recommended</option>
-            <option value="price-asc">Price: low to high</option>
-            <option value="price-desc">Price: high to low</option>
-            <option value="size-desc">Size: largest first</option>
-          </select>
-        </label>
+      <section class="browse-location">
+        <div class="section-heading"><div><h2>Browse by location</h2><p>Tap a city to filter all researched leads.</p></div></div>
+        <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
       </section>
 
-      <section class="section-heading">
-        <div><h2 id="resultsTitle">Property leads</h2><p id="resultsMeta"></p></div>
-        <span class="data-note">Research snapshot: 28 Sep 2026 · Always reconfirm availability</span>
-      </section>
+      <section class="browse-all">
+        <div class="section-heading"><div><p class="eyebrow">ALL PROPERTIES</p><h2>Find more options</h2><p>Use only the filters you need.</p></div></div>
 
-      <section id="propertyGrid" class="property-grid" aria-live="polite"></section>
-      <div id="emptyState" class="empty-state" hidden><strong>No matching leads</strong><p>Adjust the filters or reset them.</p></div>
+        <section class="filter-panel" aria-label="Property filters">
+          <div class="filter-actions">
+            <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Search property or locality..." aria-label="Search properties" /></div>
+            <button id="resetFilters" class="ghost-btn">Reset</button>
+          </div>
+          <div class="filter-grid">
+            <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
+            <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option><option value="Watchlist">Watchlist</option></select></label>
+            <label>Budget<select id="budgetFilter"><option value="45">Up to ₹45L</option><option value="50">Up to ₹50L</option><option value="60">Up to ₹60L</option><option value="999">Any price</option></select></label>
+            <label>Age<select id="ageFilter"><option value="all">Any age</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
+            <label>Community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Gated</option><option value="partial">Verify gated</option><option value="no">Independent</option></select></label>
+            <label>Deal<select id="dealFilter"><option value="all">All deals</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
+          </div>
+        </section>
+
+        <section class="toolbar">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-view="all">All</button>
+            <button class="tab" data-view="recommended">Best</button>
+            <button class="tab" data-view="houses">Houses</button>
+            <button class="tab" data-view="gated">Gated</button>
+            <button class="tab" data-view="shortlisted">Saved</button>
+          </div>
+          <label class="sort-control">Sort<select id="sortSelect"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option><option value="size-desc">Largest first</option></select></label>
+        </section>
+
+        <section class="section-heading">
+          <div><h2 id="resultsTitle">Property leads</h2><p id="resultsMeta"></p></div>
+        </section>
+        <section id="propertyGrid" class="property-grid" aria-live="polite"></section>
+        <div id="emptyState" class="empty-state" hidden><strong>No matching leads</strong><p>Try changing or resetting the filters.</p></div>
+      </section>
 
       <section id="checklistSection" class="checklist-section">
-        <div>
-          <p class="eyebrow">BUYING SAFETY</p>
-          <h2>Before you commit</h2>
-          <p>Online listing data is only lead generation. For independent houses, value the land and the depreciated building separately. For flats, verify UDS, association condition, water, approvals and actual carpet/saleable area.</p>
-        </div>
-        <div class="checklist-grid">
-          <article><strong>Legal</strong><span>Title chain, EC, sanctioned plan, RERA where applicable, OC/CC, taxes, loan eligibility.</span></article>
-          <article><strong>Physical</strong><span>Cracks, seepage, terrace waterproofing, plumbing, electrical load, road level, drainage and flooding history.</span></article>
-          <article><strong>Value</strong><span>Plot/UDS, recent local transactions, road width, corner/facing premium, rental demand and realistic negotiation range.</span></article>
-          <article><strong>Community</strong><span>Water source, maintenance, corpus, lift AMC, generator, parking rights, security and neighbourhood atmosphere.</span></article>
-        </div>
+        <div><p class="eyebrow">BUYING SAFETY</p><h2>Before you pay a token advance</h2><p>Verify title, EC, approvals, plot/UDS, water, drainage, construction condition and the final all-in cost.</p></div>
+        <div class="checklist-grid"><article><strong>Legal</strong><span>Title chain, EC, sanctioned plan, RERA/OC where applicable.</span></article><article><strong>Physical</strong><span>Cracks, seepage, terrace, plumbing, road level and drainage.</span></article><article><strong>Value</strong><span>Plot/UDS, recent transactions, road width and negotiation range.</span></article><article><strong>Community</strong><span>Water, maintenance, lift, generator, parking and security.</span></article></div>
       </section>
-
-      <footer>
-        <span>Property Lens · personal research dashboard</span>
-        <span>Not a valuation, legal opinion or availability guarantee.</span>
-      </footer>
+      <footer><span>Property Lens</span><span>Reconfirm availability and legal details before purchase.</span></footer>
     </main>
   </div>
 
+  <nav class="mobile-bottom-nav">
+    <a href="#main">⌂<span>Best</span></a>
+    <a href=".browse-all">▦<span>Browse</span></a>
+    <button id="mobileSaved">♡<span>Saved</span></button>
+    <button id="mobileCompare">⇄<span>Compare</span></button>
+  </nav>
+
   <dialog id="detailsDialog" class="details-dialog"></dialog>
   <dialog id="compareDialog" class="compare-dialog"></dialog>
-
   <script src="data/properties.js"></script>
   <script src="assets/app.js"></script>
+  <script>
+    document.getElementById('mobileSaved').addEventListener('click', function(){ document.querySelector('[data-view="shortlisted"]').click(); document.querySelector('.browse-all').scrollIntoView({behavior:'smooth'}); });
+    document.getElementById('mobileCompare').addEventListener('click', function(){ document.getElementById('compareBtn').click(); });
+  </script>
 </body>
 </html>
