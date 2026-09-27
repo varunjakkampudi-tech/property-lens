@@ -228,3 +228,21 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
     min-width:44px;min-height:44px;
   }
 }
+
+
+/* ===== WCAG contrast + visual focus cleanup ===== */
+:root{
+  --blue:#0b57d0;
+  --green:#086b43;
+  --muted:#52627b;
+}
+.mobile-location-updated{color:#086b43}
+.mobile-location-kicker{color:#0b57d0}
+.mobile-city-copy p,.mobile-city-copy small{color:#52627b}
+.mobile-location-trust{color:#52627b}
+.mobile-location-trust span{color:#52627b}
+.lead-source-meta,.lead-source-meta span{color:#52627b}
+.data-note,footer{color:#52627b}
+.chip.green{color:#086b43}
+.negotiation{color:#086b43}
+.mobile-location-screen:focus,#resultsTitle:focus{outline:none}

@@ -31,6 +31,7 @@
   overlay.setAttribute('role','dialog');
   overlay.setAttribute('aria-modal','true');
   overlay.setAttribute('aria-labelledby','mobileLocationTitle');
+  overlay.setAttribute('tabindex','-1');
 
   var cards = cities.map(function(city){
     var market = markets[city] || {};
@@ -104,7 +105,7 @@
     if(filterButton) filterButton.setAttribute('aria-expanded','false');
     setUnderlyingDisabled(true);
     window.scrollTo({top:0,behavior:'auto'});
-    setTimeout(function(){ document.getElementById('mobileLocationTitle').focus(); },0);
+    setTimeout(function(){ overlay.focus({preventScroll:true}); },0);
   }
 
   function enterListingsView(){
@@ -125,14 +126,10 @@
     enterListingsView();
     document.getElementById('mobileSelectedCity').textContent = city === 'all' ? 'All locations' : city;
     var resultsTitle=document.getElementById('resultsTitle');
-    if(resultsTitle) {
-      resultsTitle.textContent = city === 'all' ? 'All active properties' : city + ' properties';
-      resultsTitle.setAttribute('tabindex','-1');
-    }
+    if(resultsTitle) resultsTitle.textContent = city === 'all' ? 'All active properties' : city + ' properties';
     window.scrollTo({top:0,behavior:'auto'});
     setTimeout(function(){
       if(browseAll) browseAll.scrollIntoView({block:'start',behavior:'auto'});
-      if(resultsTitle) resultsTitle.focus({preventScroll:true});
     },0);
   }
 
