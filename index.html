@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal Andhra Pradesh property lead tracker for Vizag, Tanuku, Palakollu and Bhimavaram." />
+  <meta name="theme-color" content="#0f3d91" />
+  <title>Property Lens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark">⌂</div>
+        <div><strong>Property Lens</strong><span>Personal property tracker</span></div>
+      </div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-nav="dashboard">⌂ <span>Dashboard</span></button>
+        <button class="nav-item" data-nav="compare">⇄ <span>Compare</span></button>
+        <button class="nav-item" data-nav="shortlist">♡ <span>Shortlisted</span><b id="shortlistCountSide">0</b></button>
+        <button class="nav-item" data-nav="visited">✓ <span>Visited</span><b id="visitedCountSide">0</b></button>
+        <button class="nav-item" data-nav="checklist">☑ <span>Buying checklist</span></button>
+      </nav>
+      <div class="tip-card">
+        <strong>Before paying token</strong>
+        <ul>
+          <li>Verify title, EC, approvals & OC</li>
+          <li>Check actual plot/UDS</li>
+          <li>Inspect construction & seepage</li>
+          <li>Confirm water and drainage</li>
+          <li>Compare recent registered values</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main id="main" class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PERSONAL REAL-ESTATE RESEARCH</p>
+          <h1>Andhra Pradesh Property Finder</h1>
+          <p class="subtitle">Vizag · Tanuku · Palakollu · Bhimavaram — researched leads around ₹40–45L, plus useful stretch/value options.</p>
+        </div>
+        <div class="top-actions">
+          <button id="shortlistBtn" class="secondary-btn">♡ <span id="shortlistCount">0</span> Shortlisted</button>
+          <button id="compareBtn" class="primary-btn">⇄ Compare <span id="compareCount">0</span></button>
+        </div>
+      </header>
+
+      <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
+
+      <section class="filter-panel" aria-label="Property filters">
+        <div class="filter-grid">
+          <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
+          <label>Property type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">Independent house</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option><option value="Watchlist">Project watchlist</option></select></label>
+          <label>Max budget<select id="budgetFilter"><option value="45">₹45L</option><option value="50">₹50L</option><option value="60">₹60L</option><option value="999">Any / price unknown</option></select></label>
+          <label>Property age<select id="ageFilter"><option value="all">Any</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
+          <label>Gated community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Yes / full gated</option><option value="partial">Partial / verify</option><option value="no">Not required</option></select></label>
+          <label>Deal assessment<select id="dealFilter"><option value="all">All assessments</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
+        </div>
+        <div class="filter-actions">
+          <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Search property, locality, source..." aria-label="Search properties" /></div>
+          <button id="resetFilters" class="ghost-btn">Reset</button>
+        </div>
+      </section>
+
+      <section class="toolbar">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-view="all">All leads</button>
+          <button class="tab" data-view="recommended">Recommended</button>
+          <button class="tab" data-view="gated">Gated</button>
+          <button class="tab" data-view="houses">Independent houses</button>
+          <button class="tab" data-view="shortlisted">My shortlist</button>
+        </div>
+        <label class="sort-control">Sort
+          <select id="sortSelect">
+            <option value="recommended">Recommended</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="size-desc">Size: largest first</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="section-heading">
+        <div><h2 id="resultsTitle">Property leads</h2><p id="resultsMeta"></p></div>
+        <span class="data-note">Research snapshot: 28 Sep 2026 · Always reconfirm availability</span>
+      </section>
+
+      <section id="propertyGrid" class="property-grid" aria-live="polite"></section>
+      <div id="emptyState" class="empty-state" hidden><strong>No matching leads</strong><p>Adjust the filters or reset them.</p></div>
+
+      <section id="checklistSection" class="checklist-section">
+        <div>
+          <p class="eyebrow">BUYING SAFETY</p>
+          <h2>Before you commit</h2>
+          <p>Online listing data is only lead generation. For independent houses, value the land and the depreciated building separately. For flats, verify UDS, association condition, water, approvals and actual carpet/saleable area.</p>
+        </div>
+        <div class="checklist-grid">
+          <article><strong>Legal</strong><span>Title chain, EC, sanctioned plan, RERA where applicable, OC/CC, taxes, loan eligibility.</span></article>
+          <article><strong>Physical</strong><span>Cracks, seepage, terrace waterproofing, plumbing, electrical load, road level, drainage and flooding history.</span></article>
+          <article><strong>Value</strong><span>Plot/UDS, recent local transactions, road width, corner/facing premium, rental demand and realistic negotiation range.</span></article>
+          <article><strong>Community</strong><span>Water source, maintenance, corpus, lift AMC, generator, parking rights, security and neighbourhood atmosphere.</span></article>
+        </div>
+      </section>
+
+      <footer>
+        <span>Property Lens · personal research dashboard</span>
+        <span>Not a valuation, legal opinion or availability guarantee.</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="detailsDialog" class="details-dialog"></dialog>
+  <dialog id="compareDialog" class="compare-dialog"></dialog>
+
+  <script src="data/properties.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
