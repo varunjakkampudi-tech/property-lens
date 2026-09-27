@@ -81,7 +81,7 @@
           <div class="filter-grid">
             <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
             <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option><option value="Watchlist">Watchlist</option></select></label>
-            <label>Budget<select id="budgetFilter"><option value="45">Up to ₹45L</option><option value="50">Up to ₹50L</option><option value="60">Up to ₹60L</option><option value="999">Any price</option></select></label>
+            <label>Budget<select id="budgetFilter"><option value="999">All active</option><option value="45">Up to ₹45L</option><option value="50">Up to ₹50L</option><option value="60">Up to ₹60L</option></select></label>
             <label>Age<select id="ageFilter"><option value="all">Any age</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
             <label>Community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Gated</option><option value="partial">Verify gated</option><option value="no">Independent</option></select></label>
             <label>Deal<select id="dealFilter"><option value="all">All deals</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
@@ -125,6 +125,7 @@
   <dialog id="compareDialog" class="compare-dialog"></dialog>
   <script src="data/properties.js"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/enrichment.js"></script>
   <script>
     document.getElementById('mobileSaved').addEventListener('click', function(){ document.querySelector('[data-view="shortlisted"]').click(); document.querySelector('.browse-all').scrollIntoView({behavior:'smooth'}); });
     document.getElementById('mobileCompare').addEventListener('click', function(){ document.getElementById('compareBtn').click(); });
