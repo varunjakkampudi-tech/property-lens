@@ -108,7 +108,7 @@
         <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
         <div class="valuation"><div>Market / area ref<strong>${esc(p.market)}</strong></div><div>Asking rate<strong>${esc(p.askingRate)}</strong></div></div>
         <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.source)} ↗</a></div>
-        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" title="Compare">⇄</button><button class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" title="Visited">✓</button><button class="small-action" data-note="${p.id}" title="Notes">✎</button></div>
+        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" title="Compare" aria-label="Compare ${esc(p.name)}">⇄</button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" title="Visited" aria-label="Mark ${esc(p.name)} visited">✓</button><button type="button" class="small-action" data-note="${p.id}" title="Notes" aria-label="Notes for ${esc(p.name)}">✎</button></div>
       </div></article>`;
   }
 
@@ -132,7 +132,7 @@
   function openDetails(id, focusNote=false) {
     const p=properties.find(x=>x.id===id); if(!p)return;
     const d=$('detailsDialog');
-    d.innerHTML=`<div class="dialog-head"><div><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><h2>${esc(p.name)}</h2><span class="location">${esc(p.locality)}, ${esc(p.city)}</span></div><button type="button" class="close-btn" aria-label="Close">×</button></div>
+    d.innerHTML=`<div class="dialog-head"><div><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><h2>${esc(p.name)}</h2><span class="location">${esc(p.locality)}, ${esc(p.city)}</span></div><button type="button" class="close-btn" data-dialog-close aria-label="Close property details">×</button></div>
       <div class="dialog-content"><div class="dialog-grid">
         <div class="detail-box"><span>Asking price</span><strong>${priceText(p.price)}</strong></div><div class="detail-box"><span>Negotiation target</span><strong>${esc(p.target)}</strong></div>
         <div class="detail-box"><span>Size</span><strong>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Verify'}</strong></div><div class="detail-box"><span>Age/status</span><strong>${esc(p.age)}</strong></div>
@@ -141,15 +141,20 @@
       </div><h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
       <h3>My notes</h3><textarea id="propertyNote" class="note-area" aria-label="My property notes" placeholder="Site-visit observations, seller quote, plot size, road width...">${esc(notes[p.id]||'')}</textarea>
       <div class="card-actions" style="margin-top:12px"><button type="button" id="saveNote" class="details-btn">Save note</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">Open ${esc(p.source)} ↗</a></div></div>`;
-    d.querySelector('.close-btn').onclick=()=>d.close(); d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved ✓';}; d.showModal(); if(focusNote)setTimeout(()=>d.querySelector('#propertyNote').focus(),50);
+    d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved ✓';};
+    d.showModal();
+    d.querySelector('.close-btn')?.focus({preventScroll:true});
+    if(focusNote)setTimeout(()=>d.querySelector('#propertyNote')?.focus(),50);
   }
 
   function openCompare() {
     const list=[...compare].map(id=>properties.find(p=>p.id===id)).filter(Boolean); const d=$('compareDialog');
     if(!list.length){alert('Select properties using the ⇄ button first.');return;}
     const rows=[['Price',p=>priceText(p.price)],['Location',p=>`${p.locality}, ${p.city}`],['Type',p=>p.type],['Size',p=>p.size?`${p.size} ${p.sizeUnit}`:'Verify'],['Age',p=>p.age],['Gated',p=>gatedText(p.gated)],['Market ref',p=>p.market],['Asking rate',p=>p.askingRate],['Deal',p=>p.deal],['Target',p=>p.target]];
-    d.innerHTML=`<div class="dialog-head"><h2>Compare ${list.length} properties</h2><button class="close-btn">×</button></div><div class="dialog-content compare-table-wrap"><table class="compare-table"><thead><tr><th>Metric</th>${list.map(p=>`<th>${esc(p.name)}<br><button class="remove-compare" data-remove="${p.id}">Remove</button></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th>${label}</th>${list.map(p=>`<td>${esc(fn(p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-    d.querySelector('.close-btn').onclick=()=>d.close(); d.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{compare.delete(b.dataset.remove);updateCounts();d.close();openCompare();render();}); d.showModal();
+    d.innerHTML=`<div class="dialog-head"><h2>Compare ${list.length} properties</h2><button type="button" class="close-btn" data-dialog-close aria-label="Close comparison">×</button></div><div class="dialog-content compare-table-wrap"><table class="compare-table"><thead><tr><th>Metric</th>${list.map(p=>`<th>${esc(p.name)}<br><button class="remove-compare" data-remove="${p.id}">Remove</button></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th>${label}</th>${list.map(p=>`<td>${esc(fn(p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    d.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{compare.delete(b.dataset.remove);updateCounts();d.close();openCompare();render();});
+    d.showModal();
+    d.querySelector('.close-btn')?.focus({preventScroll:true});
   }
 
   document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{
@@ -157,6 +162,14 @@
     const n=b.dataset.nav; if(n==='compare')openCompare(); else if(n==='shortlist'){state.view='shortlisted';document.querySelector('[data-view="shortlisted"]').click();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='visited'){state.view='all';$('searchInput').value='';const ids=[...visited];$('propertyGrid').innerHTML=properties.filter(p=>ids.includes(p.id)).sort((a,b)=>b.score-a.score).map(card).join('');$('resultsTitle').textContent='Visited properties';$('resultsMeta').textContent=`${ids.length} marked visited`;bindCards();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='checklist')$('checklistSection').scrollIntoView({behavior:'smooth'}); else {state.view='all';render();window.scrollTo({top:0,behavior:'smooth'});}
   }));
   $('compareBtn').onclick=openCompare; $('shortlistBtn').onclick=()=>document.querySelector('[data-view="shortlisted"]').click();
-  [$('detailsDialog'),$('compareDialog')].forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close();}));
+  [$('detailsDialog'),$('compareDialog')].forEach(d=>{
+    d.addEventListener('click',e=>{
+      if(e.target.closest?.('[data-dialog-close]') || e.target===d) d.close();
+    });
+    d.addEventListener('cancel',e=>{
+      e.preventDefault();
+      d.close();
+    });
+  });
   setupFilters(); renderCities(); render(); updateCounts();
 })();

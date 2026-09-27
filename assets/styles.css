@@ -162,3 +162,69 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
   html{scroll-behavior:auto!important}
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* ===== Mobile E2E fixes: dialog safety + unobscured last card ===== */
+:root{--mobile-nav-height:72px}
+.details-dialog,.compare-dialog{
+  max-height:min(90dvh,820px);
+  overflow:hidden;
+  overscroll-behavior:contain;
+}
+.dialog-head{
+  position:sticky;top:0;z-index:5;background:#fff;
+  align-items:flex-start;
+}
+.close-btn{
+  flex:0 0 44px;width:44px;height:44px;
+  display:grid;place-items:center;
+  font-size:24px;line-height:1;
+}
+.dialog-content{
+  max-height:calc(min(90dvh,820px) - 84px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:calc(30px + env(safe-area-inset-bottom));
+}
+@media(max-width:850px){
+  .mobile-bottom-nav{
+    min-height:calc(var(--mobile-nav-height) + env(safe-area-inset-bottom));
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  }
+  body.mobile-city-mode .main-content{
+    padding-bottom:calc(var(--mobile-nav-height) + 96px + env(safe-area-inset-bottom))!important;
+  }
+  body.mobile-city-mode .browse-all{
+    padding-bottom:calc(var(--mobile-nav-height) + 36px + env(safe-area-inset-bottom));
+  }
+  body.mobile-city-mode .property-grid{
+    padding-bottom:24px;
+  }
+  body.mobile-city-mode .property-card:last-child{
+    margin-bottom:calc(var(--mobile-nav-height) + 24px + env(safe-area-inset-bottom));
+  }
+  .details-dialog,.compare-dialog{
+    width:calc(100% - 16px);
+    max-height:calc(100dvh - 18px);
+    border-radius:18px;
+  }
+  .dialog-head{
+    padding:14px 14px 12px;
+  }
+  .dialog-head h2{font-size:18px;line-height:1.25;padding-right:6px}
+  .dialog-content{
+    max-height:calc(100dvh - 92px);
+    padding:14px 14px calc(28px + env(safe-area-inset-bottom));
+  }
+  .card-actions{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  }
+  .card-actions .map-link,.card-actions .phone-link{
+    min-width:0;
+  }
+  .small-actions button{
+    min-width:44px;min-height:44px;
+  }
+}

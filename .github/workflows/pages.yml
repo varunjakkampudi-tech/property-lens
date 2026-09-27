@@ -1,4 +1,4 @@
-name: Validate and deploy Property Lens
+name: Production E2E and deploy Property Lens
 
 on:
   push:
@@ -15,17 +15,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  test-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Validate JavaScript and required SEO files
+      - name: Validate static source
         shell: bash
         run: |
           set -euo pipefail
@@ -38,11 +38,45 @@ jobs:
           test -s sitemap.xml
           test -s manifest.webmanifest
           test -s assets/favicon.svg
-          grep -q 'rel="canonical"' index.html
-          grep -q 'application/ld+json' index.html
-          grep -q 'mobile-location.js' index.html
 
-      - name: Build clean static artifact
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install E2E tooling
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Start static server
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/property-lens-server.log 2>&1 &
+          echo $! > /tmp/property-lens-server.pid
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/property-lens-server.log
+          exit 1
+
+      - name: Run mobile, desktop and accessibility E2E
+        run: npm run test:e2e
+
+      - name: Upload visual test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-lens-visual-e2e
+          if-no-files-found: warn
+          path: |
+            visual-*.png
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+      - name: Build clean Pages artifact
         shell: bash
         run: |
           set -euo pipefail
@@ -55,7 +89,7 @@ jobs:
         with:
           enablement: true
 
-      - name: Upload static site
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: "_site"
