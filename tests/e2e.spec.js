@@ -11,10 +11,11 @@ test.describe('Property Lens production flows', () => {
     test.skip(!testInfo.project.name.startsWith('mobile'));
 
     await page.goto('/');
+    const a11yViolations = [];
     await expect(page.locator('#mobileLocationScreen')).toBeVisible();
     await expect(page.locator('[data-mobile-city]')).toHaveCount(4);
-    expect(await seriousA11y(page)).toEqual([]);
     await page.screenshot({ path: `visual-${testInfo.project.name}-01-location.png`, fullPage: true });
+    a11yViolations.push(...await seriousA11y(page));
 
     await page.getByRole('button', { name: /Vizag/ }).click();
     await expect(page.locator('body')).toHaveClass(/mobile-city-mode/);
@@ -40,8 +41,8 @@ test.describe('Property Lens production flows', () => {
     const details = page.locator('#detailsDialog');
     await expect(details).toHaveJSProperty('open', true);
     await expect(details.locator('[data-dialog-close]')).toBeVisible();
-    expect(await seriousA11y(page)).toEqual([]);
     await page.screenshot({ path: `visual-${testInfo.project.name}-04-details.png`, fullPage: false });
+    a11yViolations.push(...await seriousA11y(page));
 
     await details.locator('[data-dialog-close]').click();
     await expect(details).not.toHaveJSProperty('open', true);
@@ -70,6 +71,7 @@ test.describe('Property Lens production flows', () => {
     await page.getByRole('button', { name: /Bhimavaram/ }).click();
     await expect(page.locator('#propertyGrid .property-card')).toHaveCount(12);
     await expect(page.locator('#mobileSelectedCity')).toHaveText('Bhimavaram');
+    expect(a11yViolations).toEqual([]);
   });
 
   test('mobile: search, save and saved filter work', async ({ page }, testInfo) => {
@@ -93,7 +95,7 @@ test.describe('Property Lens production flows', () => {
     await page.goto('/');
     await expect(page.locator('#mobileLocationScreen')).toBeHidden();
     await expect(page.locator('#propertyGrid .property-card')).toHaveCount(42);
-    expect(await seriousA11y(page)).toEqual([]);
+    const desktopA11y = await seriousA11y(page);
 
     await page.locator('#propertyGrid .details-btn').first().click();
     const details = page.locator('#detailsDialog');
@@ -104,5 +106,6 @@ test.describe('Property Lens production flows', () => {
     await page.locator('#cityFilter').selectOption('Palakollu');
     await expect(page.locator('#propertyGrid .property-card')).toHaveCount(4);
     await page.screenshot({ path: 'visual-desktop-palakollu.png', fullPage: false });
+    expect(desktopA11y).toEqual([]);
   });
 });
