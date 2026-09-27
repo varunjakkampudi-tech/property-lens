@@ -2,14 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Best property leads across Vizag, Tanuku, Palakollu and Bhimavaram." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Property Lens | Active Homes in Vizag, Tanuku, Palakollu & Bhimavaram</title>
+  <meta name="description" content="Compare active property leads in Vizag, Tanuku, Palakollu and Bhimavaram with prices, source links, poster details, maps and buyer-focused research." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="theme-color" content="#0f3d91" />
-  <title>Property Lens</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="light" />
+  <meta name="application-name" content="Property Lens" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="canonical" href="https://varunjakkampudi-tech.github.io/property-lens/" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Property Lens" />
+  <meta property="og:title" content="Property Lens | Active Andhra Pradesh Property Leads" />
+  <meta property="og:description" content="Active property leads across Vizag, Tanuku, Palakollu and Bhimavaram with exact source links, maps and poster details." />
+  <meta property="og:url" content="https://varunjakkampudi-tech.github.io/property-lens/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Property Lens | Active Andhra Pradesh Property Leads" />
+  <meta name="twitter:description" content="Compare active homes across four Andhra Pradesh locations with source links and buyer-focused research." />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"WebSite",
+        "name":"Property Lens",
+        "url":"https://varunjakkampudi-tech.github.io/property-lens/",
+        "description":"Active property research across Vizag, Tanuku, Palakollu and Bhimavaram."
+      },
+      {
+        "@type":"CollectionPage",
+        "name":"Active Andhra Pradesh Property Leads",
+        "url":"https://varunjakkampudi-tech.github.io/property-lens/",
+        "about":["Vizag property","Tanuku property","Palakollu property","Bhimavaram property"],
+        "isPartOf":{"@type":"WebSite","name":"Property Lens","url":"https://varunjakkampudi-tech.github.io/property-lens/"}
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -32,7 +64,7 @@
       </div>
     </aside>
 
-    <main id="main" class="main-content">
+    <main id="main" class="main-content" tabindex="-1">
       <header class="simple-hero">
         <div>
           <p class="eyebrow">PROPERTY LENS</p>
@@ -90,11 +122,11 @@
 
         <section class="toolbar">
           <div class="tabs" role="tablist">
-            <button class="tab active" data-view="all">All</button>
-            <button class="tab" data-view="recommended">Best</button>
-            <button class="tab" data-view="houses">Houses</button>
-            <button class="tab" data-view="gated">Gated</button>
-            <button class="tab" data-view="shortlisted">Saved</button>
+            <button type="button" class="tab active" data-view="all" role="tab" aria-selected="true">All</button>
+            <button type="button" class="tab" data-view="recommended" role="tab" aria-selected="false">Best</button>
+            <button type="button" class="tab" data-view="houses" role="tab" aria-selected="false">Houses</button>
+            <button type="button" class="tab" data-view="gated" role="tab" aria-selected="false">Gated</button>
+            <button type="button" class="tab" data-view="shortlisted" role="tab" aria-selected="false">Saved</button>
           </div>
           <label class="sort-control">Sort<select id="sortSelect"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option><option value="size-desc">Largest first</option></select></label>
         </section>
@@ -114,22 +146,19 @@
     </main>
   </div>
 
-  <nav class="mobile-bottom-nav">
-    <a href="#main">⌂<span>Best</span></a>
+  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <button type="button" id="mobileLocations">⌖<span>Locations</span></button>
     <a href="#browseAll">▦<span>Browse</span></a>
-    <button id="mobileSaved">♡<span>Saved</span></button>
-    <button id="mobileCompare">⇄<span>Compare</span></button>
+    <button type="button" id="mobileSaved">♡<span>Saved</span></button>
+    <button type="button" id="mobileCompare">⇄<span>Compare</span></button>
   </nav>
 
-  <dialog id="detailsDialog" class="details-dialog"></dialog>
-  <dialog id="compareDialog" class="compare-dialog"></dialog>
+  <dialog id="detailsDialog" class="details-dialog" aria-label="Property details"></dialog>
+  <dialog id="compareDialog" class="compare-dialog" aria-label="Compare properties"></dialog>
+  <noscript><div class="no-js">Property Lens needs JavaScript to filter and compare active property leads. The source links remain available in the repository data.</div></noscript>
   <script src="data/properties.js"></script>
   <script src="assets/app.js"></script>
   <script src="assets/enrichment.js"></script>
   <script src="assets/mobile-location.js"></script>
-  <script>
-    document.getElementById('mobileSaved').addEventListener('click', function(){ document.querySelector('[data-view="shortlisted"]').click(); document.querySelector('.browse-all').scrollIntoView({behavior:'smooth'}); });
-    document.getElementById('mobileCompare').addEventListener('click', function(){ document.getElementById('compareBtn').click(); });
-  </script>
 </body>
 </html>
