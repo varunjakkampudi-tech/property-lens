@@ -70,7 +70,7 @@
         <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
       </section>
 
-      <section class="browse-all">
+      <section id="browseAll" class="browse-all">
         <div class="section-heading"><div><p class="eyebrow">ALL PROPERTIES</p><h2>Find more options</h2><p>Only leads that passed the current availability check are shown.</p></div></div>
 
         <section class="filter-panel" aria-label="Property filters">
@@ -116,7 +116,7 @@
 
   <nav class="mobile-bottom-nav">
     <a href="#main">⌂<span>Best</span></a>
-    <a href=".browse-all">▦<span>Browse</span></a>
+    <a href="#browseAll">▦<span>Browse</span></a>
     <button id="mobileSaved">♡<span>Saved</span></button>
     <button id="mobileCompare">⇄<span>Compare</span></button>
   </nav>
@@ -126,6 +126,7 @@
   <script src="data/properties.js"></script>
   <script src="assets/app.js"></script>
   <script src="assets/enrichment.js"></script>
+  <script src="assets/mobile-location.js"></script>
   <script>
     document.getElementById('mobileSaved').addEventListener('click', function(){ document.querySelector('[data-view="shortlisted"]').click(); document.querySelector('.browse-all').scrollIntoView({behavior:'smooth'}); });
     document.getElementById('mobileCompare').addEventListener('click', function(){ document.getElementById('compareBtn').click(); });
