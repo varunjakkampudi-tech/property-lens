@@ -47,7 +47,7 @@
     $('searchInput').addEventListener('input', render);
     $('resetFilters').addEventListener('click', () => {
       state.city='all'; state.view='all';
-      $('cityFilter').value='all'; $('typeFilter').value='all'; $('budgetFilter').value='45'; $('ageFilter').value='all'; $('gatedFilter').value='all'; $('dealFilter').value='all'; $('sortSelect').value='recommended'; $('searchInput').value='';
+      $('cityFilter').value='all'; $('typeFilter').value='all'; $('budgetFilter').value='999'; $('ageFilter').value='all'; $('gatedFilter').value='all'; $('dealFilter').value='all'; $('sortSelect').value='recommended'; $('searchInput').value='';
       document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view==='all')); renderCities(); render();
     });
     document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');state.view=tab.dataset.view;render(); }));
@@ -71,7 +71,7 @@
       if(state.view==='gated'&&p.gated!=='yes') return false;
       if(state.view==='houses'&&p.type!=='Independent House') return false;
       if(state.view==='shortlisted'&&!shortlist.has(p.id)) return false;
-      if(q&&!`${p.name} ${p.locality} ${p.city} ${p.source} ${p.deal}`.toLowerCase().includes(q)) return false;
+      if(q&&!`${p.name} ${p.locality} ${p.city} ${p.source} ${p.poster||''} ${p.deal}`.toLowerCase().includes(q)) return false;
       return true;
     });
     const sort=$('sortSelect').value;
@@ -106,7 +106,7 @@
     const list=getFiltered();
     $('propertyGrid').innerHTML=list.map(card).join('');
     $('emptyState').hidden=list.length!==0;
-    $('resultsMeta').textContent=`${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} total in research dataset`;
+    $('resultsMeta').textContent=`${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} total active verified leads`;
     $('resultsTitle').textContent=state.city==='all'?'Property leads':`${state.city} property leads`;
     bindCards(); updateCounts();
   }
