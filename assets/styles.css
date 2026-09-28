@@ -134,13 +134,7 @@ button,select,input,textarea{
   width:100%;
   margin:auto
 }
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:flex-start;
-  margin-bottom:22px
-}
+
 .eyebrow{
   font-size:11px;
   font-weight:800;
@@ -148,11 +142,7 @@ button,select,input,textarea{
   color:var(--blue);
   margin:0 0 6px
 }
-.topbar h1{
-  font-size:30px;
-  margin:0 0 6px;
-  letter-spacing:-.04em
-}
+
 .subtitle{
   margin:0;
   color:var(--muted);
@@ -710,9 +700,7 @@ dialog::backdrop{
   .main-content{
     padding:18px 14px
   }
-  .topbar{
-    display:block
-  }
+  
   .top-actions{
     margin-top:14px
   }
@@ -744,9 +732,7 @@ dialog::backdrop{
   }
 }
 @media(max-width:520px){
-  .topbar h1{
-    font-size:25px
-  }
+  
   .city-grid,.filter-grid,.checklist-grid{
     grid-template-columns:1fr
   }
@@ -1597,16 +1583,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
     font-size:20px
   }
 
-  .mpl-all{
-    margin-top:12px;
-    width:100%;
-    border:1px solid #bfdbfe;
-    background:#eff6ff;
-    color:#1d4ed8;
-    font-weight:700;
-    border-radius:13px;
-    padding:13px
-  }
+  
   .mpl-trust{
     display:flex;
     gap:7px;
