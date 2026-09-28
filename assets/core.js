@@ -55,7 +55,7 @@
     var todayMs = today.getTime();
     var cutoff = todayMs - 90 * 86400000;
     function recent(value) {
-      if (typeof value !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+      if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
       var checked = Date.parse(value + 'T00:00:00Z');
       return Number.isFinite(checked) && checked >= cutoff && checked <= todayMs + 86400000;
     }
