@@ -17,7 +17,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Competing scheduler | Removed | The repository feed workflow is manual-only; it has no cron trigger and cannot compete with the cloud task. |
 | Protected publisher | Implemented | Data-only PR creation, bounded retries, duplicate-PR handling and squash auto-merge are implemented. |
 | Genuine unattended cycles | Not yet proven | At least two independent cloud runs must produce discovery evidence, a data-only PR, protected merge, Pages deployment and exact-SHA health evidence. |
-| Market benchmark coverage | Incomplete | 14 of 61 properties currently have supported comparable estimates; 47 records now disclose direct listing evidence, but coverage is still concentrated in Vizag. |
+| Market benchmark coverage | Incomplete | 14 of 61 properties currently have supported comparable estimates; 48 records now disclose direct listing evidence, but coverage is still concentrated in Vizag. |
 | Workflow error history | Clear | The final inventory contained no failed or cancelled runs; successful runs were retained as release evidence. |
 | Operational notifications | Partially verified | Task and GitHub failure-notification settings require account-level confirmation; repository files cannot prove them. |
 
