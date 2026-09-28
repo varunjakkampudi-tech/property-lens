@@ -61,7 +61,8 @@ window.PROPERTY_DATA = [
     "age": "Fresh construction",
     "deal": "Strong Deal",
     "url": "https://housing.com/buy-1080-sqft-2-bhk-apartment-in-sujatha-nagar-for-rs-3700000-rid-21159573",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -98,7 +99,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Good Value",
     "url": "https://housing.com/buy-1250-sqft-2-bhk-apartment-in-sujatha-nagar-for-rs-4500000-rid-21042250",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=B%20Zone%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=B%20Zone%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -135,7 +137,8 @@ window.PROPERTY_DATA = [
     "age": "~4 years",
     "deal": "Good Value",
     "url": "https://housing.com/buy-950-sqft-2-bhk-apartment-in-sujatha-nagar-for-rs-3800000-rid-20885230",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -172,7 +175,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Good Value",
     "url": "https://housing.com/buy-1000-sqft-2-bhk-apartment-in-pothinamallayya-palem-for-rs-4190000-rid-19827232",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sampat%20Hills%20Pothinamallayya%20Palem%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sampat%20Hills%20Pothinamallayya%20Palem%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -209,7 +213,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Strong Deal",
     "url": "https://housing.com/buy-1040-sqft-2-bhk-apartment-in-sheela-nagar-for-rs-4390000-rid-19807190",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Srivira%20Chakri%20Meadows%20Sheela%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Srivira%20Chakri%20Meadows%20Sheela%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -246,7 +251,8 @@ window.PROPERTY_DATA = [
     "age": "Ready / recent",
     "deal": "Strong Deal",
     "url": "https://housing.com/buy-1170-sqft-2-bhk-apartment-in-sujatha-nagar-for-rs-4300000-rid-20609694",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -283,7 +289,8 @@ window.PROPERTY_DATA = [
     "age": "Fresh construction",
     "deal": "Good Value",
     "url": "https://housing.com/buy-1020-sqft-2-bhk-apartment-in-chinnamushidiwada-for-rs-4280000-rid-19923597",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Satya%20Nagar%20Chinnamushidiwada%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Satya%20Nagar%20Chinnamushidiwada%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -319,7 +326,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Fair / Negotiate",
     "url": "https://housing.com/buy-1070-sqft-2-bhk-apartment-in-madhurawada-for-rs-4900000-rid-19671353",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Srinivasa%20Nagar%20Madhurawada%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Srinivasa%20Nagar%20Madhurawada%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -355,7 +363,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Fair / Negotiate",
     "url": "https://housing.com/buy-1080-sqft-2-bhk-apartment-in-madhurawada-for-rs-4800000-rid-20577689",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=GRB%20Heights%20Madhurawada%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=GRB%20Heights%20Madhurawada%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -392,7 +401,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Good Value",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-flats-apartments-1100-sq-ft-in-sujatha-nagar-visakhapatnam-iid-1855008893",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -429,7 +439,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Good Value",
     "url": "https://www.olx.in/en-in/item/for-sale-houses-apartments-c1725-2-bhk-flats-apartments-1060-sq-ft-in-sujatha-nagar-visakhapatnam-iid-1836545782",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=ANR%20Plaza%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=ANR%20Plaza%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -466,7 +477,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Good Value",
     "url": "https://www.magicbricks.com/propertyDetails/2-BHK-1080-Sq-ft-Multistorey-Apartment-FOR-Sale-Sujatha-nagar-in-Visakhapatnam&id=4d423835393237393839",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -503,7 +515,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Good Value",
     "url": "https://www.magicbricks.com/propertyDetails/2-BHK-915-Sq-ft-Builder-Floor-Apartment-FOR-Sale-Sujatha-nagar-in-Visakhapatnam&id=4d423831323637383733",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -540,7 +553,8 @@ window.PROPERTY_DATA = [
     "age": "Ready; Dec 2023 possession",
     "deal": "Good Value",
     "url": "https://www.magicbricks.com/propertyDetails/2-BHK-1130-Sq-ft-Multistorey-Apartment-FOR-Sale-Sujatha-nagar-in-Visakhapatnam&id=4d423634363232373039",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Vishwanadh%20Shangri%20La%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Vishwanadh%20Shangri%20La%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -577,7 +591,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Strong Deal",
     "url": "https://www.magicbricks.com/propertyDetails/2-BHK-1050-Sq-ft-Multistorey-Apartment-FOR-Sale-Sujatha-nagar-in-Visakhapatnam&id=4d423833343337303539",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sai%20Mangal%20Enclave%20Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sai%20Mangal%20Enclave%20Teachers%20Layout%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -614,7 +629,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Strong Deal",
     "url": "https://www.magicbricks.com/2-bhk-flats-in-sujatha-nagar-visakhapatnam-for-sale-pppfs",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Hi%20Tech%20Heaven%20Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Hi%20Tech%20Heaven%20Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -651,7 +667,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Potential Bargain",
     "url": "https://www.magicbricks.com/propertyDetails/2-BHK-900-Sq-ft-Multistorey-Apartment-FOR-Sale-Sujatha-nagar-in-Visakhapatnam&id=4d423731393732393239",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sujatha%20Nagar%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -688,7 +705,8 @@ window.PROPERTY_DATA = [
     "age": "Verified listing",
     "deal": "Fair / Negotiate",
     "url": "https://vizagproperty.co.in/real-estate-vizag",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Yendada%20Visakhapatnam"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Yendada%20Visakhapatnam",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -725,7 +743,8 @@ window.PROPERTY_DATA = [
     "age": "Built Dec 2020 (~6 yrs)",
     "deal": "Strong Deal",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-independent-builder-floors-1400-sq-ft-in-timmarajupuram-tanuku-iid-1855711289",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Timmarajupuram%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Timmarajupuram%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -762,7 +781,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Potential Bargain",
     "url": "https://www.olx.in/en-in/item/for-sale-houses-apartments-c1725-2-bhk-house-villa-850-sq-ft-in-venkatarayapuram-tanuku-iid-1806143831",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Annapurna%20Nagar%20Velpuru%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Annapurna%20Nagar%20Velpuru%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -799,7 +819,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Strong Deal",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-house-villa-1450-sq-ft-in-venkatarayapuram-tanuku-iid-1837609648",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RK%20Nagar%20Velpuru%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RK%20Nagar%20Velpuru%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -836,7 +857,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Good Value",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-house-villa-1250-sq-ft-in-venkatarayapuram-tanuku-iid-1837609430",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RK%20Nagar%20Velpuru%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RK%20Nagar%20Velpuru%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -873,7 +895,8 @@ window.PROPERTY_DATA = [
     "age": "2024 construction",
     "deal": "Good Value",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-independent-builder-floors-1375-sq-ft-in-venkatarayapuram-tanuku-iid-1855809560",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Venkatarayapuram%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Venkatarayapuram%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -910,7 +933,8 @@ window.PROPERTY_DATA = [
     "age": "New / builder sale",
     "deal": "Fair / Negotiate",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-house-villa-1350-sq-ft-in-venkatarayapuram-tanuku-iid-1856817769",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Vishnu%20Priya%20Nagar%20Velpuru%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Vishnu%20Priya%20Nagar%20Velpuru%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -947,7 +971,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Good Value",
     "url": "https://housing.com/in/buy/resale/page/20849440-2-bhk-independent-house-in-tanuku-for-rs-4500000",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Tanuku%20West%20Godavari"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Tanuku%20West%20Godavari",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -984,7 +1009,8 @@ window.PROPERTY_DATA = [
     "age": "New",
     "deal": "Watch",
     "url": "https://www.prasadmcdrealestate.in/sell/2-bhk-individual-houses-villas-tanuku-west-godavari_1044824.htm",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palangi%20Savaram%20Road%20Tanuku"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palangi%20Savaram%20Road%20Tanuku",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1021,7 +1047,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Good Value",
     "url": "https://housing.com/in/buy/resale/page/13969010-2-bhk-independent-house-in-palakollu-for-rs-3600000",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Itempudi%20Palakollu"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Itempudi%20Palakollu",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1058,7 +1085,8 @@ window.PROPERTY_DATA = [
     "age": "~5 years",
     "deal": "Good Value",
     "url": "https://housing.com/in/buy/resale/page/18505347-2-bhk-apartment-in-palakollu-for-rs-3500000",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sri%20Surya%20Teja%20Apartment%20Palakollu"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sri%20Surya%20Teja%20Apartment%20Palakollu",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1095,7 +1123,8 @@ window.PROPERTY_DATA = [
     "age": "Ready / builder listing",
     "deal": "Potential Bargain",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-flats-apartments-1010-sq-ft-in-poolapalli-palacole-iid-1856050120",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Poolapalli%20Palakollu"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Poolapalli%20Palakollu",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1131,7 +1160,8 @@ window.PROPERTY_DATA = [
     "age": "Resale land",
     "deal": "Good Value",
     "url": "https://www.prasadmcdrealestate.in/sell/residential-plot-palakollu-west-godavari_1058298.htm",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palakollu%20West%20Godavari"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palakollu%20West%20Godavari",
+    "category": "Plots"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1168,7 +1198,8 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "deal": "Potential Bargain",
     "url": "https://housing.com/in/buy/resale/page/21079527-2-bhk-independent-house-in-gunupudi-for-rs-2500000",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Gandhi%20Nagar%20Bridge%20Gunupudi%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Gandhi%20Nagar%20Bridge%20Gunupudi%20Bhimavaram",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1205,7 +1236,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Good Value",
     "url": "https://housing.com/in/buy/bhimavaram/adarsh-nagar-gid/2bhk-flats-fid/",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Adarsh%20Nagar%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Adarsh%20Nagar%20Bhimavaram",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1242,7 +1274,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Fair / Negotiate",
     "url": "https://housing.com/in/buy/bhimavaram/chinamiram-rural-gid/2bhk-ready-to-move-fid/",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Chinnamiram%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Chinnamiram%20Bhimavaram",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1279,7 +1312,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Good Value",
     "url": "https://housing.com/in/buy/bhimavaram/narasayyaagraharam-gid/ready-to-move-fid/",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Housing%20Board%20Colony%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Housing%20Board%20Colony%20Bhimavaram",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1316,7 +1350,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Good Value",
     "url": "https://www.magicbricks.com/2-bhk-independent-house-for-sale-in-bhimavaram-price-25-lakhs-to-35-lakhs-pppfs",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bank%20Colony%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bank%20Colony%20Bhimavaram",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1353,7 +1388,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Strong Deal",
     "url": "https://www.magicbricks.com/low-budget-flats-for-sale-in-bhimavaram-pppfs",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=ASR%20Nagar%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=ASR%20Nagar%20Bhimavaram",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1390,7 +1426,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Strong Deal",
     "url": "https://www.magicbricks.com/flats-in-bhimavaram-for-sale-price-30-lakhs-to-40-lakhs-pppfs",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=SRKR%20Engineering%20College%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=SRKR%20Engineering%20College%20Bhimavaram",
+    "category": "Flats"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1427,7 +1464,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Good Value",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-house-villa-992-sq-ft-in-kopalle-bhimavaram-iid-1854311385",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kopalle%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kopalle%20Bhimavaram",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1464,7 +1502,8 @@ window.PROPERTY_DATA = [
     "age": "Ready resale",
     "deal": "Potential Bargain",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-4-bhk-house-villa-000-sq-ft-in-bank-colony-bhimavaram-bhimavaram-iid-1853147294",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bank%20Colony%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bank%20Colony%20Bhimavaram",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1501,7 +1540,8 @@ window.PROPERTY_DATA = [
     "age": "Vacant land",
     "deal": "Good Value",
     "url": "https://www.olx.in/item/lands-plots-c1729-for-sale-222-sq-yd-in-housing-board-colony-bhimavaram-iid-1856278230",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Housing%20Board%20Colony%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Housing%20Board%20Colony%20Bhimavaram",
+    "category": "Plots"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1538,7 +1578,8 @@ window.PROPERTY_DATA = [
     "age": "Ready",
     "deal": "Strong Deal",
     "url": "https://www.olx.in/kumudavalli_g5301323/properties_c3/q-independent-houses",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kumudavalli%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kumudavalli%20Bhimavaram",
+    "category": "Independent Houses"
   },
   {
     "verifiedOn": "2026-09-28",
@@ -1575,7 +1616,591 @@ window.PROPERTY_DATA = [
     "age": "Ready / recent",
     "deal": "Fair / Negotiate",
     "url": "https://www.olx.in/en-in/bank-colony-bhimavaram_g5301281/properties_c3/q-in-bhimavaram",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kumudavalli%20Bhimavaram"
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Kumudavalli%20Bhimavaram",
+    "category": "Flats"
+  },
+  {
+    "id": "live-vzg-19",
+    "city": "Vizag",
+    "name": "Pendurthi 2BHK Independent House",
+    "locality": "Pendurthi",
+    "price": 38,
+    "size": 1000,
+    "sizeUnit": "sq.ft",
+    "bhk": "2BHK",
+    "type": "Independent House",
+    "category": "Independent Houses",
+    "age": "Ready to move resale",
+    "ageGroup": "resale",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 94,
+    "market": "Pendurthi",
+    "askingRate": "₹3,800/sq.ft",
+    "target": "₹35–37L",
+    "highlights": [
+      "Ready to move",
+      "₹38L asking",
+      "Owner listing"
+    ],
+    "source": "MagicBricks",
+    "platform": "MagicBricks",
+    "poster": "durgaprasad",
+    "posterType": "Owner",
+    "lastSeen": "Posted Sep 13, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://www.magicbricks.com/2-bhk-independent-house-for-sale-in-pendurthi-visakhapatnam-pppfs",
+    "linkType": "Current results page",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Pendurthi%20Visakhapatnam",
+    "notes": "Fresh September listing. Verify exact street, title, plot extent and structural condition before visit."
+  },
+  {
+    "id": "live-vzg-20",
+    "city": "Vizag",
+    "name": "Desapatrunipalem 3BHK New House",
+    "locality": "Desapatrunipalem",
+    "price": 35,
+    "size": 2000,
+    "sizeUnit": "sq.ft carpet",
+    "bhk": "3BHK",
+    "type": "Independent House",
+    "category": "Independent Houses",
+    "age": "New property / ready",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 93,
+    "market": "Desapatrunipalem",
+    "askingRate": "~₹1,842/sq.ft",
+    "target": "₹33–34.5L",
+    "highlights": [
+      "3BHK",
+      "East facing",
+      "Main-road/pool outlook stated"
+    ],
+    "source": "MagicBricks",
+    "platform": "MagicBricks",
+    "poster": "Omkar",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://www.magicbricks.com/independent-house-for-sale-in-visakhapatnam-price-30-lakhs-to-40-lakhs-pppfs",
+    "linkType": "Current results page",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Desapatrunipalem%20Visakhapatnam",
+    "notes": "Very attractive asking rate; independently confirm plot area, approvals and whether the listing is still unsold."
+  },
+  {
+    "id": "live-vzg-21",
+    "city": "Vizag",
+    "name": "Pendurthi Gated Plot · 1800 sq.ft",
+    "locality": "Pendurthi",
+    "price": 40,
+    "size": 1800,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "yes",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 96,
+    "market": "Pendurthi",
+    "askingRate": "₹2.22K/sq.ft",
+    "target": "₹38–39.5L",
+    "highlights": [
+      "East facing",
+      "40-ft road",
+      "Corner plot",
+      "Gated layout / clubhouse stated"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Prakruti Avenues / seller listing",
+    "posterType": "Developer / seller",
+    "lastSeen": "Updated Sep 19, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/buy-1800-sqft-residential-plot-in-pendurthi-for-rs-4000000-rid-19518575-v2",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Pendurthi%20Visakhapatnam",
+    "notes": "Housing listing states gated-layout amenities and VMRDA/master-plan proximity. Verify layout approval and exact survey details."
+  },
+  {
+    "id": "live-vzg-22",
+    "city": "Vizag",
+    "name": "Pendurthi Residential Plot · 2400 sq.ft",
+    "locality": "Pendurthi",
+    "price": 40,
+    "size": 2400,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Potential Bargain",
+    "score": 94,
+    "market": "Pendurthi",
+    "askingRate": "₹1.67K/sq.ft",
+    "target": "₹37–39L",
+    "highlights": [
+      "60 × 40 ft",
+      "Large plot",
+      "No brokerage stated"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Owner listing",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 1, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/buy-null-sqft-residential-plot-in-pendurthi-for-rs-4000000-rid-18966649",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Pendurthi%20Visakhapatnam",
+    "notes": "Large area for the asking price. Confirm title, approach road and whether the listing remains unsold."
+  },
+  {
+    "id": "live-vzg-23",
+    "city": "Vizag",
+    "name": "Gandigundam East-Facing Plot",
+    "locality": "Gandigundam / Pendurthi belt",
+    "price": 40,
+    "size": 200,
+    "sizeUnit": "sq.yd plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "New booking",
+    "ageGroup": "new",
+    "gated": "partial",
+    "status": "Active / publicly indexed",
+    "deal": "Good Value",
+    "score": 90,
+    "market": "Pendurthi outskirts",
+    "askingRate": "₹20K/sq.yd",
+    "target": "₹37–39L",
+    "highlights": [
+      "200 sq.yd",
+      "East facing",
+      "Freshly updated"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Rvln Rao",
+    "posterType": "Seller / locality champion",
+    "lastSeen": "Updated Sep 27, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/visakhapatnam/kanthi-nagar-layout-pendurthi-gid/plots-in-40-lakhs-to-50-lakhs-fid/",
+    "linkType": "Current results page",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Gandigundam%20Visakhapatnam",
+    "notes": "Use as a current plot lead; confirm exact project/layout approvals and development charges."
+  },
+  {
+    "id": "live-tnk-09",
+    "city": "Tanuku",
+    "name": "Tanuku 2BHK Flat · 1200 sq.ft",
+    "locality": "Tanuku / Sajjapuram",
+    "price": 25,
+    "size": 1200,
+    "sizeUnit": "sq.ft",
+    "bhk": "2BHK",
+    "type": "Flat",
+    "category": "Flats",
+    "age": "Ready to move resale",
+    "ageGroup": "resale",
+    "gated": "partial",
+    "status": "Active / publicly indexed",
+    "deal": "Potential Bargain",
+    "score": 96,
+    "market": "Tanuku apartment market",
+    "askingRate": "₹2.08K/sq.ft",
+    "target": "₹23–24.5L",
+    "highlights": [
+      "Owner / no brokerage",
+      "Lift",
+      "Parking",
+      "1200 sq.ft"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "K Subrahmanyam",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/20848493-2-bhk-apartment-in-tanuku-for-rs-2500000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sajjapuram%20Tanuku",
+    "notes": "Current Housing index shows this owner listing around ₹25L. Verify society/building age, UDS and maintenance."
+  },
+  {
+    "id": "live-tnk-10",
+    "city": "Tanuku",
+    "name": "SR Plaza 2BHK",
+    "locality": "SR Plaza, Sajjapuram / Tanuku",
+    "price": 35,
+    "size": 1100,
+    "sizeUnit": "sq.ft",
+    "bhk": "2BHK",
+    "type": "Flat",
+    "category": "Flats",
+    "age": "Ready to move resale",
+    "ageGroup": "resale",
+    "gated": "partial",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 95,
+    "market": "Tanuku apartments",
+    "askingRate": "₹3.18K/sq.ft",
+    "target": "₹32–34L",
+    "highlights": [
+      "Zero brokerage",
+      "Covered parking",
+      "Gym",
+      "Lift",
+      "Power backup"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Jayanth Motamarri (qatar)",
+    "posterType": "Owner",
+    "lastSeen": "Last updated Aug 24, 2026; still indexed Sep 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/19859118-2-bhk-apartment-in-tanuku-for-rs-3500000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=SR%20Plaza%20Tanuku%20West%20Godavari",
+    "notes": "Good central-apartment option. Confirm whether registration/parking offers still apply and check association dues."
+  },
+  {
+    "id": "live-tnk-11",
+    "city": "Tanuku",
+    "name": "Tanuku Residential Plot · 1085 sq.ft",
+    "locality": "Sajjapuram / Tanuku",
+    "price": 48,
+    "size": 1085,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Fair / Negotiate",
+    "score": 86,
+    "market": "Tanuku",
+    "askingRate": "₹4.42K/sq.ft",
+    "target": "₹44–46L",
+    "highlights": [
+      "35 × 31 ft",
+      "No brokerage",
+      "Immediate possession"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Owner listing",
+    "posterType": "Owner",
+    "lastSeen": "Last updated Aug 13, 2026; indexed Sep 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/20913160-residential-plot-in-tanuku-for-rs-4800000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sajjapuram%20Tanuku",
+    "notes": "Slightly above original target budget; useful if exact central location and title are strong."
+  },
+  {
+    "id": "live-tnk-12",
+    "city": "Tanuku",
+    "name": "Tanuku Residential Plot · 1925 sq.ft",
+    "locality": "Sajjapuram / Tanuku",
+    "price": 60,
+    "size": 1925,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Watch",
+    "score": 78,
+    "market": "Tanuku",
+    "askingRate": "₹3.12K/sq.ft",
+    "target": "₹54–57L",
+    "highlights": [
+      "55 × 35 ft",
+      "Owner listing",
+      "Large plot"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Rahman Shaik",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 27, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/20888914-residential-plot-in-tanuku-for-rs-6000000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sajjapuram%20Tanuku",
+    "notes": "Above target budget, but current and useful as a plot-market benchmark."
+  },
+  {
+    "id": "live-pkl-05",
+    "city": "Palakollu",
+    "name": "Gollavani Cheruvu East-Facing Plot",
+    "locality": "Gollavani Cheruvu / Brodipet",
+    "price": 19.25,
+    "size": 110,
+    "sizeUnit": "sq.yd plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate sale",
+    "ageGroup": "new",
+    "gated": "partial",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 95,
+    "market": "Palakollu",
+    "askingRate": "₹17,500/sq.yd",
+    "target": "₹17.5–18.75L",
+    "highlights": [
+      "Owner listing",
+      "East facing",
+      "Approved layout stated",
+      "Clear-title claim"
+    ],
+    "source": "OLX",
+    "platform": "OLX",
+    "poster": "Owner",
+    "posterType": "Owner",
+    "lastSeen": "Posted Sep 17, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://www.olx.in/item/lands-plots-c1729-for-sale-110-sq-yd-in-brodipet-palacole-iid-1855839549",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Gollavani%20Cheruvu%20Palakollu",
+    "notes": "OLX description claims approved layout and clear title; independently verify EC, layout approval and road width."
+  },
+  {
+    "id": "live-pkl-06",
+    "city": "Palakollu",
+    "name": "Itempudi Large Residential Plot",
+    "locality": "Itempudi",
+    "price": 48,
+    "size": 5220,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Potential Bargain",
+    "score": 93,
+    "market": "Itempudi / Palakollu",
+    "askingRate": "₹919/sq.ft",
+    "target": "₹44–46L",
+    "highlights": [
+      "87 × 60 ft",
+      "No brokerage",
+      "Very large land parcel"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Owner listing",
+    "posterType": "Owner",
+    "lastSeen": "Last updated Sep 2, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/20382455-residential-plot-in-palakollu-for-rs-4800000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Itempudi%20Palakollu",
+    "notes": "Very large plot at low apparent unit rate. Validate survey number, access, zoning and actual dimensions carefully."
+  },
+  {
+    "id": "live-bvrm-13",
+    "city": "Bhimavaram",
+    "name": "Pedamiram 3BHK · 5 Cent House",
+    "locality": "Pedamiram / Mahadevapatnam side",
+    "price": 31.5,
+    "size": 5,
+    "sizeUnit": "cent plot",
+    "bhk": "3BHK",
+    "type": "Independent House",
+    "category": "Independent Houses",
+    "age": "Less than 5 years",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 96,
+    "market": "Pedamiram",
+    "askingRate": "₹6.3L/cent stated",
+    "target": "₹29–31L",
+    "highlights": [
+      "5-cent site",
+      "3BHK",
+      "Semi-furnished",
+      "Freehold stated"
+    ],
+    "source": "MagicBricks",
+    "platform": "MagicBricks",
+    "poster": "Swamy",
+    "posterType": "Owner",
+    "lastSeen": "Posted Sep 14, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://www.magicbricks.com/propertyDetails/3-BHK-5-Cent-Residential-House-FOR-Sale-Pedamiram-in-Bhimavaram%26id%3D4d423731323439393731",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Mahadevapatnam%20Pedamiram%20Bhimavaram",
+    "notes": "Strong land-backed lead. Verify actual village limits, title, road access and construction condition."
+  },
+  {
+    "id": "live-bvrm-14",
+    "city": "Bhimavaram",
+    "name": "Chinnamiram 2BHK Flat · 1010 sq.ft",
+    "locality": "Chinnamiram",
+    "price": 36.5,
+    "size": 1010,
+    "sizeUnit": "sq.ft",
+    "bhk": "2BHK",
+    "type": "Flat",
+    "category": "Flats",
+    "age": "Ready resale",
+    "ageGroup": "resale",
+    "gated": "partial",
+    "status": "Active / publicly indexed",
+    "deal": "Good Value",
+    "score": 92,
+    "market": "Chinnamiram",
+    "askingRate": "~₹3,614/sq.ft",
+    "target": "₹34–35.5L",
+    "highlights": [
+      "Fresh September listing",
+      "1010 sq.ft",
+      "Below ₹40L"
+    ],
+    "source": "MagicBricks",
+    "platform": "MagicBricks",
+    "poster": "Not shown in indexed result",
+    "posterType": "Seller",
+    "lastSeen": "Posted Sep 11, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://www.magicbricks.com/resale-flats-in-bhimavaram-pppfs",
+    "linkType": "Current results page",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Chinnamiram%20Bhimavaram",
+    "notes": "Fresh current result. Open the source page to reconfirm exact building, floor, furnishing and owner details."
+  },
+  {
+    "id": "live-bvrm-15",
+    "city": "Bhimavaram",
+    "name": "Chinamiram Rural Residential Plot",
+    "locality": "Chinamiram Rural",
+    "price": 13,
+    "size": 935,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Strong Deal",
+    "score": 94,
+    "market": "Chinamiram Rural",
+    "askingRate": "₹1.39K/sq.ft",
+    "target": "₹12–12.5L",
+    "highlights": [
+      "Owner / zero brokerage",
+      "West facing",
+      "30-ft road",
+      "Boundary wall"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Chandra Sudhakar",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 14, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/21117366-residential-plot-in-chinamiram-rural-for-rs-1300000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Chinamiram%20Rural%20Bhimavaram",
+    "notes": "Low-ticket plot. Verify whether construction-started status affects buyer plans and confirm title/layout."
+  },
+  {
+    "id": "live-bvrm-16",
+    "city": "Bhimavaram",
+    "name": "Pedamiram Large Residential Plot",
+    "locality": "Pedamiram",
+    "price": 48,
+    "size": 5227,
+    "sizeUnit": "sq.ft plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Immediate possession",
+    "ageGroup": "new",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Potential Bargain",
+    "score": 93,
+    "market": "Pedamiram",
+    "askingRate": "₹918/sq.ft",
+    "target": "₹44–46L",
+    "highlights": [
+      "100 × 52 ft",
+      "No brokerage",
+      "Large land parcel"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Owner listing",
+    "posterType": "Owner",
+    "lastSeen": "Updated Sep 2, 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/resale/page/20384694-residential-plot-in-pedamiram-for-rs-4800000",
+    "linkType": "Direct listing",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Pedamiram%20Bhimavaram",
+    "notes": "Very large plot for ₹48L; verify exact survey/title and whether access/land-use constraints explain the low unit rate."
+  },
+  {
+    "id": "live-bvrm-17",
+    "city": "Bhimavaram",
+    "name": "Bank Colony Residential Plot · 240 sq.yd",
+    "locality": "Bank Colony",
+    "price": 42,
+    "size": 240,
+    "sizeUnit": "sq.yd plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "category": "Plots",
+    "age": "Resale land",
+    "ageGroup": "resale",
+    "gated": "no",
+    "status": "Active / publicly indexed",
+    "deal": "Good Value",
+    "score": 91,
+    "market": "Bank Colony",
+    "askingRate": "₹17.5K/sq.yd",
+    "target": "₹39–41L",
+    "highlights": [
+      "Owner listing",
+      "240 sq.yd",
+      "Established locality"
+    ],
+    "source": "Housing.com",
+    "platform": "Housing.com",
+    "poster": "Phani Kumar",
+    "posterType": "Owner",
+    "lastSeen": "Indexed Sep 2026",
+    "verifiedOn": "2026-09-28",
+    "url": "https://housing.com/in/buy/bhimavaram/maruthi-nagar-gid/plots-fid/",
+    "linkType": "Current results page",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bank%20Colony%20Bhimavaram",
+    "notes": "Current Housing result; confirm exact survey/road width and whether the plot is still available before visit."
   }
 ];
 
