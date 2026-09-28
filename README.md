@@ -34,7 +34,7 @@ Unknown-price, conflicting, out-of-budget and uncorroborated social discoveries 
 **Requirements:** Node.js 22+; Python is not required.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
