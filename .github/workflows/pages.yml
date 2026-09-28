@@ -54,6 +54,7 @@ jobs:
       - name: Install E2E tooling
         run: |
           npm ci --no-audit --no-fund
+          npm audit --audit-level=high --no-fund
           npx playwright install --with-deps chromium
 
       - name: Run mobile, desktop and accessibility E2E
