@@ -92,6 +92,8 @@ An existing **hourly ChatGPT task** prioritizes publicly accessible Instagram Re
 
 Submit a public Reel, Short, listing URL or sold-listing report through the [lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). Do not submit private phone numbers or unverified claims.
 
+**Scheduler publication status:** GitHub Pages auto-deploys every successful `main` commit. A scheduled ChatGPT run can still be blocked from creating that commit by its own write safety gate; GitHub repository permissions and successful interactive writes do not override that gate. When blocked, it must report the source-backed candidate patch as **not published**. See [publication permissions and recovery](docs/LEAD-OPERATIONS.md#publication-permissions-and-recovery).
+
 ## Further documentation
 
 [Architecture](docs/ARCHITECTURE.md) · [Brand guide](docs/BRAND-GUIDE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)
