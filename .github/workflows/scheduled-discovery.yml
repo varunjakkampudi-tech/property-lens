@@ -1,9 +1,6 @@
-name: Hourly evidence-first discovery
+name: Approved-feed discovery publisher
 
 on:
-  schedule:
-    # GitHub may delay scheduled workflows under load; this is hourly cadence, not an exact-minute SLA.
-    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
