@@ -184,22 +184,22 @@
     var facts = [p.bhk, p.size ? p.size + ' ' + p.sizeUnit : null, p.gated === 'yes' ? 'Gated' : typeLabel(p.type)].filter(Boolean);
     return '<article class="mpl-property">' +
       '<div class="mpl-property-top">' +
-        '<div class="mpl-thumb"><div>' + (p.type === 'Plot' ? '▧' : p.type === 'Flat' ? '▥' : '⌂') + '</div><small>' + esc(typeLabel(p.type)) + '</small></div>' +
+        '<div class="mpl-thumb"><div>' + ico(p.type === 'Plot' ? 'plot' : p.type === 'Flat' ? 'building' : 'house') + '</div><small>' + esc(typeLabel(p.type)) + '</small></div>' +
         '<div class="mpl-property-info">' +
-          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Active') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + (isSaved ? '♥' : '♡') + '</button></div>' +
+          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Public listing') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + ico('heart') + '</button></div>' +
           '<div class="mpl-price">' + price(p.price) + '<small>' + esc(p.target || 'Negotiate') + '</small></div>' +
           '<h3>' + esc(p.name) + '</h3>' +
           '<div class="mpl-loc">' + esc(p.locality) + ', ' + esc(p.city) + '</div>' +
           '<div class="mpl-facts">' + facts.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Recently verified') + '</div>' +
+      '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Source date unavailable') + '</div>' +
       '<div class="mpl-actions">' +
         '<button type="button" class="mpl-details" data-details="' + esc(p.id) + '">View details</button>' +
-        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
-        (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">⌖</a>' : '<span></span>') +
+        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
+        (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">' + ico('map-pin') + '</a>' : '<span></span>') +
       '</div>' +
-      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + (inCompare ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + ico(inCompare ? 'check' : 'plus') + ' ' + (inCompare ? 'Added to compare' : 'Add to compare') + '</button>' +
     '</article>';
   }
 
@@ -217,7 +217,7 @@
       '<section class="mpl-results">' +
         topHeader(title, subtitle, savedMode ? 'locations' : 'categories', !savedMode) +
         '<main id="mplMain" tabindex="-1" class="mpl-results-body">' +
-          '<div class="mpl-search"><span aria-hidden="true">⌕</span><input id="mplSearch" type="search" aria-label="Search properties" placeholder="Search locality or property" value="' + esc(state.query) + '"></div>' +
+          '<div class="mpl-search"><span aria-hidden="true">' + ico('search') + '</span><input id="mplSearch" type="search" aria-label="Search properties" placeholder="Search locality or property" value="' + esc(state.query) + '"></div>' +
           filterPanel() +
           '<div class="mpl-pills" role="group" aria-label="Property filters">' +
             [['all','All'],['best','Best'],['gated','Gated']].map(function (pair) {
@@ -257,7 +257,7 @@
     if (!p) return;
     var phone = core.normalizeIndianBusinessPhone(p.publicPhone);
     dialog.innerHTML =
-      '<div class="mpl-dialog-head"><div><small>' + esc(p.platform || p.source) + '</small><h2>' + esc(p.name) + '</h2><p>' + esc(p.locality) + ', ' + esc(p.city) + '</p></div><button type="button" data-close aria-label="Close">×</button></div>' +
+      '<div class="mpl-dialog-head"><div><small>' + esc(p.platform || p.source) + '</small><h2>' + esc(p.name) + '</h2><p>' + esc(p.locality) + ', ' + esc(p.city) + '</p></div><button type="button" data-close aria-label="Close">' + ico('x') + '</button></div>' +
       '<div class="mpl-dialog-body">' +
         '<div class="mpl-detail-price"><strong>' + price(p.price) + '</strong><span>Target ' + esc(p.target || 'Negotiate') + '</span></div>' +
         '<div class="mpl-detail-grid">' +
@@ -271,8 +271,8 @@
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
         '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
-          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
-          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +
+          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
+          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
           (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
         '</div>' +
         '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + (compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
@@ -280,7 +280,7 @@
     dialog.querySelector('[data-close]').onclick = function () { dialog.close(); };
     dialog.querySelector('[data-compare]').onclick = function () {
       toggleCompare(p.id);
-      this.textContent = compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare';
+      this.innerHTML = ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare');
       this.setAttribute('aria-pressed', String(compare.has(p.id)));
     };
     dialog.showModal();
