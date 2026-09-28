@@ -2162,10 +2162,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
     box-shadow:0 6px 20px rgba(15,23,42,.05)
   }
 
-  .mpl-category-card:active{
-    transform:scale(.99);
-    background:#f8fbff
-  }
+  .mpl-category-card:active{background:#f8fbff}
 
   .mpl-category-icon{
     width:54px;

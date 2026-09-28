@@ -84,7 +84,7 @@
         });
         renderCategories();
         render();
-        $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        $('browseAll').scrollIntoView({ behavior: 'auto', block: 'start' });
       });
     });
   }
@@ -110,7 +110,7 @@
         renderCities();
         renderCategories();
         render();
-        if (state.city !== 'all') $('desktopCategoryStep').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (state.city !== 'all') $('desktopCategoryStep').scrollIntoView({ behavior: 'auto', block: 'start' });
       });
     });
   }
@@ -133,7 +133,7 @@
       document.querySelectorAll('.tab').forEach(t => { const active = t.dataset.view === 'all'; t.classList.toggle('active', active); t.setAttribute('aria-pressed', String(active)); });
       $('cityFilter').value = 'all'; $('typeFilter').value = 'all';
       renderCities(); renderCategories(); render();
-      $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('browseAll').scrollIntoView({ behavior: 'auto', block: 'start' });
     });
     document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
@@ -250,7 +250,7 @@
   function showSaved() {
     resetBrowseContext();
     document.querySelector('[data-view="shortlisted"]').click();
-    $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('browseAll').scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 
   document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{
@@ -263,12 +263,12 @@
       state.view = 'visited';
       document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
       render();
-      $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else if (n === 'checklist') $('checklistSection').scrollIntoView({ behavior: 'smooth' });
+      $('browseAll').scrollIntoView({ behavior: 'auto', block: 'start' });
+    } else if (n === 'checklist') $('checklistSection').scrollIntoView({ behavior: 'auto' });
     else {
       resetBrowseContext();
       document.querySelector('[data-view="all"]').click();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   }));
   $('compareBtn').onclick=openCompare; $('shortlistBtn').onclick=showSaved;

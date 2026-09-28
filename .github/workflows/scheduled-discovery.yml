@@ -1,0 +1,99 @@
+name: Hourly evidence-first discovery
+
+on:
+  schedule:
+    # GitHub may delay scheduled workflows under load; this is hourly cadence, not an exact-minute SLA.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: property-lens-scheduled-discovery
+  cancel-in-progress: false
+
+jobs:
+  discover-and-propose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DISCOVERY_FEED_URL: ${{ secrets.PROPERTY_DISCOVERY_FEED_URL }}
+      DISCOVERY_FEED_TOKEN: ${{ secrets.PROPERTY_DISCOVERY_FEED_TOKEN }}
+      PROPERTY_PUBLISHER_TOKEN: ${{ secrets.PROPERTY_PUBLISHER_TOKEN }}
+      DISCOVERY_OUTPUT: artifacts/discovery-run.json
+      PROPOSED_DATA: artifacts/proposed-properties.js
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install deterministic test dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Discover and validate approved feed
+        run: node scripts/discovery.cjs
+      - name: Build data-only proposal when evidence changed
+        id: proposal
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(node -e "process.stdout.write(JSON.parse(require('fs').readFileSync('artifacts/discovery-run.json')).status)")"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [[ "$status" == "changes_found" ]]; then
+            node scripts/publish-data.cjs
+            cp artifacts/proposed-properties.js data/properties.js
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run release gates for a proposed data release
+        if: steps.proposal.outputs.changed == 'true'
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:quality
+      - name: Create authorized data-only pull request
+        if: steps.proposal.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PROPERTY_PUBLISHER_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${GH_TOKEN:-}" ]]; then
+            echo "::error::PROPERTY_PUBLISHER_TOKEN is required. GITHUB_TOKEN-created PRs do not trigger the normal PR workflow. Configure a narrowly scoped GitHub App or PAT secret.";
+            exit 1;
+          fi
+          branch="automation/property-data-${GITHUB_RUN_ID}"
+          git config user.name "property-lens-publisher[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add data/properties.js
+          git diff --cached --quiet && { echo "No material data change after normalization."; exit 0; }
+          git commit -m "data: publish evidence-backed property leads"
+          git push --set-upstream origin "$branch"
+          gh pr create --base main --head "$branch" --title "data: review scheduled property discovery" --body "Automated evidence-first discovery proposal. Full release gates passed before opening this PR. Review source provenance and merge only under repository branch protection. Workflow: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+      - name: Write execution summary
+        if: always()
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const file = 'artifacts/discovery-run.json';
+          if (!fs.existsSync(file)) process.exit(0);
+          const run = JSON.parse(fs.readFileSync(file));
+          if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Scheduled discovery\n\n- Status: \`${run.status}\`\n- Approved feed configured: ${run.feedConfigured}\n- Accepted records: ${run.accepted.length}\n- Rejected records: ${run.rejected.length}\n- No-feed runs are successful no-ops; they never create commits.\n- A PR is created only after a material change passes the full release gates.\n`);
+          NODE
+      - name: Upload persistent execution record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-lens-discovery-${{ github.run_id }}
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 90

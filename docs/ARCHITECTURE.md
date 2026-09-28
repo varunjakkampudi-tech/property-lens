@@ -42,7 +42,10 @@ flowchart LR
 | `scripts/serve.cjs` | Local, allowlisted development/test HTTP server | Production hosting |
 | `tests/*` | Unit, security, responsive, behavioral and accessibility regression checks | Real-time seller availability checks |
 | `scripts/production-health.cjs` | Read-only exact-SHA live asset verification and 14-day per-city source-check freshness | Discovery, seller confirmation or GitHub mutation |
+| `scripts/discovery.cjs` | Approved HTTPS feed retrieval, bounded retries, normalization checks and duplicate quarantine | Portal scraping, private feeds or invented records |
+| `scripts/publish-data.cjs` | Converts a validated discovery run into a reviewable data-only proposal | Auto-merge, deployment or seller confirmation |
 | `.github/workflows/production-health.yml` | Independent daily production health signal | Data publication or permission escalation |
+| `.github/workflows/scheduled-discovery.yml` | Hourly approved-feed discovery, persistent run artifact and data-only PR | Private-feed access, bypassing terms or auto-merging |
 
 Keep modules dependency-free at runtime. Load the dataset, then `core.js`, then desktop/enrichment/mobile modules. The mobile UI is the sole mobile implementation; obsolete mobile navigation and legacy city-mode CSS must not be reintroduced. Desktop follows the same location → category → listings decision flow, with optional advanced filters and secondary resources.
 

@@ -87,6 +87,7 @@ tests/
   quality.yml           Pull-request checks
   pages.yml             Tested GitHub Pages deployment and live verification
   production-health.yml Independent daily live-site and source-freshness checks
+  scheduled-discovery.yml Hourly approved-feed discovery and data-only PR publisher
 ```
 
 ## Hourly discovery and code freeze
@@ -104,6 +105,12 @@ Submit a public Reel, Short, listing URL or sold-listing report through the [lea
 - Public asking-price comparisons are deliberately limited by comparable evidence. The UI must show **Not available** when a reliable estimate cannot be derived; it must never manufacture a value.
 - Unattended lead publication requires a publisher with explicit GitHub write authorization. A ChatGPT scheduled task can be blocked by its platform's write-safety gate. The existing task must preserve discovered evidence and report the blocker, not claim that a research run deployed new leads.
 - GitHub repository branch protections, required PR checks and task notifications are account settings. Confirm these in GitHub and ChatGPT Tasks; the repository cannot silently enable them.
+
+## Repository-native scheduler
+
+`.github/workflows/scheduled-discovery.yml` is the authorized replacement boundary for unattended discovery. It runs hourly or manually, uses a non-overlapping concurrency group, fetches only the HTTPS feed configured in `PROPERTY_DISCOVERY_FEED_URL`, retries bounded transient failures, validates and deduplicates records, and stores a 90-day execution artifact. A missing feed is an explicit successful no-op. A material change is written only to a data-only branch after the full quality suite passes, then opened as a pull request; it is never auto-merged or deployed without normal branch protection and the existing Pages workflow.
+
+The feed must be an owner-approved JSON endpoint returning either an array or `{ "records": [] }` of records matching the complete published data contract. Configure `PROPERTY_DISCOVERY_FEED_URL`, optional `PROPERTY_DISCOVERY_FEED_TOKEN`, and `PROPERTY_PUBLISHER_TOKEN` as GitHub Actions secrets. `PROPERTY_PUBLISHER_TOKEN` must be a narrowly scoped GitHub App/PAT credential because PRs created with the default `GITHUB_TOKEN` do not trigger the normal PR workflow. Do not place credentials in source or logs. Instagram, YouTube or portal discovery is not operational until an authorized feed integration is configured and produces evidence-backed records.
 
 ## Further documentation
 
