@@ -20,7 +20,7 @@
   <meta property="og:url" content="https://varunjakkampudi-tech.github.io/property-lens/" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Property Lens | Public Andhra Pradesh Property Leads" />
-  <meta name="twitter:description" content="Compare active homes across five Andhra Pradesh locations with source links and buyer-focused research." />
+  <meta name="twitter:description" content="Compare publicly listed homes across five Andhra Pradesh locations with source links and buyer-focused research." />
   <link rel="stylesheet" href="assets/styles.css" />
   <script type="application/ld+json">
   {
@@ -113,7 +113,7 @@
           </div>
           <div class="filter-grid">
             <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
-            <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option><option value="Watchlist">Watchlist</option></select></label>
+            <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option></select></label>
             <label>Budget<select id="budgetFilter"><option value="50">All under ₹50L</option><option value="20">Up to ₹20L</option><option value="25">Up to ₹25L</option><option value="30">Up to ₹30L</option><option value="35">Up to ₹35L</option><option value="40">Up to ₹40L</option><option value="45">Up to ₹45L</option></select></label>
             <label>Age<select id="ageFilter"><option value="all">Any age</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
             <label>Community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Gated</option><option value="partial">Verify gated</option><option value="no">Independent</option></select></label>
@@ -147,17 +147,11 @@
     </main>
   </div>
 
-  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
-    <button type="button" id="mobileLocations">⌖<span>Locations</span></button>
-    <a href="#browseAll">▦<span>Browse</span></a>
-    <button type="button" id="mobileSaved">♡<span>Saved</span></button>
-    <button type="button" id="mobileCompare">⇄<span>Compare</span></button>
-  </nav>
-
   <dialog id="detailsDialog" class="details-dialog" aria-label="Property details"></dialog>
   <dialog id="compareDialog" class="compare-dialog" aria-label="Compare properties"></dialog>
   <noscript><div class="no-js">Property Lens needs JavaScript to filter and compare active property leads. The source links remain available in the repository data.</div></noscript>
   <script src="data/properties.js"></script>
+  <script src="assets/core.js"></script>
   <script src="assets/app.js"></script>
   <script src="assets/enrichment.js"></script>
   <script src="assets/mobile-location.js"></script>
