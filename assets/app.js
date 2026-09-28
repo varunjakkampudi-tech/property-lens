@@ -10,7 +10,7 @@
   const notes = core.readRecord('ap-notes');
   const esc = core.escapeHtml;
   const ico = core.icon;
-  const cityIcons = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
+  const cityIcons = Object.freeze({ Vizag: 'map-pin', Tanuku: 'map-pin', Palakollu: 'map-pin', Bhimavaram: 'map-pin', Eluru: 'map-pin' });
   const categories = [
     { key: 'Flats', title: 'Flats', note: 'Apartments and communities', icon: 'building' },
     { key: 'Independent Houses', title: 'Independent Houses', note: 'Homes and villas with more privacy', icon: 'house' },
@@ -21,6 +21,18 @@
   const icon = p => ico(p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : 'building');
   const heroClass = p => p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : '';
   const dealClass = d => d === 'Strong Deal' ? 'strong' : d === 'Potential Bargain' ? 'bargain' : d === 'Good Value' ? 'good' : d === 'Fair / Negotiate' ? 'fair' : 'watch';
+  const marketEstimate = p => core.comparableMarketValue(p, properties);
+  const marketValueText = p => {
+    const estimate = marketEstimate(p);
+    return estimate ? priceText(estimate.valueLakh) : 'Not enough comparable data';
+  };
+  const marketDeltaText = p => {
+    const estimate = marketEstimate(p);
+    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
+    const absolute = Math.abs(estimate.deltaPct);
+    if (absolute < 1) return 'Near comparable estimate';
+    return `${absolute.toFixed(0)}% ${estimate.deltaPct < 0 ? 'below' : 'above'} comparable estimate`;
+  };
 
   function persist() {
     try {
@@ -169,9 +181,11 @@
         <h3>${esc(p.name)}</h3><div class="location">${ico('map-pin')} ${esc(p.locality)}, ${esc(p.city)}</div>
         <div class="stats"><span>${esc(p.bhk)}</span><span>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Size verify'}</span><span>${esc(p.age)}</span></div>
         <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
-        <div class="valuation"><div>Market / area ref<strong>${esc(p.market)}</strong></div><div>Asking rate<strong>${esc(p.askingRate)}</strong></div></div>
+        <div class="market-value" title="Estimate from median asking rate of comparable public leads; not a professional appraisal.">
+          <span>${ico('chart')} Est. market value*</span><strong>${esc(marketValueText(p))}</strong><small>${esc(marketDeltaText(p))}</small>
+        </div>
         <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="${esc(core.sourceLinkLabel(p))} on ${esc(p.source)}">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div>
-        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("check-circle")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
+        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("location")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
       </div></article>`;
   }
 
@@ -205,8 +219,9 @@
         <div class="detail-box"><span>Asking price</span><strong>${priceText(p.price)}</strong></div><div class="detail-box"><span>Negotiation target</span><strong>${esc(p.target)}</strong></div>
         <div class="detail-box"><span>Size</span><strong>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Verify'}</strong></div><div class="detail-box"><span>Age/status</span><strong>${esc(p.age)}</strong></div>
         <div class="detail-box"><span>Community</span><strong>${esc(gatedText(p.gated))}</strong></div><div class="detail-box"><span>Availability signal</span><strong>${esc(p.status)}</strong></div>
-        <div class="detail-box"><span>Area market reference</span><strong>${esc(p.market)}</strong></div><div class="detail-box"><span>Asking rate</span><strong>${esc(p.askingRate)}</strong></div>
-      </div><h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
+        <div class="detail-box"><span>Est. market value*</span><strong>${esc(marketValueText(p))}</strong><small>${esc(marketDeltaText(p))}</small></div><div class="detail-box"><span>Asking rate</span><strong>${esc(p.askingRate)}</strong></div>
+        <div class="detail-box"><span>Comparable basis</span><strong>${esc((marketEstimate(p) || {}).scope || 'Insufficient comparable data')}</strong></div><div class="detail-box"><span>Area reference</span><strong>${esc(p.market)}</strong></div>
+      </div><p class="market-disclaimer">*Comparable asking-price estimate from current Property Lens public leads, not a valuation or appraisal.</p><h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
       <h3>My notes</h3><textarea id="propertyNote" class="note-area" aria-label="My property notes" placeholder="Site-visit observations, seller quote, plot size, road width...">${esc(notes[p.id]||'')}</textarea>
       <div class="card-actions" style="margin-top:12px"><button type="button" id="saveNote" class="details-btn">Save note</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div></div>`;
     d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved ✓';};
@@ -217,8 +232,8 @@
 
   function openCompare() {
     const list=[...compare].map(id=>properties.find(p=>p.id===id)).filter(Boolean); const d=$('compareDialog');
-    if(!list.length){alert('Select properties using the ⇄ button first.');return;}
-    const rows=[['Price',p=>priceText(p.price)],['Location',p=>`${p.locality}, ${p.city}`],['Type',p=>p.type],['Size',p=>p.size?`${p.size} ${p.sizeUnit}`:'Verify'],['Age',p=>p.age],['Gated',p=>gatedText(p.gated)],['Market ref',p=>p.market],['Asking rate',p=>p.askingRate],['Deal',p=>p.deal],['Target',p=>p.target]];
+    if(!list.length){alert('Select properties using the Compare button first.');return;}
+    const rows=[['Asking price',p=>priceText(p.price)],['Est. market value*',p=>marketValueText(p)],['Vs comparable estimate',p=>marketDeltaText(p)],['Location',p=>`${p.locality}, ${p.city}`],['Type',p=>p.type],['Size',p=>p.size?`${p.size} ${p.sizeUnit}`:'Verify'],['Age',p=>p.age],['Gated',p=>gatedText(p.gated)],['Area ref',p=>p.market],['Asking rate',p=>p.askingRate],['Deal',p=>p.deal],['Target',p=>p.target]];
     d.innerHTML=`<div class="dialog-head"><h2>Compare ${list.length} properties</h2><button type="button" class="close-btn" data-dialog-close aria-label="Close comparison">${ico("x")}</button></div><div class="dialog-content compare-table-wrap"><table class="compare-table"><thead><tr><th>Metric</th>${list.map(p=>`<th>${esc(p.name)}<br><button class="remove-compare" data-remove="${p.id}">Remove</button></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th>${label}</th>${list.map(p=>`<td>${esc(fn(p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     d.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{compare.delete(b.dataset.remove);updateCounts();d.close();openCompare();render();});
     d.showModal();
