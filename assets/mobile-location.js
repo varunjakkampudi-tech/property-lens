@@ -28,14 +28,16 @@
   function marketEstimate(p) { return core.comparableMarketValue(p, properties); }
   function marketValueText(p) {
     var estimate = marketEstimate(p);
-    return estimate ? price(estimate.valueLakh) : 'Not enough comparable data';
+    return estimate ? price(estimate.valueLakh) : 'Not available';
   }
   function marketDeltaText(p) {
     var estimate = marketEstimate(p);
-    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
-    var absolute = Math.abs(estimate.deltaPct);
-    if (absolute < 1) return 'Near comparable estimate';
-    return absolute.toFixed(0) + '% ' + (estimate.deltaPct < 0 ? 'below' : 'above') + ' comparable estimate';
+    if (!estimate) return 'Insufficient recent comparable listings';
+    var delta = Math.abs(estimate.deltaPct) < 1 ? 'Near comparable estimate' :
+      Math.abs(estimate.deltaPct).toFixed(0) + '% ' +
+      (estimate.deltaPct < 0 ? 'below' : 'above') + ' comparable asking benchmark';
+    return delta + ' · ' + estimate.sampleSize + ' comps (' + estimate.scope +
+      ') · checked ' + estimate.checkedOn;
   }
 
   function iconForCity() { return ico('map-pin'); }
