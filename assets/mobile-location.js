@@ -278,7 +278,7 @@
           '<div><span>Size</span><strong>' + esc(p.size ? p.size + ' ' + p.sizeUnit : 'Verify') + '</strong></div>' +
           '<div><span>Age</span><strong>' + esc(p.age || 'Verify') + '</strong></div>' +
           '<div><span>Posted by</span><strong>' + esc(p.poster || 'Source listing') + '</strong></div>' +
-          '<div><span>Verified</span><strong>' + esc(p.verifiedOn || '') + '</strong></div>' +
+          '<div><span>Source checked</span><strong>' + esc(p.verifiedOn || '') + '</strong></div>' +
           '<div><span>Est. market value*</span><strong>' + esc(marketValueText(p)) + '</strong></div>' +
           '<div><span>Vs comparable estimate</span><strong>' + esc(marketDeltaText(p)) + '</strong></div>' +
         '</div>' +
