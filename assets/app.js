@@ -118,6 +118,7 @@
     });
     $('allLocations').addEventListener('click', () => {
       state.city = 'all'; state.category = 'all'; state.view = 'all';
+      document.querySelectorAll('.tab').forEach(t => { const active = t.dataset.view === 'all'; t.classList.toggle('active', active); t.setAttribute('aria-pressed', String(active)); });
       $('cityFilter').value = 'all'; $('typeFilter').value = 'all';
       renderCities(); renderCategories(); render();
       $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -220,11 +221,40 @@
     d.querySelector('.close-btn')?.focus({preventScroll:true});
   }
 
+  function resetBrowseContext() {
+    state.city = 'all'; state.category = 'all';
+    $('cityFilter').value = 'all'; $('typeFilter').value = 'all';
+    $('budgetFilter').value = '50'; $('ageFilter').value = 'all';
+    $('gatedFilter').value = 'all'; $('dealFilter').value = 'all';
+    $('sortSelect').value = 'recommended'; $('searchInput').value = '';
+    renderCities(); renderCategories();
+  }
+
+  function showSaved() {
+    resetBrowseContext();
+    document.querySelector('[data-view="shortlisted"]').click();
+    $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-    const n=b.dataset.nav; if(n==='compare')openCompare(); else if(n==='shortlist'){state.view='shortlisted';document.querySelector('[data-view="shortlisted"]').click();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='visited'){state.view='visited';state.city='all';$('cityFilter').value='all';$('typeFilter').value='all';$('budgetFilter').value='50';$('ageFilter').value='all';$('gatedFilter').value='all';$('dealFilter').value='all';$('sortSelect').value='recommended';$('searchInput').value='';document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-pressed','false');});renderCities();render();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='checklist')$('checklistSection').scrollIntoView({behavior:'smooth'}); else {document.querySelector('[data-view="all"]').click();window.scrollTo({top:0,behavior:'smooth'});}
+    const n=b.dataset.nav;
+    if (n === 'compare') openCompare();
+    else if (n === 'shortlist') showSaved();
+    else if (n === 'visited') {
+      resetBrowseContext();
+      state.view = 'visited';
+      document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
+      render();
+      $('browseAll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (n === 'checklist') $('checklistSection').scrollIntoView({ behavior: 'smooth' });
+    else {
+      resetBrowseContext();
+      document.querySelector('[data-view="all"]').click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }));
-  $('compareBtn').onclick=openCompare; $('shortlistBtn').onclick=()=>document.querySelector('[data-view="shortlisted"]').click();
+  $('compareBtn').onclick=openCompare; $('shortlistBtn').onclick=showSaved;
   [$('detailsDialog'),$('compareDialog')].forEach(d=>{
     d.addEventListener('click',e=>{
       if(e.target.closest?.('[data-dialog-close]') || e.target===d) d.close();
