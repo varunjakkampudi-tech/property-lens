@@ -107,7 +107,7 @@
             }).join('') +
           '</div>' +
           '<div class="mpl-trust"><span>' + ico('check-circle') + ' Listed below ₹50L</span><span>' + ico('check-circle') + ' Source links</span><span>' + ico('check-circle') + ' Maps & poster info</span></div>' +
-          '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ↗</a>' +
+          '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ' + ico('external') + '</a>' +
         '</main>' +
       '</section>';
     bind();
@@ -275,7 +275,7 @@
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
           (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
         '</div>' +
-        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + (compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare') + '</button>' +
       '</div>';
     dialog.querySelector('[data-close]').onclick = function () { dialog.close(); };
     dialog.querySelector('[data-compare]').onclick = function () {
