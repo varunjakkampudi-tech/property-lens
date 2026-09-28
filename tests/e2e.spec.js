@@ -225,4 +225,47 @@ test.describe('Property Lens production flows', () => {
     await expect(page.locator('.skip-link')).toHaveAttribute('href', '#main');
     await expect(page.locator('#propertyGrid .property-card').first()).toBeVisible();
   });
+  test('desktop and mobile share the same saved-property state across viewport changes', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    const leads = await inventory(page);
+    test.skip(!leads.length, 'No lead available to save');
+    await page.locator('#propertyGrid [data-shortlist]').first().click();
+    await expect(page.locator('#shortlistCount')).toHaveText('1');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('.mpl-saved-head').click();
+    await expect(page.locator('.mpl-topcopy strong')).toHaveText('Saved properties');
+    await expect(page.locator('.mpl-property')).toHaveCount(1);
+    await page.locator('.mpl-heart').click();
+    await expect(page.locator('.mpl-property')).toHaveCount(0);
+
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await expect(page.locator('#shortlistCount')).toHaveText('0');
+    await page.locator('#shortlistBtn').click();
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(0);
+  });
+
+  test('source results are labeled differently from direct listing URLs', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    const leads = await inventory(page);
+    const searchResult = leads.find(p => p.linkType !== 'Direct listing');
+    test.skip(!searchResult, 'No source-results lead currently present');
+    const card = page.locator('#propertyGrid .property-card').filter({
+      has: page.locator('[data-details="' + searchResult.id + '"]')
+    });
+    await expect(card.locator('.source-link').first()).toHaveAttribute('aria-label', /Open source results/);
+    await card.locator('[data-details]').click();
+    await expect(page.locator('#detailsDialog .source-detail-actions')).toContainText('Open source results');
+    await page.keyboard.press('Escape');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await chooseCategory(page, searchResult.city, searchResult.category);
+    const mobileCard = page.locator('.mpl-property').filter({
+      has: page.locator('[data-details="' + searchResult.id + '"]')
+    });
+    await expect(mobileCard.locator('.mpl-actions a').first()).toContainText('Open source results');
+  });
+
 });
