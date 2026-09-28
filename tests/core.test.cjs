@@ -69,3 +69,27 @@ test('shared SVG icons reject unknown names and unsafe CSS class input', () => {
   assert.equal(core.icon('not-a-real-icon'), '');
   assert.equal(core.icon('map-pin', 'x" onload="alert(1)'), core.icon('map-pin'));
 });
+
+test('comparable market estimate uses median same-city/type asking rate and excludes the subject', () => {
+  const core = loadCore();
+  const subject = { id:'p0', city:'Vizag', category:'Flats', locality:'Area A', price:30, size:1000, sizeUnit:'sq.ft' };
+  const leads = [
+    subject,
+    { id:'p1', city:'Vizag', category:'Flats', locality:'Area B', price:40, size:1000, sizeUnit:'sq.ft' },
+    { id:'p2', city:'Vizag', category:'Flats', locality:'Area C', price:50 - 0.01, size:1000, sizeUnit:'sq.ft' },
+    { id:'p3', city:'Vizag', category:'Plots', locality:'Area A', price:20, size:1000, sizeUnit:'sq.ft' }
+  ];
+  const estimate = core.comparableMarketValue(subject, leads);
+  assert.ok(estimate);
+  assert.equal(estimate.sampleSize, 2);
+  assert.equal(estimate.scope, 'same city & property type');
+  assert.ok(estimate.valueLakh > 44 && estimate.valueLakh < 46);
+  assert.ok(estimate.deltaPct < 0);
+});
+
+test('comparable market estimate fails closed when comparable evidence is insufficient', () => {
+  const core = loadCore();
+  const subject = { id:'p0', city:'Eluru', category:'Plots', locality:'Area A', price:20, size:200, sizeUnit:'sq.yd' };
+  assert.equal(core.comparableMarketValue(subject, [subject]), null);
+  assert.equal(core.comparableMarketValue({ ...subject, size:null }, [subject]), null);
+});

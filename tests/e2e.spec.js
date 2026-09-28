@@ -352,4 +352,35 @@ test.describe('Property Lens production flows', () => {
     }
   });
 
+  test('market value comparison is visible on cards and details without claiming an appraisal', async ({ page }, testInfo) => {
+    await page.goto('/');
+    const leads = await inventory(page);
+    const candidate = await page.evaluate(() => {
+      const core = window.PropertyLensCore;
+      const all = window.PROPERTY_DATA || [];
+      return all.find(p => core.comparableMarketValue(p, all));
+    });
+    test.skip(!candidate, 'No lead currently has enough comparable evidence');
+
+    if (testInfo.project.name === 'desktop') {
+      const card = page.locator('#propertyGrid .property-card').filter({
+        has: page.locator('[data-details="' + candidate.id + '"]')
+      });
+      await expect(card.locator('.market-value')).toBeVisible();
+      await expect(card.locator('.market-value')).toContainText('Est. market value');
+      await card.locator('[data-details]').click();
+      await expect(page.locator('#detailsDialog')).toContainText('Comparable asking-price estimate');
+      await page.keyboard.press('Escape');
+    } else {
+      await chooseCategory(page, candidate.city, candidate.category);
+      const card = page.locator('.mpl-property').filter({
+        has: page.locator('[data-details="' + candidate.id + '"]')
+      });
+      await expect(card.locator('.mpl-market-value')).toBeVisible();
+      await expect(card.locator('.mpl-market-value')).toContainText('Est. market value');
+      await card.locator('[data-details]').click();
+      await expect(page.locator('#mobilePropertyDialog')).toContainText('Comparable asking-price estimate');
+    }
+  });
+
 });

@@ -25,10 +25,20 @@
   var esc = core.escapeHtml;
   var price = core.formatPrice;
 
-  function iconForCity(city) {
-    var names = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
-    return ico(names[city] || 'map-pin');
+  function marketEstimate(p) { return core.comparableMarketValue(p, properties); }
+  function marketValueText(p) {
+    var estimate = marketEstimate(p);
+    return estimate ? price(estimate.valueLakh) : 'Not enough comparable data';
   }
+  function marketDeltaText(p) {
+    var estimate = marketEstimate(p);
+    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
+    var absolute = Math.abs(estimate.deltaPct);
+    if (absolute < 1) return 'Near comparable estimate';
+    return absolute.toFixed(0) + '% ' + (estimate.deltaPct < 0 ? 'below' : 'above') + ' comparable estimate';
+  }
+
+  function iconForCity() { return ico('map-pin'); }
 
   function categoryFor(p) { return p.category; }
 
@@ -191,6 +201,7 @@
           '<h3>' + esc(p.name) + '</h3>' +
           '<div class="mpl-loc">' + esc(p.locality) + ', ' + esc(p.city) + '</div>' +
           '<div class="mpl-facts">' + facts.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
+          '<div class="mpl-market-value"><span>' + ico('chart') + ' Est. market value*</span><strong>' + esc(marketValueText(p)) + '</strong><small>' + esc(marketDeltaText(p)) + '</small></div>' +
         '</div>' +
       '</div>' +
       '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Source date unavailable') + '</div>' +
@@ -267,7 +278,10 @@
           '<div><span>Age</span><strong>' + esc(p.age || 'Verify') + '</strong></div>' +
           '<div><span>Posted by</span><strong>' + esc(p.poster || 'Source listing') + '</strong></div>' +
           '<div><span>Verified</span><strong>' + esc(p.verifiedOn || '') + '</strong></div>' +
+          '<div><span>Est. market value*</span><strong>' + esc(marketValueText(p)) + '</strong></div>' +
+          '<div><span>Vs comparable estimate</span><strong>' + esc(marketDeltaText(p)) + '</strong></div>' +
         '</div>' +
+        '<p class="mpl-market-disclaimer">*Comparable asking-price estimate from current Property Lens public leads, not a valuation or appraisal.</p>' +
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
         '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
