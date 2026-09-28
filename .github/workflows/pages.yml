@@ -29,6 +29,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
 
       - name: Validate static source
         shell: bash
@@ -43,12 +44,13 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
+          test -s package-lock.json
           test -s docs/diagrams/system-architecture.svg
           test -s docs/diagrams/lead-lifecycle.svg
 
       - name: Install E2E tooling
         run: |
-          npm install --no-audit --no-fund
+          npm ci --no-audit --no-fund
           npx playwright install --with-deps chromium
 
       - name: Run mobile, desktop and accessibility E2E
