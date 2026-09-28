@@ -9,6 +9,8 @@ test('market coverage report uses the strict renderer methodology', () => {
   assert.equal(result.supportedBenchmarks, 14);
   assert.equal(result.unsupportedProperties, 47);
   assert.equal(result.coveragePct, 23);
+  assert.equal(result.byCity.Vizag.coveragePct, 60.9);
+  assert.equal(result.byType.Flat.coveragePct, 46.7);
   assert.equal(result.byCity.Tanuku.supported, 0);
   assert.equal(result.byType['Independent House'].supported, 0);
   assert.equal(result.sourceLinks.directListing, 45);
