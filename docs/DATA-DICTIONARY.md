@@ -15,17 +15,17 @@ The source of truth is `data/properties.js` (public research leads and market me
 | `id` | Stable unique slug, never derived from a mutable display title |
 | `city`, `category`, `type` | Valid geographic and type/category combination |
 | `name`, `locality` | Human-readable advertised project/lead and location |
-| `price` | Public asking price in **lakh INR**, finite and **0 ≤ price < 50**; unknown/₹50L+ belongs in the queue |
+| `price` | Public asking price in **lakh INR**, finite and **0 < price < 50**; zero is not a supported sale price; unknown/₹50L+ belongs in the queue |
 | `size`, `sizeUnit`, `bhk` | Advertised dimensions and property class; do not infer missing measurements |
 | `age`, `ageGroup` | Advertised condition/age and `new`, `resale` or `unknown` filter value |
 | `gated` | `yes`, `partial` or `no`; `partial` means verify |
 | `status` | Human-readable public listing/availability disclaimer |
 | `availabilityStatus` | `publicly_listed_unconfirmed` or `seller_confirmed`; seller confirmation requires dated evidence |
-| `verifiedOn` | ISO `YYYY-MM-DD` date the public source was checked; **not** proof of seller availability |
+| `verifiedOn` | ISO `YYYY-MM-DD` date the public source was actually checked, not future-dated; **not** proof of seller availability |
 | `lastSeen` | Source's visible posting/update text, kept distinct from `verifiedOn` |
 | `source`, `platform`, `poster`, `posterType` | Source platform and publicly visible poster provenance |
 | `url` | Public HTTPS source URL; preserve the exact available source |
-| `linkType` | `Direct listing` or a clearly identified results/search page; never label the latter exact |
+| `linkType` | `Direct listing` or a clearly identified results/search page; unknown link types fail validation, and a results page must never be labeled an exact listing |
 | `mapUrl` | HTTPS Google Maps search URL; not a verified parcel boundary |
 | `publicPhone`, `phoneLabel` | Optional deliberately advertised business/agent inquiry contact and its context |
 | `deal`, `score` | Research heuristics for display/sorting, **not** professional valuations |
