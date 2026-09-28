@@ -291,6 +291,7 @@
   function toggleSaved(id) {
     if (saved.has(id)) saved.delete(id); else saved.add(id);
     persistSaved();
+    window.dispatchEvent(new Event('pl-saved-sync'));
     if (screen === 'compare') renderCompare(); else renderResults();
   }
 
@@ -395,6 +396,17 @@
     var sort = document.getElementById('mplSort');
     if (sort) sort.onchange = function () { state.sort = sort.value; renderResults(); };
   }
+
+  window.addEventListener('pl-saved-sync', function () {
+    var ids = core.readArray('ap-shortlist');
+    if (ids.length === saved.size && ids.every(function (id) { return saved.has(id); })) return;
+    saved.clear();
+    ids.forEach(function (id) { saved.add(id); });
+    if (screen === 'compare') renderCompare();
+    else if (screen === 'categories') renderCategories(state.city);
+    else if (screen === 'locations') renderChooser();
+    else renderResults();
+  });
 
   dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   renderChooser();
