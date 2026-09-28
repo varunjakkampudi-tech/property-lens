@@ -202,6 +202,16 @@
       "poster": "Ramesh Babu (owner, as displayed)",
       "sourceCheckedOn": "2026-09-28",
       "evidence": "Housing.com public Satrampadu results, checked 2026-09-28, display a resale 2 BHK flat attributed to Ramesh Babu, with 1,500 sq.ft built-up area and an advertised ₹4.0 lakh (~₹266/sq.ft). The linked source is a results page, not a verified direct listing. The unusually low full-sale asking price, exact property identity, and current availability require independent confirmation. Do not promote to active listings or use as a comparable."
+    },
+    {
+      "reason": "seller_availability_and_gated_status_need_confirmation",
+      "city": "Eluru",
+      "category": "Independent Houses",
+      "platform": "OLX",
+      "name": "Land and Building at Sri Ramulu Street",
+      "priceLakh": 40,
+      "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-1-bhk-house-villa-540-sq-ft-in-satrampadu-eluru-iid-1855331564",
+      "evidence": "Direct OLX detail page checked 2026-09-28: 1 BHK, 540 sq.ft., ₹40,00,000, ready to move, Satrampadu, Eluru. Confirm current availability, ownership/listing authority, and community status before active publication."
     }
   ]
 }
