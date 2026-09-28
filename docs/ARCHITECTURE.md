@@ -12,7 +12,7 @@ The source of truth is versioned repository data. The browser reads `window.PROP
 
 ```mermaid
 flowchart LR
-    A[Public Reels, Shorts and portals] --> B[Hourly research and evidence review]
+    A[Public Reels, Shorts and portals] --> B[Two-hour research and evidence review]
     B --> C{Price and provenance supported?}
     C -- No or conflicting --> D[Review queue JSON]
     C -- Yes, below 50L --> E[Public lead dataset JS]
@@ -65,7 +65,7 @@ flowchart TD
     Status --> Validate[Validate and run release gates]
     Validate -- Pass --> Publish[Publish research lead]
     Validate -- Fail --> Queue
-    Publish --> Recheck[Hourly source review]
+    Publish --> Recheck[Two-hour source review]
     Recheck --> Closed{Reliable sold or closure evidence?}
     Closed -- Yes --> Retire[Retire lead with evidence]
     Closed -- No --> Recheck
