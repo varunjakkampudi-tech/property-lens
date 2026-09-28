@@ -14,8 +14,9 @@ module.exports = defineConfig({
     video: 'retain-on-failure'
   },
   projects: [
+    { name: 'mobile-375', use: { viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true } },
     { name: 'mobile-390', use: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } },
-    { name: 'mobile-360', use: { viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true } },
+    { name: 'mobile-430', use: { viewport: { width: 430, height: 932 }, isMobile: true, hasTouch: true } },
     { name: 'desktop', use: { viewport: { width: 1440, height: 1000 } } }
   ]
 });
