@@ -1,7 +1,7 @@
 # Property Lens production acceptance
 
 **Evidence snapshot:** 2026-09-29 IST  
-**Verified production data/runtime commit:** `af750bb3f140b05a0eaf0e7db41e833fc8a3a536`
+**Verified production data/runtime commit:** `00be14415d754d94f34a4182706d5c63b5bd04d8`
 
 Documentation-only follow-up commits may advance `main` after this runtime verification; each such release is independently checked by the production workflow.
 
@@ -11,8 +11,8 @@ This document records what is verified, what is implemented but not yet proven i
 
 | Area | Status | Evidence or remaining requirement |
 | --- | --- | --- |
-| GitHub Pages deployment | Passed | Production workflow [36487810530](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36487810530) passed for the exact data/runtime commit `af750bb`. |
-| Live production health | Passed | Six public assets passed exact-SHA verification; the last verified runtime release had 61/61 published records fresh. The pending data release adds two evidence-backed Eluru records and will be reverified after deployment. |
+| GitHub Pages deployment | Passed | Production workflow [36489642362](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489642362) passed for the exact data/runtime commit `00be144`. |
+| Live production health | Passed | Six public assets passed exact-SHA verification; 63/63 published records are fresh. |
 | Release quality gates | Passed | PR quality workflows pass syntax, data, unit, responsive browser and accessibility checks. |
 | Branch protection | Passed | `main` requires `quality`, enforces linear history, and disallows force pushes and deletions. |
 | Active scheduler | Configured | One active ChatGPT cloud heartbeat is configured for every two hours. |
@@ -20,7 +20,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Protected publisher | Implemented | Data-only PR creation, bounded retries, duplicate-PR handling and squash auto-merge are implemented. |
 | Publisher no-feed smoke test | Passed | Manual run [36483418521](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521) completed as `no_feed` with zero accepted/rejected records, no PR, and a persistent artifact. |
 | Genuine unattended cycles | Not yet proven | At least two independent cloud runs must produce discovery evidence, a data-only PR, protected merge, Pages deployment and exact-SHA health evidence. |
-| Market benchmark coverage | Incomplete | 14 of 63 properties currently have supported comparable estimates; 49 records disclose direct listing evidence, but coverage is still concentrated in Vizag. |
+| Market benchmark coverage | Incomplete | 14 of 63 properties currently have supported comparable estimates (22.2%); 49 records disclose direct listing evidence, but coverage is still concentrated in Vizag. |
 | Workflow error history | Clear | The final inventory contained no failed or cancelled runs; successful runs were retained as release evidence. |
 | Operational notifications | Partially verified | Task and GitHub failure-notification settings require account-level confirmation; repository files cannot prove them. |
 
@@ -52,6 +52,9 @@ The overall score remains below 100% because the missing evidence is operational
 - [PR #30 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36485639054)
 - [PR #32: quarantine conflicting Eluru source](https://github.com/varunjakkampudi-tech/property-lens/pull/32)
 - [PR #32 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36487810530)
+- [PR #34: add verified Eluru listing evidence](https://github.com/varunjakkampudi-tech/property-lens/pull/34)
+- [PR #34 quality run](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489395756)
+- [PR #34 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489642362)
 - [Manual publisher smoke test](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521)
 - Production URL: https://varunjakkampudi-tech.github.io/property-lens/
 
