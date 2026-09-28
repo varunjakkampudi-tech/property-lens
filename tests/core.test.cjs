@@ -102,6 +102,6 @@ test('market value cards disclose unavailable estimates and escape locality meta
   assert.match(core.marketValueMarkup(lead, []), /Indicative market value/);
   assert.match(core.marketValueMarkup(lead, []), /Not available/);
   assert.equal(core.icon('waves'), '');
-  assert.match(core.icon('plot'), /icons\\.svg#plot/);
-  assert.match(core.icon('compare'), /icons\\.svg#compare/);
+  assert.match(core.icon('plot'), /icons\.svg#plot/);
+  assert.match(core.icon('compare'), /icons\.svg#compare/);
 });
