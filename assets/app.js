@@ -24,14 +24,14 @@
   const marketEstimate = p => core.comparableMarketValue(p, properties);
   const marketValueText = p => {
     const estimate = marketEstimate(p);
-    return estimate ? priceText(estimate.valueLakh) : 'Not enough comparable data';
+    return estimate ? priceText(estimate.valueLakh) : 'Not available';
   };
   const marketDeltaText = p => {
     const estimate = marketEstimate(p);
-    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
-    const absolute = Math.abs(estimate.deltaPct);
-    if (absolute < 1) return 'Near comparable estimate';
-    return `${absolute.toFixed(0)}% ${estimate.deltaPct < 0 ? 'below' : 'above'} comparable estimate`;
+    if (!estimate) return 'Insufficient recent comparable listings';
+    const delta = Math.abs(estimate.deltaPct) < 1 ? 'Near comparable estimate' :
+      `${Math.abs(estimate.deltaPct).toFixed(0)}% ${estimate.deltaPct < 0 ? 'below' : 'above'} comparable asking benchmark`;
+    return `${delta} · ${estimate.sampleSize} comps (${estimate.scope}) · checked ${estimate.checkedOn}`;
   };
 
   function persist() {
@@ -185,7 +185,7 @@
           <span>${ico('chart')} Est. market value*</span><strong>${esc(marketValueText(p))}</strong><small>${esc(marketDeltaText(p))}</small>
         </div>
         <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="${esc(core.sourceLinkLabel(p))} on ${esc(p.source)}">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div>
-        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("location")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
+        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("check-circle")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
       </div></article>`;
   }
 
