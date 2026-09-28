@@ -28,6 +28,12 @@ Playwright starts the allowlisted local server automatically. The workflow uses 
 
 The workflow retains Playwright screenshots, traces and HTML reports as short-lived artifacts for debugging. A successful workflow is stronger evidence than a green local build because it verifies the public Pages CDN after deployment.
 
+## When discovery succeeds but publication is blocked
+
+If the hourly ChatGPT task reports a **GitHub write safety-gate denial**, there is no new commit and therefore no Pages run to repair. The task must retain a reviewable source-backed data patch and report publication as blocked. Apply the patch through an explicitly authorized GitHub write session or configure a separate authorized repository publisher. Do not claim the existing successful Pages deployment includes uncommitted leads.
+
+For a successful commit, the push-to-`main` workflow performs all validation and live exact-SHA checks automatically. A pending or failed workflow is not a verified release.
+
 ## Ongoing data updates
 
 After the final code release, the hourly discovery task may update only `data/properties.js` and `data/review-queue.json`. Every material data commit triggers the same quality and deployment gates. The ChatGPT hourly task is **separate** from GitHub Actions and can only perform repository writes when its connected tools and permissions permit.
