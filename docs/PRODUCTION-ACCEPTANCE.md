@@ -1,7 +1,9 @@
 # Property Lens production acceptance
 
 **Evidence snapshot:** 2026-09-29 IST  
-**Verified default-branch commit:** `e8313423515fa8941d9f915d85b99a4803036441`
+**Verified production data/runtime commit:** `af750bb3f140b05a0eaf0e7db41e833fc8a3a536`
+
+Documentation-only follow-up commits may advance `main` after this runtime verification; each such release is independently checked by the production workflow.
 
 This document records what is verified, what is implemented but not yet proven in unattended operation, and what remains an owner or data-quality requirement. It deliberately does not treat a configured scheduler as evidence that a scheduled cycle has executed.
 
@@ -9,7 +11,7 @@ This document records what is verified, what is implemented but not yet proven i
 
 | Area | Status | Evidence or remaining requirement |
 | --- | --- | --- |
-| GitHub Pages deployment | Passed | Production workflow [36485639054](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36485639054) passed for the exact `main` commit `e831342`. |
+| GitHub Pages deployment | Passed | Production workflow [36487810530](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36487810530) passed for the exact data/runtime commit `af750bb`. |
 | Live production health | Passed | Six public assets passed exact-SHA verification; 61/61 published records are fresh. |
 | Release quality gates | Passed | PR quality workflows pass syntax, data, unit, responsive browser and accessibility checks. |
 | Branch protection | Passed | `main` requires `quality`, enforces linear history, and disallows force pushes and deletions. |
@@ -48,6 +50,8 @@ The overall score remains below 100% because the missing evidence is operational
 - [PR #29 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36484969756)
 - [PR #30: refresh production acceptance evidence](https://github.com/varunjakkampudi-tech/property-lens/pull/30)
 - [PR #30 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36485639054)
+- [PR #32: quarantine conflicting Eluru source](https://github.com/varunjakkampudi-tech/property-lens/pull/32)
+- [PR #32 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36487810530)
 - [Manual publisher smoke test](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521)
 - Production URL: https://varunjakkampudi-tech.github.io/property-lens/
 
