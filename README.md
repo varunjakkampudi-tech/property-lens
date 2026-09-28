@@ -4,9 +4,9 @@ A static personal property-research dashboard for **Vizag, Tanuku, Palakollu and
 
 ## What is included
 
-- 50 researched property leads / watch targets
-- Flats, independent houses, villas, plots and gated-community watchlists
-- City, budget, property-type, property-age, gated and deal filters
+- Active buyer-facing property leads with confirmed asking prices strictly below ₹50 lakh
+- Four locations × three categories: Flats, Independent Houses (including villas) and Plots
+- Location → property type → listings on mobile, with selectable budgets (₹20L, ₹25L, ₹30L, ₹35L, ₹40L, ₹45L or all under ₹50L)
 - Market-rate references, asking-rate comparison and negotiation targets
 - Shortlist, visited tracking and personal notes using browser localStorage
 - Up to four-property side-by-side comparison
@@ -15,6 +15,10 @@ A static personal property-research dashboard for **Vizag, Tanuku, Palakollu and
 - Buying checklist and research documentation
 - GitHub Pages deployment workflow
 - No framework, backend, npm install or build step
+
+## Active-listing policy
+
+Only leads with a published asking price **strictly below ₹50 lakh** appear in active results. The selected price ceiling only filters what a visitor sees; it never limits the hourly discovery search. Listings priced at ₹50L or more and records without a confirmed asking price are excluded from active counts and retained in `data/review-queue.json`. An online listing remaining visible does not guarantee that the property is unsold. Instagram Reels are the first discovery priority; newly discovered posts need current availability evidence before they enter active results. The CI pipeline runs `scripts/validate-data.cjs` to enforce the price cap before deployment.
 
 ## Run locally
 
