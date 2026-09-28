@@ -398,7 +398,7 @@ test.describe('Property Lens production flows', () => {
       nodes.map(node => node.getAttribute('href')).filter(Boolean)
     );
     for (const href of iconRefs) {
-      expect(href).toMatch(/^assets\\/icons\\.svg#[a-z-]+$/);
+      expect(href).toMatch(new RegExp('^assets/icons[.]svg#[a-z-]+$'));
       expect(symbols.has(href.split('#')[1])).toBeTruthy();
     }
     if (testInfo.project.name === 'desktop') {
