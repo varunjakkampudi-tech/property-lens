@@ -21,7 +21,7 @@
 
   function topLead(city) {
     return properties
-      .filter(function (p) { return p.city === city && p.type !== "Plot"; })
+      .filter(function (p) { return p.city === city && p.type !== "Plot" && typeof p.price === "number" && p.price >= 0 && p.price < 50; })
       .sort(function (a, b) { return (b.score || 0) - (a.score || 0); })[0];
   }
 
