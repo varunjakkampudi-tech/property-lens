@@ -25,6 +25,7 @@ jobs:
       PROPERTY_PUBLISHER_TOKEN: ${{ secrets.PROPERTY_PUBLISHER_TOKEN }}
       DISCOVERY_OUTPUT: artifacts/discovery-run.json
       PROPOSED_DATA: artifacts/proposed-properties.js
+      PROPOSED_REVIEW_QUEUE: artifacts/proposed-review-queue.json
     steps:
       - name: Checkout default branch
         uses: actions/checkout@v4
@@ -49,6 +50,7 @@ jobs:
           if [[ "$status" == "changes_found" ]]; then
             node scripts/publish-data.cjs
             cp artifacts/proposed-properties.js data/properties.js
+            cp artifacts/proposed-review-queue.json data/review-queue.json
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -73,7 +75,7 @@ jobs:
           git config user.name "property-lens-publisher[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git add data/properties.js
+          git add data/properties.js data/review-queue.json
           git diff --cached --quiet && { echo "No material data change after normalization."; exit 0; }
           git commit -m "data: publish evidence-backed property leads"
           git push --set-upstream origin "$branch"

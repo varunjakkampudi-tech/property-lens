@@ -36,6 +36,15 @@ test('feed retries bounded transient failures and succeeds', async () => {
   assert.equal(calls, 3); assert.equal(payload.records.length, 1);
 });
 
+test('feed rejects oversized responses without retrying permanent failures', async () => {
+  let calls = 0;
+  await assert.rejects(fetchJson('https://feed.example.test/data', { attempts:3, fetcher: async () => {
+    calls++;
+    return { status:200, ok:true, text: async () => 'x'.repeat(32) };
+  }, maxBytes:16 }), /2 MB limit/);
+  assert.equal(calls, 1);
+});
+
 test('missing approved feed is an explicit no-op with a persistent run record', async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'property-lens-run-'));
   const output = path.join(dir, 'run.json');
@@ -45,8 +54,26 @@ test('missing approved feed is an explicit no-op with a persistent run record', 
   fs.rmSync(dir, { recursive:true, force:true });
 });
 
+test('feed failures persist a sanitized failure record', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'property-lens-failure-'));
+  const output = path.join(dir, 'run.json');
+  await assert.rejects(run({ output, feedUrl:'https://example.com/data', fetcher: async () => ({ status:401, ok:false }) }), /failed/);
+  const result = JSON.parse(fs.readFileSync(output));
+  assert.equal(result.status, 'failed');
+  assert.equal(result.failure.class, 'validation_or_configuration_error');
+  assert.doesNotMatch(result.failure.message, /feed\.example/);
+  fs.rmSync(dir, { recursive:true, force:true });
+});
+
 test('publisher does not report a change for duplicate or empty input', () => {
-  const current = { PROPERTY_DATA:[record], MARKET_DATA:{}, SOURCE_CONTACTS:[] };
-  const result = buildProposal({ schemaVersion:1, accepted:[] }, current);
+  const current = { PROPERTY_DATA:[record], MARKET_DATA:{}, SOURCE_CONTACTS:[], REVIEW_QUEUE:{ reviewedOn:'2026-09-28', excludedFromActiveResults:[], candidatesNeedingSellerConfirmation:[] } };
+  const result = buildProposal({ schemaVersion:1, accepted:[], reviewCandidates:[] }, current);
   assert.equal(result.changed, false);
+});
+
+test('publisher places safe rejected records in the review queue', () => {
+  const current = { PROPERTY_DATA:[record], MARKET_DATA:{}, SOURCE_CONTACTS:[], REVIEW_QUEUE:{ reviewedOn:'2026-09-28', excludedFromActiveResults:[], candidatesNeedingSellerConfirmation:[] } };
+  const result = buildProposal({ schemaVersion:1, accepted:[], finishedAt:'2026-09-28T12:00:00Z', reviewCandidates:[{ reason:'invalid price', name:'Needs review', city:'Tanuku', category:'Flats', url:'https://example.com/review/1' }] }, current);
+  assert.equal(result.changed, true);
+  assert.equal(result.reviewQueue.candidatesNeedingSellerConfirmation.length, 1);
 });
