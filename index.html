@@ -6,7 +6,7 @@
   <title>Property Lens | Property Leads Under ₹50L in Five Andhra Pradesh Cities</title>
   <meta name="description" content="Compare publicly advertised property leads in Vizag, Tanuku, Palakollu, Bhimavaram and Eluru with prices, source links, poster details, maps and buyer-focused research." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="theme-color" content="#0f3d91" />
+  <meta name="theme-color" content="#12336d" />
   <meta name="color-scheme" content="light" />
   <meta name="application-name" content="Property Lens" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -21,6 +21,9 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Property Lens | Public Andhra Pradesh Property Leads" />
   <meta name="twitter:description" content="Compare publicly listed homes across five Andhra Pradesh locations with source links and buyer-focused research." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
   <script type="application/ld+json">
   {
@@ -48,17 +51,17 @@
   <div class="app-shell">
     <aside class="sidebar" aria-label="Primary navigation">
       <div class="brand">
-        <div class="brand-mark">⌂</div>
-        <div><strong>Property Lens</strong><span>Simple home search</span></div>
+        <div class="brand-mark"><img src="assets/favicon.svg" alt="" width="42" height="42" /></div>
+        <div><strong>Property Lens</strong><span>Find your next place</span></div>
       </div>
       <nav class="nav-list">
-        <button class="nav-item active" data-nav="dashboard">⌂ <span>Best leads</span></button>
-        <button class="nav-item" data-nav="compare">⇄ <span>Compare</span></button>
-        <button class="nav-item" data-nav="shortlist">♡ <span>Shortlisted</span><b id="shortlistCountSide">0</b></button>
-        <button class="nav-item" data-nav="visited">✓ <span>Visited</span><b id="visitedCountSide">0</b></button>
-        <button class="nav-item" data-nav="checklist">☑ <span>Buying checklist</span></button>
+        <button class="nav-item active" data-nav="dashboard"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#house"></use></svg> <span>Explore</span></button>
+        <button class="nav-item" data-nav="compare"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#compare"></use></svg> <span>Compare</span></button>
+        <button class="nav-item" data-nav="shortlist"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#heart"></use></svg> <span>Shortlisted</span><b id="shortlistCountSide">0</b></button>
+        <button class="nav-item" data-nav="visited"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#check-circle"></use></svg> <span>Visited</span><b id="visitedCountSide">0</b></button>
+        <button class="nav-item" data-nav="checklist"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#clipboard"></use></svg> <span>Buying checklist</span></button>
       </nav>
-      <div class="tip-card">
+      <div class="tip-card" hidden>
         <strong>Before paying token</strong>
         <ul><li>Verify title + EC</li><li>Check plot / UDS</li><li>Inspect construction</li><li>Confirm water + drainage</li></ul>
       </div>
@@ -67,16 +70,69 @@
     <main id="main" class="main-content" tabindex="-1">
       <header class="simple-hero">
         <div>
-          <p class="eyebrow">PROPERTY LENS</p>
-          <h1>Explore property leads below ₹50 lakh.</h1>
-          <p class="subtitle">Compare public listings across Vizag, Tanuku, Palakollu, Bhimavaram and Eluru. Confirm availability before visiting.</p>
+          <p class="eyebrow">FIND YOUR PLACE · ANDHRA PRADESH</p>
+          <h1>A simpler way to find your next property.</h1>
+          <p class="subtitle">Choose a location and property type to explore public leads under ₹50 lakh. Confirm price and availability with the seller.</p>
         </div>
         <div class="top-actions">
-          <button id="shortlistBtn" class="secondary-btn">♡ <span id="shortlistCount">0</span> Saved</button>
-          <button id="compareBtn" class="primary-btn">⇄ Compare <span id="compareCount">0</span></button>
+          <button id="shortlistBtn" class="secondary-btn"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#heart"></use></svg> <span id="shortlistCount">0</span> Saved</button>
+          <button id="compareBtn" class="primary-btn"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#compare"></use></svg> Compare <span id="compareCount">0</span></button>
         </div>
       </header>
 
+      <section class="browse-location">
+        <div class="section-heading"><div><p class="eyebrow">STEP 01 · LOCATION</p><h2>Where do you want to buy?</h2><p>Start with a city. You can always switch locations later.</p></div><button type="button" id="allLocations" class="text-btn"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#list"></use></svg> All locations</button></div>
+        <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
+      </section>
+
+      <section id="desktopCategoryStep" class="desktop-category-step" aria-labelledby="desktopCategoryTitle" hidden>
+        <div class="section-heading"><div><p class="eyebrow">STEP 02 · PROPERTY TYPE</p><h2 id="desktopCategoryTitle">What are you looking for?</h2><p id="desktopCategoryMeta">Choose the kind of property you want to see.</p></div></div>
+        <div id="desktopCategoryGrid" class="desktop-category-grid"></div>
+      </section>
+
+      <section id="browseAll" class="browse-all">
+        <div class="section-heading"><div><p class="eyebrow">STEP 03 · LISTINGS</p><h2>Explore properties</h2><p>Source-backed research leads. Availability must be confirmed with the seller.</p></div></div>
+
+        <section class="filter-panel" aria-label="Property filters">
+          <div class="filter-actions">
+            <div class="search-wrap"><span aria-hidden="true"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#search"></use></svg></span><input id="searchInput" type="search" placeholder="Search property or locality..." aria-label="Search properties" /></div>
+            <button id="resetFilters" class="ghost-btn"><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#reset"></use></svg> Reset</button>
+          </div>
+          <div class="filter-grid filter-grid-primary">
+            <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
+            <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option></select></label>
+            <label>Budget<select id="budgetFilter"><option value="50">All under ₹50L</option><option value="20">Up to ₹20L</option><option value="25">Up to ₹25L</option><option value="30">Up to ₹30L</option><option value="35">Up to ₹35L</option><option value="40">Up to ₹40L</option><option value="45">Up to ₹45L</option></select></label>
+          </div>
+          <details class="advanced-filter" id="advancedFilters">
+            <summary><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#filter"></use></svg> Advanced filters</summary>
+            <div class="filter-grid filter-grid-advanced">
+            <label>Age<select id="ageFilter"><option value="all">Any age</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
+            <label>Community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Gated</option><option value="partial">Verify gated</option><option value="no">Independent</option></select></label>
+            <label>Deal<select id="dealFilter"><option value="all">All deals</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
+            </div>
+          </details>
+        </section>
+
+        <section class="toolbar">
+          <div class="tabs" role="group" aria-label="Quick property filters">
+            <button type="button" class="tab active" data-view="all" aria-pressed="true">All</button>
+            <button type="button" class="tab" data-view="recommended" aria-pressed="false">Best</button>
+            <button type="button" class="tab" data-view="houses" aria-pressed="false">Houses</button>
+            <button type="button" class="tab" data-view="gated" aria-pressed="false">Gated</button>
+            <button type="button" class="tab" data-view="shortlisted" aria-pressed="false">Saved</button>
+          </div>
+          <label class="sort-control">Sort<select id="sortSelect"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option><option value="size-desc">Largest first</option></select></label>
+        </section>
+
+        <section class="section-heading">
+          <div><h2 id="resultsTitle">Property leads</h2><p id="resultsMeta"></p></div>
+        </section>
+        <section id="propertyGrid" class="property-grid" aria-live="polite"></section>
+        <div id="emptyState" class="empty-state" hidden><strong>No matching leads</strong><p>Try changing or resetting the filters.</p></div>
+      </section>
+
+      <details class="desktop-resources">
+        <summary><svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#book-open"></use></svg> Market highlights and public source directory <svg class="pl-icon" aria-hidden="true" focusable="false"><use href="assets/icons.svg#chevron-right"></use></svg></summary>
       <section class="best-leads">
         <div class="section-heading">
           <div><p class="eyebrow">START HERE</p><h2>Best lead from each location</h2><p>These are recently listed properties. Confirm each is still unsold directly with the seller.</p></div>
@@ -98,46 +154,7 @@
         <p class="source-note"><strong>Contact rule:</strong> Property Lens records public business/agent inquiry numbers. It does not harvest private owner phone numbers from video frames or hidden contact screens. A YouTube/Instagram property is kept in the active lead list only when its current availability can also be verified.</p>
       </section>
 
-      <section class="browse-location">
-        <div class="section-heading"><div><h2>Browse by location</h2><p>Tap a city to filter the currently active leads.</p></div></div>
-        <section id="citySummary" class="city-grid" aria-label="City market summaries"></section>
-      </section>
-
-      <section id="browseAll" class="browse-all">
-        <div class="section-heading"><div><p class="eyebrow">ALL PROPERTIES</p><h2>Find more options</h2><p>Only leads with published asking prices below ₹50L are shown; confirm availability with the poster.</p></div></div>
-
-        <section class="filter-panel" aria-label="Property filters">
-          <div class="filter-actions">
-            <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Search property or locality..." aria-label="Search properties" /></div>
-            <button id="resetFilters" class="ghost-btn">Reset</button>
-          </div>
-          <div class="filter-grid">
-            <label>Location<select id="cityFilter"><option value="all">All locations</option></select></label>
-            <label>Type<select id="typeFilter"><option value="all">All types</option><option value="Independent House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Plot">Plot</option></select></label>
-            <label>Budget<select id="budgetFilter"><option value="50">All under ₹50L</option><option value="20">Up to ₹20L</option><option value="25">Up to ₹25L</option><option value="30">Up to ₹30L</option><option value="35">Up to ₹35L</option><option value="40">Up to ₹40L</option><option value="45">Up to ₹45L</option></select></label>
-            <label>Age<select id="ageFilter"><option value="all">Any age</option><option value="new">New / ≤5 yrs</option><option value="resale">Resale / older</option><option value="unknown">Needs verification</option></select></label>
-            <label>Community<select id="gatedFilter"><option value="all">Any</option><option value="yes">Gated</option><option value="partial">Verify gated</option><option value="no">Independent</option></select></label>
-            <label>Deal<select id="dealFilter"><option value="all">All deals</option><option value="Strong Deal">Strong deal</option><option value="Potential Bargain">Potential bargain</option><option value="Good Value">Good value</option><option value="Fair / Negotiate">Fair / negotiate</option><option value="Watch">Watch</option></select></label>
-          </div>
-        </section>
-
-        <section class="toolbar">
-          <div class="tabs" role="group" aria-label="Quick property filters">
-            <button type="button" class="tab active" data-view="all" aria-pressed="true">All</button>
-            <button type="button" class="tab" data-view="recommended" aria-pressed="false">Best</button>
-            <button type="button" class="tab" data-view="houses" aria-pressed="false">Houses</button>
-            <button type="button" class="tab" data-view="gated" aria-pressed="false">Gated</button>
-            <button type="button" class="tab" data-view="shortlisted" aria-pressed="false">Saved</button>
-          </div>
-          <label class="sort-control">Sort<select id="sortSelect"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option><option value="size-desc">Largest first</option></select></label>
-        </section>
-
-        <section class="section-heading">
-          <div><h2 id="resultsTitle">Property leads</h2><p id="resultsMeta"></p></div>
-        </section>
-        <section id="propertyGrid" class="property-grid" aria-live="polite"></section>
-        <div id="emptyState" class="empty-state" hidden><strong>No matching leads</strong><p>Try changing or resetting the filters.</p></div>
-      </section>
+      </details>
 
       <section id="checklistSection" class="checklist-section">
         <div><p class="eyebrow">BUYING SAFETY</p><h2>Before you pay a token advance</h2><p>Verify title, EC, approvals, plot/UDS, water, drainage, construction condition and the final all-in cost.</p></div>
@@ -149,7 +166,7 @@
 
   <dialog id="detailsDialog" class="details-dialog" aria-label="Property details"></dialog>
   <dialog id="compareDialog" class="compare-dialog" aria-label="Compare properties"></dialog>
-  <noscript><div class="no-js">Property Lens needs JavaScript to filter and compare active property leads. The source links remain available in the repository data.</div></noscript>
+  <noscript><div class="no-js">Property Lens needs JavaScript to filter and compare public property leads. The source links remain available in the repository data.</div></noscript>
   <script src="data/properties.js"></script>
   <script src="assets/core.js"></script>
   <script src="assets/app.js"></script>
