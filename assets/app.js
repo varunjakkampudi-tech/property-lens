@@ -10,7 +10,6 @@
   const notes = core.readRecord('ap-notes');
   const esc = core.escapeHtml;
   const ico = core.icon;
-  const cityIcons = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
   const categories = [
     { key: 'Flats', title: 'Flats', note: 'Apartments and communities', icon: 'building' },
     { key: 'Independent Houses', title: 'Independent Houses', note: 'Homes and villas with more privacy', icon: 'house' },
@@ -81,7 +80,7 @@
     $('citySummary').innerHTML = Object.entries(markets).map(([city, m]) => {
       const cityLeads = properties.filter(p => p.city === city && core.isEligibleLead(p));
       return `<button type="button" class="city-card ${state.city === city ? 'active' : ''}" data-city-card="${esc(city)}" aria-pressed="${state.city === city}">
-        <span class="city-card-icon">${ico(cityIcons[city] || 'map-pin')}</span>
+        <span class="city-card-icon">${ico('map-pin')}</span>
         <span class="city-card-count">${cityLeads.length} listed</span>
         <strong>${esc(city)}</strong>
         <span class="city-sub">${esc(m.subtitle || 'Andhra Pradesh')}</span>
@@ -169,7 +168,7 @@
         <h3>${esc(p.name)}</h3><div class="location">${ico('map-pin')} ${esc(p.locality)}, ${esc(p.city)}</div>
         <div class="stats"><span>${esc(p.bhk)}</span><span>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Size verify'}</span><span>${esc(p.age)}</span></div>
         <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
-        <div class="valuation"><div>Market / area ref<strong>${esc(p.market)}</strong></div><div>Asking rate<strong>${esc(p.askingRate)}</strong></div></div>
+        ${core.marketValueMarkup(p, properties)}
         <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="${esc(core.sourceLinkLabel(p))} on ${esc(p.source)}">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div>
         <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("check-circle")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
       </div></article>`;
@@ -205,11 +204,11 @@
         <div class="detail-box"><span>Asking price</span><strong>${priceText(p.price)}</strong></div><div class="detail-box"><span>Negotiation target</span><strong>${esc(p.target)}</strong></div>
         <div class="detail-box"><span>Size</span><strong>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Verify'}</strong></div><div class="detail-box"><span>Age/status</span><strong>${esc(p.age)}</strong></div>
         <div class="detail-box"><span>Community</span><strong>${esc(gatedText(p.gated))}</strong></div><div class="detail-box"><span>Availability signal</span><strong>${esc(p.status)}</strong></div>
-        <div class="detail-box"><span>Area market reference</span><strong>${esc(p.market)}</strong></div><div class="detail-box"><span>Asking rate</span><strong>${esc(p.askingRate)}</strong></div>
-      </div><h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
+        <div class="detail-box"><span>Reference locality</span><strong>${esc(p.market)}</strong></div><div class="detail-box"><span>Listed asking rate</span><strong>${esc(p.askingRate)}</strong></div>
+      </div>${core.marketValueMarkup(p, properties)}<h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
       <h3>My notes</h3><textarea id="propertyNote" class="note-area" aria-label="My property notes" placeholder="Site-visit observations, seller quote, plot size, road width...">${esc(notes[p.id]||'')}</textarea>
       <div class="card-actions" style="margin-top:12px"><button type="button" id="saveNote" class="details-btn">Save note</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div></div>`;
-    d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved ✓';};
+    d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved';};
     d.showModal();
     d.querySelector('.close-btn')?.focus({preventScroll:true});
     if(focusNote)setTimeout(()=>d.querySelector('#propertyNote')?.focus(),50);
@@ -217,8 +216,8 @@
 
   function openCompare() {
     const list=[...compare].map(id=>properties.find(p=>p.id===id)).filter(Boolean); const d=$('compareDialog');
-    if(!list.length){alert('Select properties using the ⇄ button first.');return;}
-    const rows=[['Price',p=>priceText(p.price)],['Location',p=>`${p.locality}, ${p.city}`],['Type',p=>p.type],['Size',p=>p.size?`${p.size} ${p.sizeUnit}`:'Verify'],['Age',p=>p.age],['Gated',p=>gatedText(p.gated)],['Market ref',p=>p.market],['Asking rate',p=>p.askingRate],['Deal',p=>p.deal],['Target',p=>p.target]];
+    if(!list.length){alert('Select properties using the Compare button first.');return;}
+    const rows=[['Price',p=>priceText(p.price)],['Location',p=>`${p.locality}, ${p.city}`],['Type',p=>p.type],['Size',p=>p.size?`${p.size} ${p.sizeUnit}`:'Verify'],['Age',p=>p.age],['Gated',p=>gatedText(p.gated)],['Indicative market value',p=>{const b=core.marketBenchmark(p,properties);return b?`${core.formatPrice(b.estimateLakhs)} (${b.sampleSize} comparable asking listings)`:'Not available';}],['Reference locality',p=>p.market],['Listed asking rate',p=>p.askingRate],['Deal',p=>p.deal],['Target',p=>p.target]];
     d.innerHTML=`<div class="dialog-head"><h2>Compare ${list.length} properties</h2><button type="button" class="close-btn" data-dialog-close aria-label="Close comparison">${ico("x")}</button></div><div class="dialog-content compare-table-wrap"><table class="compare-table"><thead><tr><th>Metric</th>${list.map(p=>`<th>${esc(p.name)}<br><button class="remove-compare" data-remove="${p.id}">Remove</button></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th>${label}</th>${list.map(p=>`<td>${esc(fn(p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     d.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{compare.delete(b.dataset.remove);updateCounts();d.close();openCompare();render();});
     d.showModal();
