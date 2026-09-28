@@ -30,7 +30,6 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache: npm
 
       - name: Validate static source
         shell: bash
@@ -45,7 +44,6 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
-          test -s package-lock.json
           test -s package-lock.json
           test -s docs/diagrams/system-architecture.svg
           test -s docs/diagrams/lead-lifecycle.svg
