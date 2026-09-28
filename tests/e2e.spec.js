@@ -69,6 +69,8 @@ test.describe('Property Lens production flows', () => {
         expect(labels.every(label => label.includes(city))).toBeTruthy();
         await assertNoHorizontalOverflow(page);
         if (city === cities[0] && category === 'Flats') {
+          const navBox = await page.locator('.mpl-bottom-nav').boundingBox();
+          expect(navBox.y + navBox.height).toBeLessThanOrEqual(page.viewportSize().height + 1);
           await assertA11y(page);
           await page.screenshot({ path: 'visual-' + testInfo.project.name + '-02-listings.png', fullPage: false });
         }
@@ -274,6 +276,7 @@ test.describe('Property Lens production flows', () => {
     const leads = await inventory(page);
     await expect(page.locator('.city-card')).toHaveCount(cities.length);
     await expect(page.locator('#desktopCategoryStep')).toBeHidden();
+    await expect(page.locator('#browseStepLabel')).toHaveText('EXPLORE ALL · OPTIONAL');
     await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
     await expect(page.locator('.desktop-resources .source-evidence')).toBeHidden();
     await assertNoHorizontalOverflow(page);
@@ -295,6 +298,7 @@ test.describe('Property Lens production flows', () => {
         await button.click();
         await expect(page.locator('#propertyGrid .property-card')).toHaveCount(count);
         await expect(page.locator('#resultsTitle')).toContainText(category);
+        await expect(page.locator('#browseStepLabel')).toHaveText('STEP 03 · LISTINGS');
         await assertNoHorizontalOverflow(page);
         if (city === 'Vizag' && category === 'Flats') {
           await assertA11y(page);
