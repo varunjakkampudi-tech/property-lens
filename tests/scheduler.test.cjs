@@ -93,3 +93,9 @@ test('publisher places safe rejected records in the review queue', () => {
   assert.equal(result.changed, true);
   assert.equal(result.reviewQueue.candidatesNeedingSellerConfirmation.length, 1);
 });
+
+test('scheduled publisher enables protected auto-merge for data-only PRs', () => {
+  const workflow = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'scheduled-discovery.yml'), 'utf8');
+  assert.match(workflow, /gh pr create --base main --head "\$branch"/);
+  assert.match(workflow, /gh pr merge "\$pr_url" --auto --squash --delete-branch/);
+});

@@ -85,7 +85,9 @@ jobs:
           git diff --cached --quiet && { echo "No material data change after normalization."; exit 0; }
           git commit -m "data: publish evidence-backed property leads"
           git push --set-upstream origin "$branch"
-          gh pr create --base main --head "$branch" --title "data: review scheduled property discovery" --body "Automated evidence-first discovery proposal. Full release gates passed before opening this PR. Review source provenance and merge only under repository branch protection. Workflow: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          pr_url="$(gh pr create --base main --head "$branch" --title "data: review scheduled property discovery" --body "Automated evidence-first discovery proposal. Full release gates passed before opening this PR. Review source provenance and merge only under repository branch protection. Workflow: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")"
+          echo "Created data-only PR: $pr_url"
+          gh pr merge "$pr_url" --auto --squash --delete-branch
       - name: Write execution summary
         if: always()
         shell: bash
