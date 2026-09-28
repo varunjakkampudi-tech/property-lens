@@ -106,7 +106,7 @@
   }
 
   function bindCards() {
-    document.querySelectorAll('[data-shortlist]').forEach(b=>b.onclick=()=>{shortlist.has(b.dataset.shortlist)?shortlist.delete(b.dataset.shortlist):shortlist.add(b.dataset.shortlist);persist();updateCounts();render();});
+    document.querySelectorAll('[data-shortlist]').forEach(b=>b.onclick=()=>{shortlist.has(b.dataset.shortlist)?shortlist.delete(b.dataset.shortlist):shortlist.add(b.dataset.shortlist);persist();window.dispatchEvent(new Event('pl-saved-sync'));updateCounts();render();});
     document.querySelectorAll('[data-visited]').forEach(b=>b.onclick=()=>{visited.has(b.dataset.visited)?visited.delete(b.dataset.visited):visited.add(b.dataset.visited);persist();updateCounts();render();});
     document.querySelectorAll('[data-compare]').forEach(b=>b.onclick=()=>{const id=b.dataset.compare;if(compare.has(id))compare.delete(id);else if(compare.size<4)compare.add(id);else alert('Compare up to 4 properties at a time.');updateCounts();render();});
     document.querySelectorAll('[data-details]').forEach(b=>b.onclick=()=>openDetails(b.dataset.details));
@@ -164,6 +164,13 @@
       e.preventDefault();
       d.close();
     });
+  });
+  window.addEventListener('pl-saved-sync', () => {
+    const ids = core.readArray('ap-shortlist');
+    if (ids.length === shortlist.size && ids.every(id => shortlist.has(id))) return;
+    shortlist.clear();
+    ids.forEach(id => shortlist.add(id));
+    render();
   });
   setupFilters(); renderCities(); render(); updateCounts();
 })();
