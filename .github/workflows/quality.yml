@@ -42,7 +42,7 @@ jobs:
       - name: Mobile, desktop and accessibility E2E
         run: npm run test:e2e
       - name: Upload test evidence
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: property-lens-pr-e2e
