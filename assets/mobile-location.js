@@ -154,6 +154,64 @@
     bind();
   }
 
+
+  function categoryFor(p) {
+    if (p.category) return p.category;
+    if (p.type === 'Flat') return 'Flats';
+    if (p.type === 'Plot') return 'Plots';
+    return 'Independent Houses';
+  }
+
+  function categoryCount(city, category) {
+    return properties.filter(function (p) {
+      return p.city === city && categoryFor(p) === category;
+    }).length;
+  }
+
+  function renderCategories(city) {
+    state.city = city;
+    state.category = null;
+    state.view = 'all';
+    state.query = '';
+    state.budget = '999';
+    state.type = 'all';
+    state.sort = 'recommended';
+
+    var m = markets[city] || {};
+    var cats = [
+      { key:'Flats', icon:'▥', note:'Apartments & gated communities' },
+      { key:'Independent Houses', icon:'⌂', note:'Privacy, land & independent living' },
+      { key:'Plots', icon:'▧', note:'Build your home or invest' }
+    ];
+
+    root.innerHTML =
+      '<section class="mpl-category-screen">' +
+        '<header class="mpl-topbar">' +
+          '<button type="button" class="mpl-back" data-action="locations" aria-label="Choose another location">‹</button>' +
+          '<div class="mpl-topcopy"><small>' + esc(m.subtitle || 'Andhra Pradesh') + '</small><strong>' + esc(city) + '</strong></div>' +
+          '<span class="mpl-header-spacer"></span>' +
+        '</header>' +
+        '<main class="mpl-category-body">' +
+          '<p class="mpl-eyebrow">STEP 2 OF 2</p>' +
+          '<h1>What are you looking for?</h1>' +
+          '<p class="mpl-lead">Choose one property type to see only relevant ' + esc(city) + ' leads.</p>' +
+          '<div class="mpl-category-list">' +
+            cats.map(function (c) {
+              var count = categoryCount(city,c.key);
+              return '<button type="button" class="mpl-category-card" data-category="' + esc(c.key) + '">' +
+                '<div class="mpl-category-icon" aria-hidden="true">' + c.icon + '</div>' +
+                '<div class="mpl-category-copy"><strong>' + esc(c.key) + '</strong><span>' + esc(c.note) + '</span><small>' + count + ' active ' + (count === 1 ? 'lead' : 'leads') + '</small></div>' +
+                '<div class="mpl-category-arrow" aria-hidden="true">›</div>' +
+              '</button>';
+            }).join('') +
+          '</div>' +
+          '<button type="button" class="mpl-all-types" data-category="all">See all ' + countFor(city) + ' properties in ' + esc(city) + '</button>' +
+        '</main>' +
+        bottomNav('browse') +
+      '</section>';
+    bind();
+  }
+
   function filtered() {
     var q = state.query.trim().toLowerCase();
     var budget = Number(state.budget);
@@ -328,6 +386,7 @@
     });
 
     root.querySelectorAll('[data-action="locations"]').forEach(function (el) { el.onclick = renderChooser; });
+    root.querySelectorAll('[data-action="categories"]').forEach(function (el) { el.onclick = function () { if (state.city && state.city !== 'all') renderCategories(state.city); else renderChooser(); }; });
     root.querySelectorAll('[data-action="categories"]').forEach(function (el) {
       el.onclick = function () { if (state.city && state.city !== 'all') renderCategories(state.city); else renderChooser(); };
     });
