@@ -31,6 +31,7 @@ test.describe('Property Lens production flows', () => {
     await page.locator('[data-category="Flats"]').click();
     await expect(page.locator('.mpl-topcopy strong')).toHaveText('Vizag');
     await expect(page.locator('.mpl-property')).toHaveCount(18);
+    expect(await page.evaluate(() => window.PROPERTY_DATA.every(p => typeof p.price === 'number' && p.price >= 0 && p.price < 50))).toBeTruthy();
     const locations = await page.locator('.mpl-property .mpl-loc').allTextContents();
     expect(locations.every(x => /Vizag/i.test(x))).toBeTruthy();
     await page.screenshot({ path: 'visual-' + testInfo.project.name + '-03-vizag-flats.png', fullPage: false });
@@ -63,7 +64,7 @@ test.describe('Property Lens production flows', () => {
 
     await page.locator('[data-nav="locations"]').click();
     await page.locator('[data-city="Bhimavaram"]').click();
-    await expect(page.locator('[data-category="Flats"]')).toContainText('7 active');
+    await expect(page.locator('[data-category="Flats"]')).toContainText('6 active');
     await expect(page.locator('[data-category="Independent Houses"]')).toContainText('6 active');
     await expect(page.locator('[data-category="Plots"]')).toContainText('4 active');
 
@@ -76,15 +77,15 @@ test.describe('Property Lens production flows', () => {
     await page.goto('/');
     await page.locator('[data-city="Tanuku"]').click();
     await expect(page.locator('[data-category="Flats"]')).toContainText('2 active');
-    await expect(page.locator('[data-category="Independent Houses"]')).toContainText('8 active');
-    await expect(page.locator('[data-category="Plots"]')).toContainText('2 active');
+    await expect(page.locator('[data-category="Independent Houses"]')).toContainText('6 active');
+    await expect(page.locator('[data-category="Plots"]')).toContainText('1 active');
 
     await page.locator('[data-category="Independent Houses"]').click();
-    await expect(page.locator('.mpl-property')).toHaveCount(8);
+    await expect(page.locator('.mpl-property')).toHaveCount(6);
     await page.locator('#mplSearch').fill('RK Nagar');
     await expect(page.locator('.mpl-property')).toHaveCount(2);
     await page.locator('#mplSearch').fill('');
-    await expect(page.locator('.mpl-property')).toHaveCount(8);
+    await expect(page.locator('.mpl-property')).toHaveCount(6);
 
     await page.locator('.mpl-heart').first().click();
     await page.locator('.mpl-bottom-nav [data-nav="saved"]').click();
@@ -92,12 +93,29 @@ test.describe('Property Lens production flows', () => {
     await expect(page.locator('.mpl-topcopy strong')).toHaveText('Saved properties');
   });
 
+  test('mobile: selected price ceiling narrows results, default stays under ₹50L', async ({ page }, testInfo) => {
+    test.skip(!testInfo.project.name.startsWith('mobile'));
+    await page.goto('/');
+    await page.locator('[data-city="Vizag"]').click();
+    await page.locator('[data-category="Flats"]').click();
+    await expect(page.locator('.mpl-property')).toHaveCount(18);
+    await page.locator('.mpl-filter-btn').click();
+    await expect(page.locator('#mplBudget')).toHaveValue('50');
+    await page.locator('#mplBudget').selectOption('30');
+    await expect(page.locator('.mpl-property')).toHaveCount(1);
+    await expect(page.locator('.mpl-price').first()).toContainText('₹30L');
+    await page.locator('.mpl-filter-btn').click();
+    await page.locator('#mplBudget').selectOption('50');
+    await expect(page.locator('.mpl-property')).toHaveCount(18);
+  });
+
   test('desktop: refreshed inventory, details, filters and accessibility remain intact', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop');
 
     await page.goto('/');
     await expect(page.locator('#mobilePropertyApp')).toBeHidden();
-    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(58);
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(54);
+    expect(await page.evaluate(() => window.PROPERTY_DATA.every(p => typeof p.price === 'number' && p.price >= 0 && p.price < 50))).toBeTruthy();
     const desktopA11y = await seriousA11y(page);
 
     await page.locator('#propertyGrid .details-btn').first().click();
