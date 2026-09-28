@@ -8,6 +8,10 @@ const markets = sandbox.window.MARKET_DATA;
 const contacts = sandbox.window.SOURCE_CONTACTS;
 const validCities = new Set(['Vizag', 'Tanuku', 'Palakollu', 'Bhimavaram', 'Eluru']);
 const validCategories = new Set(['Flats', 'Independent Houses', 'Plots']);
+const validAgeGroups = new Set(['new', 'resale', 'unknown']);
+const validGated = new Set(['yes', 'no', 'partial']);
+// Allow one UTC calendar day for India-local source checks near midnight.
+const maxSourceDate = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 const typeCategory = {
   Flat: 'Flats',
   'Independent House': 'Independent Houses',
@@ -28,7 +32,8 @@ function secureUrl(raw, field, id) {
   let parsed;
   try { parsed = new URL(raw); }
   catch { throw Error('Invalid ' + field + ' URL: ' + id); }
-  if (parsed.protocol !== 'https:' || !parsed.hostname || parsed.username || parsed.password) {
+  if (parsed.protocol !== 'https:' || !parsed.hostname || parsed.username || parsed.password ||
+      /^(localhost\.?|127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|169\.254\.|0\.|.*\.local\.?$)/i.test(parsed.hostname)) {
     throw Error('Only public HTTPS ' + field + ' URLs are allowed: ' + id);
   }
   return parsed;
@@ -37,7 +42,7 @@ function secureUrl(raw, field, id) {
 const ids = new Set();
 const urls = new Set();
 for (const p of leads) {
-  if (typeof p.price !== 'number' || !Number.isFinite(p.price) || p.price < 0 || p.price >= 50) {
+  if (typeof p.price !== 'number' || !Number.isFinite(p.price) || p.price <= 0 || p.price >= 50) {
     throw Error('Active lead price must be strictly below ₹50L: ' + p.id);
   }
   if (!p.id || !/^[a-z0-9][a-z0-9_-]*$/i.test(p.id) || ids.has(p.id)) {
@@ -47,21 +52,38 @@ for (const p of leads) {
     throw Error('Invalid location/category: ' + p.id);
   }
   if (typeCategory[p.type] !== p.category) throw Error('Property type/category mismatch: ' + p.id);
+  if (!validAgeGroups.has(p.ageGroup) || !validGated.has(p.gated)) {
+    throw Error('Invalid age or community status: ' + p.id);
+  }
+  if (p.size != null && (typeof p.size !== 'number' || !Number.isFinite(p.size) || p.size <= 0 || !p.sizeUnit)) {
+    throw Error('Invalid size or measurement unit: ' + p.id);
+  }
+  if (p.linkType !== 'Direct listing' && !/results|listings page/i.test(p.linkType || '')) {
+    throw Error('Unrecognized source-link type: ' + p.id);
+  }
   if (!p.name || !p.locality || !p.platform || !p.poster || !p.lastSeen || !p.verifiedOn || !p.mapUrl || !p.url || !p.linkType || !p.status) {
     throw Error('Missing required lead metadata: ' + p.id);
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(p.verifiedOn) || !Number.isFinite(Date.parse(p.verifiedOn)) || new Date(p.verifiedOn).toISOString().slice(0, 10) !== p.verifiedOn) {
     throw Error('Invalid source-check date: ' + p.id);
   }
+  if (p.verifiedOn > maxSourceDate) throw Error('Future source-check date: ' + p.id);
   if (!['publicly_listed_unconfirmed', 'seller_confirmed'].includes(p.availabilityStatus)) {
     throw Error('Missing or invalid availability state: ' + p.id);
   }
-  if (p.availabilityStatus === 'seller_confirmed' && (!p.availabilityEvidence || !p.availabilityCheckedOn)) {
-    throw Error('Seller-confirmed state requires dated evidence: ' + p.id);
+  if (p.availabilityStatus === 'seller_confirmed') {
+    if (!p.availabilityEvidence || typeof p.availabilityEvidence !== 'string' ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(p.availabilityCheckedOn || '') ||
+        !Number.isFinite(Date.parse(p.availabilityCheckedOn)) ||
+        new Date(p.availabilityCheckedOn).toISOString().slice(0, 10) !== p.availabilityCheckedOn ||
+        p.availabilityCheckedOn > maxSourceDate) {
+      throw Error('Seller-confirmed state requires valid dated evidence: ' + p.id);
+    }
   }
   if (p.availabilityStatus === 'publicly_listed_unconfirmed' && !p.status.includes('must be confirmed')) {
     throw Error('Unconfirmed lead must disclose uncertainty: ' + p.id);
   }
+  if (p.publicPhone && !p.phoneLabel) throw Error('Public contact requires provenance label: ' + p.id);
   if (p.publicPhone && !/^[0-9]{10}$/.test(String(p.publicPhone).replace(/[^0-9]/g, '').replace(/^91(?=[0-9]{10}$)/, ''))) {
     throw Error('Invalid public business phone: ' + p.id);
   }
@@ -82,7 +104,8 @@ for (const p of leads) {
 }
 
 const review = JSON.parse(fs.readFileSync('data/review-queue.json', 'utf8'));
-if (!Array.isArray(review.excludedFromActiveResults) || !Array.isArray(review.candidatesNeedingSellerConfirmation)) {
+if (!Array.isArray(review.excludedFromActiveResults) || !Array.isArray(review.candidatesNeedingSellerConfirmation) ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedOn || '') || review.reviewedOn > maxSourceDate) {
   throw Error('Invalid review queue');
 }
 if (!Array.isArray(contacts)) throw Error('Public business contact directory missing');
