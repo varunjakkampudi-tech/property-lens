@@ -33,10 +33,9 @@
     return /^\d{10}$/.test(digits) ? digits : '';
   }
   // Icons are same-origin SVG symbols. Both inputs are allowlisted before HTML insertion.
-  var iconNames = new Set(['map-pin','waves','building','house','plot','search','heart','compare','check',
-    'check-circle','filter','arrow-right','arrow-left','chevron-right','external','bookmark',
-    'shield-check','book-open','clock','list','trees','landmark','info','x','plus',
-    'clipboard','reset','phone','eye','note']);
+  var iconNames = new Set(['map-pin','building','house','plot','search','heart','compare','check',
+    'check-circle','filter','arrow-left','chevron-right','external','book-open','list',
+    'info','x','plus','clipboard','reset','phone','note']);
   function icon(name, className) {
     if (!iconNames.has(name)) return '';
     var cssClass = typeof className === 'string' && /^[a-zA-Z0-9_-]+$/.test(className) ? ' ' + className : '';
@@ -91,7 +90,7 @@
     var title = 'Indicative market value';
     if (!benchmark) {
       return '<div class="market-value market-value--unavailable" aria-label="' + title + '">' +
-        '<span class="market-value__label">' + title + '</span>' +
+        '<span class="market-value__label">'+ icon('info') + '' + title + '</span>' +
         '<strong>Not available</strong>' +
         '<small>Insufficient recent, like-for-like listings. Confirm with local sale records or an independent valuer.</small></div>';
     }
@@ -99,7 +98,7 @@
       'Asking ' + Math.abs(benchmark.differencePercent) + '% ' +
       (benchmark.differencePercent < 0 ? 'below' : 'above') + ' benchmark';
     return '<div class="market-value" aria-label="' + title + '">' +
-      '<span class="market-value__label">' + title + '</span>' +
+      '<span class="market-value__label">'+ icon('info') + '' + title + '</span>' +
       '<strong>' + formatPrice(benchmark.estimateLakhs) + '</strong>' +
       '<span class="market-value__delta">' + escapeHtml(delta) + '</span>' +
       '<small>Indicative only: ' + benchmark.sampleSize + ' comparable asking listings in ' +
