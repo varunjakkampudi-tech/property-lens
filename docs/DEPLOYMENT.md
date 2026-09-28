@@ -23,7 +23,7 @@ Playwright starts the allowlisted local server automatically. The workflow uses 
 1. Merge the reviewed change to `main` after PR checks pass.
 2. Find the Pages workflow run whose `head_sha` matches the merged commit.
 3. Require `status=completed` and `conclusion=success`, including the **Verify live website and deployed commit** step.
-4. The workflow checks the live `deploy-version.txt` against the expected SHA, plus homepage, `data/properties.js`, `assets/mobile-location.js` and `assets/core.js`.
+4. The workflow checks the live `deploy-version.txt` against the expected SHA, plus homepage, `data/properties.js`, `assets/mobile-location.js`, `assets/core.js`, `assets/design-refresh.css` and `assets/icons.svg`.
 5. If the run is queued, cancelled, failed or still running, do **not** report a successful deployment. Inspect its failing step and preserve the last known good release.
 
 The workflow retains Playwright screenshots, traces and HTML reports as short-lived artifacts for debugging. A successful workflow is stronger evidence than a green local build because it verifies the public Pages CDN after deployment.
