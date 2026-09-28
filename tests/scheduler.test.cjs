@@ -96,6 +96,11 @@ test('publisher places safe rejected records in the review queue', () => {
 
 test('scheduled publisher enables protected auto-merge for data-only PRs', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'scheduled-discovery.yml'), 'utf8');
+  assert.match(workflow, /- name: Checkout default branch\n        uses: actions\/checkout@v7/);
+  assert.match(workflow, /timeout-minutes: 15/);
+  assert.match(workflow, /concurrency:\n  group: property-lens-scheduled-discovery/);
   assert.match(workflow, /gh pr create --base main --head "\$branch"/);
   assert.match(workflow, /gh pr merge "\$pr_url" --auto --squash --delete-branch/);
+  assert.match(workflow, /Unable to create or locate the scheduled discovery PR after retries/);
+  assert.match(workflow, /Unable to enable protected auto-merge after retries/);
 });
