@@ -17,10 +17,10 @@ test('HTML and attribute content are escaped before insertion', () => {
   assert.equal(core.escapeHtml(null), '');
 });
 
-test('only finite nonnegative prices strictly below 50 lakh qualify', () => {
+test('only finite positive prices strictly below 50 lakh qualify', () => {
   const { isEligibleLead } = loadCore();
-  for (const price of [0, 12, 49.99]) assert.equal(isEligibleLead({ price }), true);
-  for (const price of [-1, 50, 50.01, NaN, Infinity, '35', null]) {
+  for (const price of [0.01, 12, 49.99]) assert.equal(isEligibleLead({ price }), true);
+  for (const price of [-1, 0, 50, 50.01, NaN, Infinity, '35', null]) {
     assert.equal(isEligibleLead({ price }), false);
   }
   assert.equal(isEligibleLead(null), false);
