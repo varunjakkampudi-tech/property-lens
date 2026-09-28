@@ -225,6 +225,19 @@
       "poster": "Owner, as displayed",
       "sourceCheckedOn": "2026-09-29",
       "evidence": "Housing.com detail page checked 2026-09-29 shows a 2 BHK independent house in Housing Board Colony, Palakollu, at ₹40.0 lakh and a reported 150 sq.ft built-up area. The area is implausibly small for the listing type; confirm the actual measurement, identity and current availability before active publication or market comparison."
+    },
+    {
+      "reason": "conflicting_locality_evidence",
+      "city": "Eluru",
+      "category": "Flats",
+      "platform": "Housing.com",
+      "name": "Sanivarapupeta 2BHK flat",
+      "priceLakh": 25,
+      "url": "https://housing.com/in/buy/resale/page/20946357-2-bhk-apartment-in-sanivarapupeta-for-rs-2500000",
+      "linkType": "Direct listing",
+      "poster": "Owner, as displayed",
+      "sourceCheckedOn": "2026-09-29",
+      "evidence": "Housing.com detail page checked 2026-09-29 identifies the listing header as Sanivarapupeta, Eluru, but its descriptive text refers to Ashok Nagar. Preserve the direct source for follow-up, but do not publish or use as a comparable until the locality and property identity are reconciled."
     }
   ]
 }
