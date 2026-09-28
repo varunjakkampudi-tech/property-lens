@@ -47,7 +47,6 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .nav-item span{flex:0 0 auto}
   .nav-item b{font-size:11px}
   .nav-item.active,.nav-item:hover{background:#eaf1ff;color:#1749b6}
-  .tip-card{display:none!important}
   .main-content{max-width:1300px;padding:30px 26px 24px}
   .simple-hero{
     background:linear-gradient(110deg,#eaf2ff,#f7faff 72%,#eaf7f7);
@@ -141,7 +140,6 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .location{font-size:12px;display:flex;align-items:center;gap:5px}
   .location .pl-icon{width:15px;height:15px}
   .stats{font-size:12px}
-  .chips{display:none}
   .lead-source-meta{font-size:11px;line-height:1.6}
   .card-actions{gap:7px}
   .card-actions button,.card-actions a{display:inline-flex;align-items:center;
