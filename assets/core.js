@@ -33,10 +33,9 @@
     return /^\d{10}$/.test(digits) ? digits : '';
   }
   // Icons are same-origin SVG symbols. Both inputs are allowlisted before HTML insertion.
-  var iconNames = new Set(['map-pin','waves','building','house','plot','search','heart','compare','check',
-    'check-circle','filter','arrow-right','arrow-left','chevron-right','external','bookmark',
-    'shield-check','book-open','clock','list','trees','landmark','info','x','plus',
-    'clipboard','reset','phone','eye','note','chart','location']);
+  var iconNames = new Set(['map-pin','building','house','plot','search','heart','compare','check',
+    'check-circle','filter','arrow-left','chevron-right','external','book-open','list',
+    'info','x','plus','clipboard','reset','phone','note','chart']);
   function icon(name, className) {
     if (!iconNames.has(name)) return '';
     var cssClass = typeof className === 'string' && /^[a-zA-Z0-9_-]+$/.test(className) ? ' ' + className : '';
