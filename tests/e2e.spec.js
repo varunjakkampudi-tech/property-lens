@@ -268,4 +268,68 @@ test.describe('Property Lens production flows', () => {
     await expect(mobileCard.locator('.mpl-actions a').first()).toContainText('Open source results');
   });
 
+  test('desktop: location and category flow stays simple and data-driven', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    const leads = await inventory(page);
+    await expect(page.locator('.city-card')).toHaveCount(cities.length);
+    await expect(page.locator('#desktopCategoryStep')).toBeHidden();
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
+    await expect(page.locator('.desktop-resources .source-evidence')).toBeHidden();
+    await assertNoHorizontalOverflow(page);
+    await assertA11y(page);
+    await page.screenshot({ path: 'visual-desktop-refresh-location.png', fullPage: false });
+
+    for (const city of cities) {
+      const cityCount = matching(leads, city, 'all').length;
+      await expect(page.locator('[data-city-card="' + city + '"]')).toContainText(cityCount + ' listed');
+      await page.locator('[data-city-card="' + city + '"]').click();
+      await expect(page.locator('#desktopCategoryStep')).toBeVisible();
+      await expect(page.locator('.desktop-category-card')).toHaveCount(4);
+      await expect(page.locator('#propertyGrid .property-card')).toHaveCount(cityCount);
+      for (const category of categories) {
+        const count = matching(leads, city, category).length;
+        const button = page.locator('[data-category-card="' + category + '"]');
+        await expect(button).toContainText(count + ' listed');
+        if (!count) { await expect(button).toBeDisabled(); continue; }
+        await button.click();
+        await expect(page.locator('#propertyGrid .property-card')).toHaveCount(count);
+        await expect(page.locator('#resultsTitle')).toContainText(category);
+        await assertNoHorizontalOverflow(page);
+        if (city === 'Vizag' && category === 'Flats') {
+          await assertA11y(page);
+          await page.screenshot({ path: 'visual-desktop-refresh-category.png', fullPage: false });
+        }
+      }
+      await page.locator('#allLocations').click();
+      await expect(page.locator('#desktopCategoryStep')).toBeHidden();
+      await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
+    }
+    await page.locator('.desktop-resources > summary').click();
+    await expect(page.locator('.desktop-resources .source-evidence')).toBeVisible();
+  });
+
+  test('brand, typography and professional icon assets work at desktop and mobile sizes', async ({ page }) => {
+    await page.goto('/');
+    const font = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
+    expect(font).toContain('Manrope');
+    const logo = await page.request.get('/assets/favicon.svg');
+    const icons = await page.request.get('/assets/icons.svg');
+    const theme = await page.request.get('/assets/design-refresh.css');
+    expect(logo.ok()).toBeTruthy();
+    expect(icons.ok()).toBeTruthy();
+    expect(theme.ok()).toBeTruthy();
+    expect(await icons.text()).toContain('id="heart"');
+    await expect(page.locator('#mobilePropertyApp')).toHaveCount(1);
+    if (page.viewportSize().width > 850) {
+      await expect(page.locator('.brand-mark img')).toBeVisible();
+      await expect(page.locator('.nav-item .pl-icon').first()).toBeVisible();
+    } else {
+      await expect(page.locator('.mpl-logo img')).toBeVisible();
+      await expect(page.locator('.mpl-city-icon .pl-icon').first()).toBeVisible();
+    }
+    await assertNoHorizontalOverflow(page);
+    await assertA11y(page);
+  });
+
 });
