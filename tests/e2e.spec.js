@@ -50,7 +50,7 @@ test.describe('Property Lens production flows', () => {
 
     for (const city of cities) {
       const cityCount = matching(leads, city, 'all').length;
-      await expect(page.locator('[data-city="' + city + '"]')).toContainText(cityCount + ' active');
+      await expect(page.locator('[data-city="' + city + '"]')).toContainText(cityCount + ' listed');
       await page.locator('[data-city="' + city + '"]').click();
       await expect(page.getByRole('heading', { name: 'What are you looking for?' })).toBeVisible();
       await expect(page.locator('.mpl-category-card')).toHaveCount(categories.length);
@@ -58,7 +58,7 @@ test.describe('Property Lens production flows', () => {
       for (const category of categories) {
         const count = matching(leads, city, category).length;
         const chooser = page.locator('[data-category="' + category + '"]');
-        await expect(chooser).toContainText(count + ' active');
+        await expect(chooser).toContainText(count + ' listed');
         if (!count) {
           await expect(chooser).toBeDisabled();
           continue;
@@ -187,6 +187,28 @@ test.describe('Property Lens production flows', () => {
     await page.locator('#budgetFilter').selectOption('30');
     await expect(page.locator('#propertyGrid .property-card')).toHaveCount(matching(leads, 'Palakollu', 'all', 30).length);
     await page.screenshot({ path: 'visual-desktop-palakollu.png', fullPage: false });
+  });
+
+  test('desktop: visited state survives filtering and malformed saved storage', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.addInitScript(() => localStorage.setItem('ap-shortlist', '{"unexpected":true}'));
+    await page.goto('/');
+    const leads = await inventory(page);
+    test.skip(!leads.length, 'No leads to mark visited');
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
+    const firstId = leads.slice().sort((x, y) => y.score - x.score)[0].id;
+    await page.locator('#propertyGrid [data-visited]').first().click();
+    await page.locator('.nav-item[data-nav="visited"]').click();
+    await expect(page.locator('#resultsTitle')).toHaveText('Visited properties');
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(1);
+    await page.locator('#budgetFilter').selectOption('20');
+    await expect(page.locator('#resultsTitle')).toHaveText('Visited properties');
+    const visited = leads.find(p => p.id === firstId);
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(visited.price <= 20 ? 1 : 0);
+    await page.locator('#budgetFilter').selectOption('50');
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(1);
+    await page.locator('.nav-item[data-nav="dashboard"]').click();
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
   });
 
   test('desktop: crossing the responsive breakpoint keeps both navigation systems functional', async ({ page }, testInfo) => {

@@ -117,7 +117,7 @@
               var m = markets[city] || {};
               return '<button type="button" class="mpl-city" data-city="' + esc(city) + '">' +
                 '<div class="mpl-city-icon" aria-hidden="true">' + iconForCity(city) + '</div>' +
-                '<b>' + countFor(city) + ' active</b>' +
+                '<b>' + countFor(city) + ' listed</b>' +
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
                 '<small>' + countFor(city,'Flats') + ' flats · ' + countFor(city,'Independent Houses') + ' houses · ' + countFor(city,'Plots') + ' plots</small>' +
@@ -155,7 +155,7 @@
               var count = countFor(city,c.key);
               return '<button type="button" class="mpl-category-card" data-category="' + esc(c.key) + '"' + (count ? '' : ' disabled') + '>' +
                 '<div class="mpl-category-icon" aria-hidden="true">' + c.icon + '</div>' +
-                '<div class="mpl-category-copy"><strong>' + esc(c.label) + '</strong><span>' + esc(c.note) + '</span><small>' + count + ' active ' + (count === 1 ? 'lead' : 'leads') + '</small></div>' +
+                '<div class="mpl-category-copy"><strong>' + esc(c.label) + '</strong><span>' + esc(c.note) + '</span><small>' + count + ' listed ' + (count === 1 ? 'lead' : 'leads') + '</small></div>' +
                 '<div class="mpl-category-arrow" aria-hidden="true">›</div>' +
               '</button>';
             }).join('') +
@@ -230,7 +230,7 @@
     var categoryLabel = state.category && state.category !== 'all' ? state.category : 'All properties';
     var title = savedMode ? 'Saved properties' : (state.city === 'all' ? 'All locations' : state.city);
     var subtitle = savedMode ? 'Your shortlist' : categoryLabel;
-    var heading = list.length + ' active ' + (list.length === 1 ? 'property' : 'properties');
+    var heading = list.length + ' listed ' + (list.length === 1 ? 'property' : 'properties');
 
     root.innerHTML =
       '<section class="mpl-results">' +
@@ -338,7 +338,7 @@
   function updateResultCards() {
     var list = filtered();
     var heading = root.querySelector('.mpl-result-head h2');
-    if (heading) heading.textContent = list.length + ' active ' + (list.length === 1 ? 'property' : 'properties');
+    if (heading) heading.textContent = list.length + ' listed ' + (list.length === 1 ? 'property' : 'properties');
     var cards = root.querySelector('.mpl-cards');
     if (cards) cards.innerHTML = list.length ? list.map(card).join('') : '<div class="mpl-empty"><strong>No matching properties</strong><span>Try another filter or category.</span></div>';
     bindPropertyCards();

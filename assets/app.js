@@ -11,8 +11,9 @@
       return fallback;
     }
   };
-  const shortlist = new Set(safeRead('ap-shortlist', []));
-  const visited = new Set(safeRead('ap-visited', []));
+  const safeArray = key => { const value = safeRead(key, []); return Array.isArray(value) ? value : []; };
+  const shortlist = new Set(safeArray('ap-shortlist'));
+  const visited = new Set(safeArray('ap-visited'));
   const compare = new Set();
   const notes = safeRead('ap-notes', {});
 
@@ -89,6 +90,7 @@
       if(state.view==='gated'&&p.gated!=='yes') return false;
       if(state.view==='houses'&&p.type!=='Independent House') return false;
       if(state.view==='shortlisted'&&!shortlist.has(p.id)) return false;
+      if(state.view==='visited'&&!visited.has(p.id)) return false;
       if(q&&!`${p.name} ${p.locality} ${p.city} ${p.source} ${p.poster||''} ${p.deal}`.toLowerCase().includes(q)) return false;
       return true;
     });
@@ -100,7 +102,7 @@
   function card(p) {
     const chips = [...new Set([p.gated==='yes'?'Gated community':p.gated==='partial'?'Community / verify':'Land ownership focus',...(p.highlights||[]).slice(0,2)])].slice(0,3);
     return `<article class="property-card">
-      <div class="card-hero ${heroClass(p)}"><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><span class="hero-icon">${icon(p)}</span><button type="button" class="heart-btn ${shortlist.has(p.id)?'active':''}" data-shortlist="${p.id}" aria-label="Toggle shortlist">${shortlist.has(p.id)?'♥':'♡'}</button></div>
+      <div class="card-hero ${heroClass(p)}"><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><span class="hero-icon">${icon(p)}</span><button type="button" class="heart-btn ${shortlist.has(p.id)?'active':''}" data-shortlist="${p.id}" aria-label="Toggle shortlist" aria-pressed="${shortlist.has(p.id)?'true':'false'}">${shortlist.has(p.id)?'♥':'♡'}</button></div>
       <div class="card-body">
         <div class="price-row"><span class="price">${priceText(p.price)}</span><span class="negotiation">Target ${esc(p.target)}</span></div>
         <h3>${esc(p.name)}</h3><div class="location">⌖ ${esc(p.locality)}, ${esc(p.city)}</div>
@@ -124,8 +126,8 @@
     const list=getFiltered();
     $('propertyGrid').innerHTML=list.map(card).join('');
     $('emptyState').hidden=list.length!==0;
-    $('resultsMeta').textContent=`${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} public leads under ₹50L · confirm availability`;
-    $('resultsTitle').textContent=state.city==='all'?'Property leads':`${state.city} property leads`;
+    $('resultsMeta').textContent=state.view==='visited' ? `${list.length} visited propert${list.length===1?'y':'ies'}` : `${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} public leads under ₹50L · confirm availability`;
+    $('resultsTitle').textContent=state.view==='visited' ? 'Visited properties' : state.view==='shortlisted' ? 'Saved properties' : state.city==='all' ? 'Property leads' : `${state.city} property leads`;
     bindCards(); updateCounts();
   }
 
@@ -160,7 +162,7 @@
 
   document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-    const n=b.dataset.nav; if(n==='compare')openCompare(); else if(n==='shortlist'){state.view='shortlisted';document.querySelector('[data-view="shortlisted"]').click();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='visited'){state.view='all';$('searchInput').value='';const ids=[...visited];$('propertyGrid').innerHTML=properties.filter(p=>ids.includes(p.id)).sort((a,b)=>b.score-a.score).map(card).join('');$('resultsTitle').textContent='Visited properties';$('resultsMeta').textContent=`${ids.length} marked visited`;bindCards();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='checklist')$('checklistSection').scrollIntoView({behavior:'smooth'}); else {state.view='all';render();window.scrollTo({top:0,behavior:'smooth'});}
+    const n=b.dataset.nav; if(n==='compare')openCompare(); else if(n==='shortlist'){state.view='shortlisted';document.querySelector('[data-view="shortlisted"]').click();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='visited'){state.view='visited';state.city='all';$('cityFilter').value='all';$('typeFilter').value='all';$('budgetFilter').value='50';$('ageFilter').value='all';$('gatedFilter').value='all';$('dealFilter').value='all';$('sortSelect').value='recommended';$('searchInput').value='';document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-pressed','false');});renderCities();render();window.scrollTo({top:300,behavior:'smooth'});} else if(n==='checklist')$('checklistSection').scrollIntoView({behavior:'smooth'}); else {document.querySelector('[data-view="all"]').click();window.scrollTo({top:0,behavior:'smooth'});}
   }));
   $('compareBtn').onclick=openCompare; $('shortlistBtn').onclick=()=>document.querySelector('[data-view="shortlisted"]').click();
   [$('detailsDialog'),$('compareDialog')].forEach(d=>{

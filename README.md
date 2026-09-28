@@ -4,7 +4,7 @@ A static personal property-research dashboard for **Vizag, Tanuku, Palakollu, Bh
 
 ## What is included
 
-- Active buyer-facing property leads with confirmed asking prices strictly below ₹50 lakh
+- Public buyer-facing property leads with listed asking prices strictly below ₹50 lakh
 - Five locations × three categories: Flats, Independent Houses (including villas) and Plots
 - Location → property type → listings on mobile, with selectable budgets (₹20L, ₹25L, ₹30L, ₹35L, ₹40L, ₹45L or all under ₹50L)
 - Market-rate references, asking-rate comparison and negotiation targets
@@ -16,7 +16,7 @@ A static personal property-research dashboard for **Vizag, Tanuku, Palakollu, Bh
 - GitHub Pages deployment workflow
 - No runtime framework or backend; development tests use Node.js and Playwright
 
-## Active-listing policy
+## Main-listing policy
 
 Only leads with a published asking price **strictly below ₹50 lakh** appear in active results. The selected price ceiling only filters what a visitor sees; it never limits the hourly discovery search. Listings priced at ₹50L or more and records without a confirmed asking price are excluded from active counts and retained in `data/review-queue.json`. An online listing remaining visible does not guarantee that the property is unsold. Instagram Reels are the first discovery priority; newly discovered posts need current availability evidence before they enter active results. The CI pipeline runs `scripts/validate-data.cjs` to enforce the price cap before deployment.
 
