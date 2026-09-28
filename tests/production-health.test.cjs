@@ -23,6 +23,9 @@ test('freshness is assessed per city without confusing a source check with selle
 });
 
 test('future, malformed and missing source-check dates are rejected', () => {
+  const indiaBoundary = assessFreshness([{ id:'ist', city:'Vizag', verifiedOn:'2026-09-29' }],
+    new Date('2026-09-28T19:30:00Z'));
+  assert.equal(indiaBoundary.fresh, 1);
   assert.throws(() => assessFreshness([{ id:'x', city:'Vizag', verifiedOn:'2026-10-01' }],
     new Date('2026-09-28T00:00:00Z')), /Future/);
   assert.throws(() => assessFreshness([{ id:'x', city:'Vizag', verifiedOn:'2026-02-30' }],
