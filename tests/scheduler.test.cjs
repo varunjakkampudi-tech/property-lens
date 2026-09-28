@@ -1,0 +1,52 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { deduplicate, validateRecord, fetchJson, run, publicHttpsUrl } = require('../scripts/discovery.cjs');
+const { buildProposal } = require('../scripts/publish-data.cjs');
+
+const record = { id:'new-1', city:'Tanuku', category:'Flats', type:'Flat', name:'Evidence flat', locality:'Center', price:32, size:1000, sizeUnit:'sq.ft', mapUrl:'https://www.google.com/maps/search/?api=1&query=Tanuku', url:'https://example.com/listing/1', linkType:'Direct listing', verifiedOn:'2026-09-28', availabilityStatus:'publicly_listed_unconfirmed', status:'Public listing; availability must be confirmed', ageGroup:'new', gated:'no', source:'Approved feed', platform:'Approved feed', poster:'Public poster', lastSeen:'Checked Sep 28, 2026', score:75, highlights:['Evidence-backed'], notes:'Reconfirm before visiting.' };
+
+test('discovery accepts only public, under-budget, explicitly classified records', () => {
+  assert.equal(validateRecord(record).id, 'new-1');
+  assert.throws(() => validateRecord({ ...record, price: 50 }), /below/);
+  assert.throws(() => validateRecord({ ...record, url: 'http://localhost/x' }), /public HTTPS/);
+  assert.throws(() => validateRecord({ ...record, linkType: 'Unverified' }), /classification/);
+  assert.throws(() => validateRecord({ ...record, category: 'Plots' }), /category/);
+  assert.throws(() => validateRecord({ ...record, score: 101 }), /score/);
+  assert.throws(() => publicHttpsUrl('https://[::1]/feed', 'feed URL'), /public HTTPS/);
+});
+
+test('deduplication preserves existing identity and quarantines invalid input', () => {
+  const result = deduplicate([record, { ...record, id:'new-2', url:'https://example.com/listing/2', price:0 }], [record]);
+  assert.deepEqual(result.accepted, []);
+  assert.equal(result.rejected.length, 2);
+  assert.match(result.rejected[0].reason, /duplicate/);
+});
+
+test('feed retries bounded transient failures and succeeds', async () => {
+  let calls = 0;
+  const payload = await fetchJson('https://feed.example.test/data', { attempts:3, fetcher: async () => {
+    calls++;
+    if (calls < 3) return { status:503, ok:false };
+    return { status:200, ok:true, json: async () => ({ records:[record] }) };
+  }});
+  assert.equal(calls, 3); assert.equal(payload.records.length, 1);
+});
+
+test('missing approved feed is an explicit no-op with a persistent run record', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'property-lens-run-'));
+  const output = path.join(dir, 'run.json');
+  const result = await run({ output });
+  assert.equal(result.status, 'no_feed');
+  assert.equal(JSON.parse(fs.readFileSync(output)).feedConfigured, false);
+  fs.rmSync(dir, { recursive:true, force:true });
+});
+
+test('publisher does not report a change for duplicate or empty input', () => {
+  const current = { PROPERTY_DATA:[record], MARKET_DATA:{}, SOURCE_CONTACTS:[] };
+  const result = buildProposal({ schemaVersion:1, accepted:[] }, current);
+  assert.equal(result.changed, false);
+});

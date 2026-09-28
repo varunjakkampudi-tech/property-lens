@@ -2,7 +2,10 @@ const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 30000,
+  // The data-driven city/category sweep covers 5 cities × 4 states and can
+  // legitimately exceed 30s on a cold Windows/CI browser; assertions keep
+  // their normal 7s polling timeout.
+  timeout: 60000,
   expect: { timeout: 7000 },
   fullyParallel: false,
   retries: 1,
