@@ -97,13 +97,13 @@ async function main() {
   console.log(JSON.stringify(summary, null, 2));
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-      '## Property Lens production health\\n\\n' +
-      '- Exact live commit: \\x60' + live.sha + '\\x60\\n' +
-      '- Public assets checked: ' + live.assetsChecked + '\\n' +
-      '- Recently source-checked leads: ' + freshness.fresh + '/' + freshness.total + '\\n' +
+      '## Property Lens production health\n\n' +
+      '- Exact live commit: \x60' + live.sha + '\x60\n' +
+      '- Public assets checked: ' + live.assetsChecked + '\n' +
+      '- Recently source-checked leads: ' + freshness.fresh + '/' + freshness.total + '\n' +
       '- Cities without a source check in the past ' + MAX_SOURCE_AGE_DAYS + ' days: ' +
-      (freshness.staleCities.join(', ') || 'None') + '\\n\\n' +
-      'Source checks do not establish seller availability.\\n');
+      (freshness.staleCities.join(', ') || 'None') + '\n\n' +
+      'Source checks do not establish seller availability.\n');
   }
   if (freshness.staleCities.length) {
     throw Error('No recently source-checked leads in: ' + freshness.staleCities.join(', '));
