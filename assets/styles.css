@@ -318,3 +318,5 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
   .mpl-chooser-body{padding-left:12px;padding-right:12px}.mpl-city-grid{gap:10px}.mpl-city{padding:13px;min-height:132px}.mpl-thumb{width:84px;height:84px;flex-basis:84px}.mpl-property-top{gap:10px}.mpl-price{font-size:19px}.mpl-actions{grid-template-columns:1.25fr .95fr 42px}
 }
 @media(min-width:851px){.mpl-app{display:none!important}}
+
+@media(max-width:850px){.mpl-city small{color:#64748b}.mpl-arrow{color:#64748b}}
