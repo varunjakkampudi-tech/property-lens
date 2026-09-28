@@ -164,5 +164,27 @@
         "notes": "Above target budget, but current and useful as a plot-market benchmark."
       }
     }
+  ],
+  "candidatesNeedingSellerConfirmation": [
+    {
+      "reason": "conflicting_plot_area",
+      "city": "Eluru",
+      "category": "Plots",
+      "platform": "OLX",
+      "name": "Venkatapuram 97 sq.yd plot",
+      "priceLakh": 18,
+      "url": "https://www.olx.in/item/lands-plots-c1729-for-sale-875-sq-yd-in-venkatapuram-eluru-iid-1855265936",
+      "evidence": "Ad title/description say 97 sq.yd; structured listing field says 875 sq.yd. Do not surface until the actual plot area is confirmed."
+    },
+    {
+      "reason": "implausible_price_or_area",
+      "city": "Eluru",
+      "category": "Independent Houses",
+      "platform": "OLX",
+      "name": "Satrampadu 2BHK independent house",
+      "priceLakh": 0.35,
+      "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-independent-builder-floors-4100-sq-ft-in-satrampadu-eluru-iid-1855575174",
+      "evidence": "Displayed ₹35,000 for a house, with inconsistent built-up/carpet sizes. Verify whether the ad is genuine and the actual full-sale asking price."
+    }
   ]
 }

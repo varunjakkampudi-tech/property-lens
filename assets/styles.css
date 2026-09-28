@@ -357,3 +357,5 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
   .mpl-city:last-child:nth-child(odd) .mpl-arrow{right:17px;bottom:35px}
 }
 @media(max-width:380px){.mpl-city:last-child:nth-child(odd){padding-left:72px}.mpl-city:last-child:nth-child(odd) .mpl-city-icon{left:12px}}
+
+@media(max-width:850px){.mpl-submit-lead{display:block;padding:13px 12px;text-align:center;border-radius:12px;margin-top:14px;border:1px solid #b9d2ff;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700;text-decoration:none}.mpl-submit-lead:focus-visible{outline:3px solid #2563eb;outline-offset:2px}}

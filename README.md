@@ -47,3 +47,7 @@ The app indexes public property advertisements; a visible post is **not confirma
 ## Automated refresh
 
 An hourly ChatGPT task prioritizes public Instagram Reels and YouTube Shorts, followed by property portals, across all five locations and three categories. It updates the GitHub repository only for supported material changes, runs CI and deploys on success. Personalized/private Instagram feeds and restricted platforms cannot be fully searched without permitted access; the task cannot guarantee every market listing.
+
+## Submit missed Reels and report sold listings
+
+Public search does not have access to each buyer's personalized Instagram feed. Submit a **public Instagram Reel / YouTube Short / portal URL** or flag a listing as sold using [the lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). The hourly review can use your exact links to find matching properties; all submissions are review-needed until price and availability are corroborated. Do not submit private individuals' phone numbers.

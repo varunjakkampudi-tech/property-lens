@@ -1,0 +1,62 @@
+name: Share a property lead or report an outdated listing
+description: Submit an Instagram Reel, YouTube Short or public property link for review, or flag a sold or inaccurate lead.
+title: "[Lead review] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! Share publicly available property links only. Do not post private phone numbers or personal documents. A post remaining online does not prove the property is unsold.
+  - type: dropdown
+    id: action
+    attributes:
+      label: What should we review?
+      options:
+        - New property lead
+        - Instagram Reel or YouTube Short
+        - Sold or closed property
+        - Incorrect price or details
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Exact public post or listing URL
+      placeholder: https://www.instagram.com/reel/...
+    validations:
+      required: true
+  - type: dropdown
+    id: city
+    attributes:
+      label: Location
+      options:
+        - Vizag
+        - Tanuku
+        - Palakollu
+        - Bhimavaram
+        - Eluru
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Property type
+      options:
+        - Flat
+        - Independent house or villa
+        - Residential plot
+        - Unsure
+    validations:
+      required: true
+  - type: input
+    id: price
+    attributes:
+      label: Asking price (if stated)
+      placeholder: e.g. ₹34 lakh; only properties below ₹50 lakh qualify
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public details and availability evidence
+      description: Locality, area, poster/business handle, published date and any explicit availability or sold statement.
+      placeholder: Please include only public listing details, without private phone numbers or documents.
+    validations:
+      required: true

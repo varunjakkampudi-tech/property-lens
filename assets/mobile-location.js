@@ -116,7 +116,8 @@
               '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-trust"><span>✓ Listed below ₹50L</span><span>✓ Exact source links</span><span>✓ Maps & poster info</span></div>' +
+          '<div class="mpl-trust"><span>✓ Listed below ₹50L</span><span>✓ Source links</span><span>✓ Maps & poster info</span></div>' +
+          '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ↗</a>' +
         '</main>' +
       '</section>';
     bind();
