@@ -96,6 +96,9 @@ test('publisher places safe rejected records in the review queue', () => {
 
 test('scheduled publisher enables protected auto-merge for data-only PRs', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'scheduled-discovery.yml'), 'utf8');
+  assert.match(workflow, /^name: Approved-feed discovery publisher/m);
+  assert.match(workflow, /on:\n  workflow_dispatch:/);
+  assert.doesNotMatch(workflow, /cron:/);
   assert.match(workflow, /- name: Checkout default branch\n        uses: actions\/checkout@v7/);
   assert.match(workflow, /timeout-minutes: 15/);
   assert.match(workflow, /concurrency:\n  group: property-lens-scheduled-discovery/);

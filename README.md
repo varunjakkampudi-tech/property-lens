@@ -88,7 +88,7 @@ tests/
   quality.yml           Pull-request checks
   pages.yml             Tested GitHub Pages deployment and live verification
   production-health.yml Independent daily live-site and source-freshness checks
-  scheduled-discovery.yml Hourly approved-feed discovery and data-only PR publisher
+  scheduled-discovery.yml Manual approved-feed discovery and data-only PR publisher
 ```
 
 ## Two-hour discovery and code freeze
@@ -109,7 +109,7 @@ Submit a public Reel, Short, listing URL or sold-listing report through the [lea
 
 ## Repository-native scheduler
 
-The active publishing path is the two-hour ChatGPT task described above. `.github/workflows/scheduled-discovery.yml` is a separate, inactive Option B integration boundary: it runs hourly or manually only when an owner-approved HTTPS JSON feed is configured. It uses a non-overlapping concurrency group, bounded retries and response limits, full validation/deduplication, and 90-day execution artifacts. Without a feed, it is an explicit successful no-op and must not be described as an operational source.
+The active publishing path is the two-hour ChatGPT task described above. `.github/workflows/scheduled-discovery.yml` is a separate, inactive manual-only Option B integration boundary: it runs only when explicitly dispatched and an owner-approved HTTPS JSON feed is configured. It uses a non-overlapping concurrency group, bounded retries and response limits, full validation/deduplication, and 90-day execution artifacts. Without a feed, it is an explicit successful no-op and must not be described as an operational source.
 
 If Option B is activated later, the feed must be an owner-approved JSON endpoint returning either an array or `{ "records": [] }` of records matching the complete published data contract. Configure `PROPERTY_DISCOVERY_FEED_URL`, optional `PROPERTY_DISCOVERY_FEED_TOKEN`, and `PROPERTY_PUBLISHER_TOKEN` as GitHub Actions secrets. `PROPERTY_PUBLISHER_TOKEN` must be narrowly scoped, and credentials must never appear in source or logs. Do not configure a competing publisher without documenting which path is authoritative.
 
