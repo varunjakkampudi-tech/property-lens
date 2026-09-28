@@ -2458,6 +2458,44 @@ window.PROPERTY_DATA = [
     "age": "Ready to move",
     "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-flats-apartments-1142-sq-ft-in-komadavole-eluru-iid-1855906371",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=Komadavole%20Eluru"
+  },
+  {
+    "city": "Bhimavaram",
+    "verifiedOn": "2026-09-29",
+    "status": "Public listing; availability must be confirmed",
+    "availabilityStatus": "publicly_listed_unconfirmed",
+    "ageGroup": "resale",
+    "gated": "partial",
+    "market": "Bhimavaram flats",
+    "askingRate": "₹2.92K/sq.ft",
+    "target": "₹32–35L",
+    "highlights": [
+      "1200 sq.ft flat",
+      "Ready to move",
+      "Car parking stated"
+    ],
+    "notes": "Direct OLX listing checked 2026-09-29. Owner-posted record states 2 bedrooms, 2 bathrooms, 1200 sq.ft super built-up and carpet area, ready-to-move status and car parking; confirm title, measurements and current availability before any payment.",
+    "platform": "OLX",
+    "source": "OLX",
+    "poster": "Kumar",
+    "posterType": "Owner (OLX)",
+    "lastSeen": "Public OLX listing checked Sep 29, 2026",
+    "publicPhone": null,
+    "phoneLabel": null,
+    "linkType": "Direct listing",
+    "score": 74,
+    "id": "bhv-olx-flat-1842997482",
+    "name": "Pedamiram 2BHK flat with car parking",
+    "locality": "Pedamiram",
+    "price": 35,
+    "size": 1200,
+    "sizeUnit": "sq.ft",
+    "bhk": "2BHK",
+    "type": "Flat",
+    "category": "Flats",
+    "age": "Ready to move; source states ready",
+    "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-apartments-1200-sq-ft-in-pedamiram-bhimavaram-iid-1842997482",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Pedamiram%20Bhimavaram"
   }
 ];
 
