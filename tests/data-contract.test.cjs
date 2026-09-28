@@ -56,6 +56,11 @@ test('unrecognized link types, age categories and private URLs are rejected', ()
   const url = validate(baseline.replace(/"url": "https:\/\/[^"]+"/, '"url": "https://localhost/private"'));
   assert.notEqual(url.status, 0);
   assert.match(url.stderr, /Only public HTTPS/);
+  for (const unsafe of ['https://[::1]/private', 'https://service.localhost/private', 'https://service.internal/private']) {
+    const result = validate(baseline.replace(/"url": "https:\/\/[^\"]+"/, '"url": "' + unsafe + '"'));
+    assert.notEqual(result.status, 0, unsafe);
+    assert.match(result.stderr, /Only public HTTPS/, unsafe);
+  }
 });
 
 test('review queue cannot claim a future review date', () => {

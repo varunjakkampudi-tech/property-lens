@@ -117,7 +117,7 @@
           '<div><span>Posted by</span><strong>' + esc(p.poster) + '</strong></div>' +
           '<div><span>Poster type</span><strong>' + esc(p.posterType) + '</strong></div>' +
           '<div><span>Last seen</span><strong>' + esc(p.lastSeen) + '</strong></div>' +
-          '<div><span>Verification</span><strong>' + esc(p.verifiedOn) + '</strong></div>' +
+          '<div><span>Source checked</span><strong>' + esc(p.verifiedOn) + '</strong></div>' +
           '<div><span>Link type</span><strong>' + esc(p.linkType || "Direct listing") + '</strong></div>' +
         '</div>' +
         (p.publicPhone ? '<div class="public-phone"><span>Public business contact</span><strong>' + esc(p.publicPhone) + '</strong><small>' + esc(p.phoneLabel || "") + '</small></div>' : '') +
