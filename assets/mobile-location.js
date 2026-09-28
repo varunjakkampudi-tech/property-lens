@@ -26,8 +26,7 @@
   var price = core.formatPrice;
 
   function iconForCity(city) {
-    var names = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
-    return ico(names[city] || 'map-pin');
+    return ico('map-pin');
   }
 
   function categoryFor(p) { return p.category; }
@@ -193,6 +192,7 @@
           '<div class="mpl-facts">' + facts.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
         '</div>' +
       '</div>' +
+      core.marketValueMarkup(p, properties) +
       '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Source date unavailable') + '</div>' +
       '<div class="mpl-actions">' +
         '<button type="button" class="mpl-details" data-details="' + esc(p.id) + '">View details</button>' +
@@ -268,6 +268,7 @@
           '<div><span>Posted by</span><strong>' + esc(p.poster || 'Source listing') + '</strong></div>' +
           '<div><span>Verified</span><strong>' + esc(p.verifiedOn || '') + '</strong></div>' +
         '</div>' +
+        core.marketValueMarkup(p, properties) +
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
         '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
