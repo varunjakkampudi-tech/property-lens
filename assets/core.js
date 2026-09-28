@@ -12,7 +12,7 @@
     return '₹' + amount.toFixed(amount % 1 ? 1 : 0) + (unit || 'L');
   }
   function isEligibleLead(lead) {
-    return Boolean(lead && typeof lead.price === 'number' && Number.isFinite(lead.price) && lead.price >= 0 && lead.price < 50);
+    return Boolean(lead && typeof lead.price === 'number' && Number.isFinite(lead.price) && lead.price > 0 && lead.price < 50);
   }
   function readStorage(key, fallback) {
     try {
