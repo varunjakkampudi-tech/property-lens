@@ -72,7 +72,7 @@ docs/
   diagrams/             Editable SVG architecture and lifecycle images
   ARCHITECTURE.md       Boundaries, Mermaid diagrams and release contract
   DATA-DICTIONARY.md    Listing schema and status semantics
-  LEAD-OPERATIONS.md    Hourly discovery and data-only release runbook
+  LEAD-OPERATIONS.md    Two-hour discovery and data-only release runbook
 scripts/
   serve.cjs             Allowlisted local development server
   validate-data.cjs     Release-blocking integrity validation
@@ -90,11 +90,11 @@ tests/
   scheduled-discovery.yml Hourly approved-feed discovery and data-only PR publisher
 ```
 
-## Hourly discovery and code freeze
+## Two-hour discovery and code freeze
 
-An existing **hourly ChatGPT task** prioritizes publicly accessible Instagram Reels, then YouTube Shorts, local agents/builders and permitted property portals for all five cities and three categories. Discovery and repository writes depend on the task's available tools and permissions; the static website does **not** scrape Instagram or autonomously run background jobs. Private/personalized feeds are not accessible through ordinary public search.
+The active **ChatGPT task runs every two hours**. It prioritizes publicly accessible Instagram Reels, YouTube Shorts, local agents/builders and permitted property portals for all five cities and three categories. Discovery and repository writes depend on the task's available tools and permissions; the static website does **not** scrape Instagram or autonomously run background jobs. Private/personalized feeds are not accessible through ordinary public search.
 
-**After the final quality release, hourly changes are data-only:** `data/properties.js` and `data/review-queue.json`. No scheduled UI, architecture, dependency or documentation rewrites. A substantive code/security regression requires a separately reviewed change. Every data commit must pass syntax, integrity, unit, mobile/desktop E2E, accessibility, deployment and exact-commit live smoke checks. A pending or failed run is not a published update.
+**Scheduled changes are data-only:** `data/properties.js` and `data/review-queue.json`. No scheduled UI, architecture, dependency or documentation rewrites. A substantive code/security regression requires a separately reviewed change. Every data commit must pass syntax, integrity, unit, mobile/desktop E2E, accessibility, deployment and exact-commit live smoke checks. A pending or failed run is not a published update.
 
 Submit a public Reel, Short, listing URL or sold-listing report through the [lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). Do not submit private phone numbers or unverified claims.
 
@@ -103,14 +103,14 @@ Submit a public Reel, Short, listing URL or sold-listing report through the [lea
 - Every published application or data commit must pass source syntax, data integrity, unit tests, responsive browser journeys, accessibility, Pages deployment and exact-SHA live verification.
 - The independent daily GitHub Actions health workflow checks the live SHA and six public assets, then reports source-check freshness by city. It fails when a city with published leads has no source check within 14 days. A source check is **not** seller-confirmed availability.
 - Public asking-price comparisons are deliberately limited by comparable evidence. The UI must show **Not available** when a reliable estimate cannot be derived; it must never manufacture a value.
-- Unattended lead publication requires a publisher with explicit GitHub write authorization. A ChatGPT scheduled task can be blocked by its platform's write-safety gate. The existing task must preserve discovered evidence and report the blocker, not claim that a research run deployed new leads.
+- Unattended lead publication uses the active ChatGPT task with explicit repository write authorization. It creates data-only PRs, enables squash auto-merge, and relies on the required `quality` check before Pages deployment. If a scheduled run is blocked by tool permissions, it must preserve discovered evidence and report the blocker, not claim deployment.
 - GitHub repository branch protections, required PR checks and task notifications are account settings. Confirm these in GitHub and ChatGPT Tasks; the repository cannot silently enable them.
 
 ## Repository-native scheduler
 
-`.github/workflows/scheduled-discovery.yml` is the authorized replacement boundary for unattended discovery. It runs hourly or manually, uses a non-overlapping concurrency group, fetches only the HTTPS feed configured in `PROPERTY_DISCOVERY_FEED_URL`, retries bounded transient failures, validates and deduplicates records, and stores a 90-day execution artifact. A missing feed is an explicit successful no-op. A material change is written only to a data-only branch after the full quality suite passes, then opened as a pull request; it is never auto-merged or deployed without normal branch protection and the existing Pages workflow.
+The active publishing path is the two-hour ChatGPT task described above. `.github/workflows/scheduled-discovery.yml` is a separate, inactive Option B integration boundary: it runs hourly or manually only when an owner-approved HTTPS JSON feed is configured. It uses a non-overlapping concurrency group, bounded retries and response limits, full validation/deduplication, and 90-day execution artifacts. Without a feed, it is an explicit successful no-op and must not be described as an operational source.
 
-The feed must be an owner-approved JSON endpoint returning either an array or `{ "records": [] }` of records matching the complete published data contract. Configure `PROPERTY_DISCOVERY_FEED_URL`, optional `PROPERTY_DISCOVERY_FEED_TOKEN`, and `PROPERTY_PUBLISHER_TOKEN` as GitHub Actions secrets. `PROPERTY_PUBLISHER_TOKEN` must be a narrowly scoped GitHub App/PAT credential because PRs created with the default `GITHUB_TOKEN` do not trigger the normal PR workflow. Do not place credentials in source or logs. Instagram, YouTube or portal discovery is not operational until an authorized feed integration is configured and produces evidence-backed records.
+If Option B is activated later, the feed must be an owner-approved JSON endpoint returning either an array or `{ "records": [] }` of records matching the complete published data contract. Configure `PROPERTY_DISCOVERY_FEED_URL`, optional `PROPERTY_DISCOVERY_FEED_TOKEN`, and `PROPERTY_PUBLISHER_TOKEN` as GitHub Actions secrets. `PROPERTY_PUBLISHER_TOKEN` must be narrowly scoped, and credentials must never appear in source or logs. Do not configure a competing publisher without documenting which path is authoritative.
 
 ## Further documentation
 
