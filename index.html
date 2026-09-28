@@ -122,12 +122,12 @@
         </section>
 
         <section class="toolbar">
-          <div class="tabs" role="tablist">
-            <button type="button" class="tab active" data-view="all" role="tab" aria-selected="true">All</button>
-            <button type="button" class="tab" data-view="recommended" role="tab" aria-selected="false">Best</button>
-            <button type="button" class="tab" data-view="houses" role="tab" aria-selected="false">Houses</button>
-            <button type="button" class="tab" data-view="gated" role="tab" aria-selected="false">Gated</button>
-            <button type="button" class="tab" data-view="shortlisted" role="tab" aria-selected="false">Saved</button>
+          <div class="tabs" role="group" aria-label="Quick property filters">
+            <button type="button" class="tab active" data-view="all" aria-pressed="true">All</button>
+            <button type="button" class="tab" data-view="recommended" aria-pressed="false">Best</button>
+            <button type="button" class="tab" data-view="houses" aria-pressed="false">Houses</button>
+            <button type="button" class="tab" data-view="gated" aria-pressed="false">Gated</button>
+            <button type="button" class="tab" data-view="shortlisted" aria-pressed="false">Saved</button>
           </div>
           <label class="sort-control">Sort<select id="sortSelect"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option><option value="size-desc">Largest first</option></select></label>
         </section>

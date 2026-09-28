@@ -113,10 +113,7 @@
   function decorateDetails() {
     var dialog = document.getElementById("detailsDialog");
     if (!dialog || !dialog.open || dialog.getAttribute("data-enriched-open") === "1") return;
-    var heading = dialog.querySelector("h2");
-    if (!heading) return;
-    var name = heading.textContent.trim();
-    var p = properties.find(function (x) { return x.name === name; });
+    var p = properties.find(function (x) { return x.id === dialog.dataset.propertyId; });
     if (!p) return;
 
     var grid = dialog.querySelector(".dialog-grid");
@@ -154,10 +151,11 @@
 
   var detailsDialog = document.getElementById("detailsDialog");
   if (detailsDialog) {
+    // Observe direct dialog replacements, not the nested nodes we append during enrichment.
     new MutationObserver(function () {
       detailsDialog.removeAttribute("data-enriched-open");
       window.requestAnimationFrame(decorateDetails);
-    }).observe(detailsDialog, {childList:true, subtree:true});
+    }).observe(detailsDialog, {childList:true});
     detailsDialog.addEventListener("toggle", decorateDetails);
   }
 

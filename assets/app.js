@@ -60,12 +60,12 @@
     $('resetFilters').addEventListener('click', () => {
       state.city='all'; state.view='all';
       $('cityFilter').value='all'; $('typeFilter').value='all'; $('budgetFilter').value='50'; $('ageFilter').value='all'; $('gatedFilter').value='all'; $('dealFilter').value='all'; $('sortSelect').value='recommended'; $('searchInput').value='';
-      document.querySelectorAll('.tab').forEach(t=>{ const active=t.dataset.view==='all'; t.classList.toggle('active',active); t.setAttribute('aria-selected', active ? 'true' : 'false'); }); renderCities(); render();
+      document.querySelectorAll('.tab').forEach(t=>{ const active=t.dataset.view==='all'; t.classList.toggle('active',active); t.setAttribute('aria-pressed', active ? 'true' : 'false'); }); renderCities(); render();
     });
     document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
       tab.classList.add('active');
-      tab.setAttribute('aria-selected','true');
+      tab.setAttribute('aria-pressed','true');
       state.view=tab.dataset.view;
       render();
     }));
@@ -124,7 +124,7 @@
     const list=getFiltered();
     $('propertyGrid').innerHTML=list.map(card).join('');
     $('emptyState').hidden=list.length!==0;
-    $('resultsMeta').textContent=`${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} total active verified leads`;
+    $('resultsMeta').textContent=`${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} public leads under ₹50L · confirm availability`;
     $('resultsTitle').textContent=state.city==='all'?'Property leads':`${state.city} property leads`;
     bindCards(); updateCounts();
   }
@@ -132,6 +132,7 @@
   function openDetails(id, focusNote=false) {
     const p=properties.find(x=>x.id===id); if(!p)return;
     const d=$('detailsDialog');
+    d.dataset.propertyId = p.id;
     d.innerHTML=`<div class="dialog-head"><div><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><h2>${esc(p.name)}</h2><span class="location">${esc(p.locality)}, ${esc(p.city)}</span></div><button type="button" class="close-btn" data-dialog-close aria-label="Close property details">×</button></div>
       <div class="dialog-content"><div class="dialog-grid">
         <div class="detail-box"><span>Asking price</span><strong>${priceText(p.price)}</strong></div><div class="detail-box"><span>Negotiation target</span><strong>${esc(p.target)}</strong></div>
