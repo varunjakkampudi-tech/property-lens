@@ -29,12 +29,12 @@ The source of truth is `data/properties.js` (public research leads and market me
 | `mapUrl` | HTTPS Google Maps search URL; not a verified parcel boundary |
 | `publicPhone`, `phoneLabel` | Optional deliberately advertised business/agent inquiry contact and its context |
 | `deal`, `score` | Research heuristics for display/sorting, **not** professional valuations |
-| `market`, `askingRate`, `target` | Working locality reference, advertised/calculated rate and negotiation research |
+| `market`, `askingRate`, `target` | `market` is a **reference locality**, not a property valuation; `askingRate` is a listed/calculated asking rate, and `target` is negotiation research. |
 | `highlights`, `notes` | Source-backed attributes and outstanding due-diligence questions |
 
 ### Derived comparable market estimate
 
-The UI derives an **estimated market value** at render time; it is not stored as a seller fact. `assets/core.js` selects eligible comparables with the same city, category and normalized size unit, excludes the subject property, prefers an exact locality when at least two comparables exist, and otherwise uses the city/category pool. The estimate is `median(comparable asking price ÷ size) × subject size` and requires at least two usable comparables. When evidence is insufficient, the UI says so rather than inventing a value. The percentage shown is the asking-price difference from that estimate. This is an asking-price comparison aid, **not** a professional appraisal or verified transaction value.
+The UI derives an **indicative asking-value comparison** at render time; it is not stored as a seller fact. `assets/core.js` excludes the subject and requires at least three other eligible **direct listings** with the same city, category, property type, exact measurement unit and compatible age, within ±30% of the subject's size and with public sources checked in the last 90 days. The preferred benchmark uses the same locality reference (`market`). For flats only, a clearly identified city-wide fallback requires at least five comparable listings. Independent houses are excluded because built-up area alone cannot establish combined land/building value. The estimate is `median(comparable asking price ÷ size) × subject size`; the card also shows the asking-price difference, sample size, geographic scope and latest peer source-check date. Insufficient or stale evidence displays **Not available**. The dataset only contains sub-₹50L listings, so the estimate is subject to selection bias and is **not** a professional appraisal, verified sale value or representative full-market price.
 
 `window.MARKET_DATA` supplies five-city summaries. `window.SOURCE_CONTACTS` lists deliberately published business inquiry contacts, never private numbers harvested from restricted sources.
 

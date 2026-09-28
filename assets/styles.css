@@ -115,19 +115,6 @@ button,select,input,textarea{
   color:var(--blue);
   font-weight:700
 }
-.tip-card{
-  margin-top:auto;
-  background:linear-gradient(145deg,#f1f8ff,#eef9f6);
-  padding:16px;
-  border-radius:16px;
-  font-size:12px
-}
-.tip-card ul{
-  padding-left:18px;
-  color:#40577e;
-  line-height:1.7;
-  margin-bottom:0
-}
 .main-content{
   padding:30px 30px 18px;
   max-width:1700px;
@@ -441,38 +428,6 @@ button,select,input,textarea{
 .stats span:last-child{
   border:0
 }
-.chips{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap
-}
-.chip{
-  font-size:10px;
-  padding:5px 7px;
-  border-radius:7px;
-  background:#f0f4f9;
-  color:#53627d
-}
-.chip.green{
-  background:var(--greenbg);
-  color:var(--green)
-}
-.valuation{
-  background:#f8faff;
-  border-radius:10px;
-  padding:9px;
-  font-size:10px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  color:#53627d
-}
-.valuation strong{
-  display:block;
-  color:#21375d;
-  font-size:11px;
-  margin-top:2px
-}
 .card-actions{
   display:flex;
   gap:7px;
@@ -693,9 +648,6 @@ dialog::backdrop{
   }
   .nav-item{
     white-space:nowrap
-  }
-  .tip-card{
-    display:none
   }
   .main-content{
     padding:18px 14px
@@ -957,9 +909,6 @@ dialog::backdrop{
   }
   .price{
     font-size:18px
-  }
-  .valuation{
-    grid-template-columns:1fr
   }
   .card-actions{
     gap:6px
@@ -1356,9 +1305,6 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
   color:#52627b
 }
 
-.chip.green{
-  color:#086b43
-}
 
 .negotiation{
   color:#086b43

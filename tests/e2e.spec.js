@@ -383,4 +383,52 @@ test.describe('Property Lens production flows', () => {
     }
   });
 
+  test('unsupported house valuations remain unavailable rather than invented', async ({ page }, testInfo) => {
+    await page.goto('/');
+    const leads = await inventory(page);
+    const house = leads.find(p => p.category === 'Independent Houses');
+    test.skip(!house, 'No house lead currently listed');
+    let card;
+    if (testInfo.project.name === 'desktop') {
+      card = page.locator('#propertyGrid .property-card').filter({
+        has: page.locator('[data-details="' + house.id + '"]')
+      });
+      await expect(card.locator('.market-value')).toContainText('Not available');
+      await expect(card.locator('.market-value')).toContainText('Insufficient recent comparable listings');
+    } else {
+      await chooseCategory(page, house.city, house.category);
+      card = page.locator('.mpl-property').filter({
+        has: page.locator('[data-details="' + house.id + '"]')
+      });
+      await expect(card.locator('.mpl-market-value')).toContainText('Not available');
+      await expect(card.locator('.mpl-market-value')).toContainText('Insufficient recent comparable listings');
+    }
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test('every rendered SVG icon resolves and location/visited labels use matching icons', async ({ page }, testInfo) => {
+    await page.goto('/');
+    const response = await page.request.get('/assets/icons.svg');
+    expect(response.ok()).toBeTruthy();
+    const symbols = new Set([...((await response.text()).matchAll(/<symbol id="([^"]+)"/g))].map(m => m[1]));
+    const refs = await page.locator('svg.pl-icon use').evaluateAll(nodes =>
+      nodes.map(node => node.getAttribute('href')).filter(Boolean)
+    );
+    for (const href of refs) {
+      expect(href).toMatch(new RegExp('^assets/icons[.]svg#[a-z-]+$'));
+      expect(symbols.has(href.split('#')[1])).toBeTruthy();
+    }
+    if (testInfo.project.name === 'desktop') {
+      await expect(page.locator('#allLocations use')).toHaveAttribute('href', 'assets/icons.svg#map-pin');
+      await expect(page.locator('.city-card-icon use')).toHaveCount(cities.length);
+      await expect(page.locator('#propertyGrid .property-card').first().locator('[data-visited] use'))
+        .toHaveAttribute('href', 'assets/icons.svg#check-circle');
+    } else {
+      await expect(page.locator('.mpl-city-icon use')).toHaveCount(cities.length);
+      for (const icon of await page.locator('.mpl-city-icon use').all()) {
+        await expect(icon).toHaveAttribute('href', 'assets/icons.svg#map-pin');
+      }
+    }
+  });
+
 });

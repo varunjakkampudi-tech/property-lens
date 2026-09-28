@@ -10,7 +10,6 @@
   const notes = core.readRecord('ap-notes');
   const esc = core.escapeHtml;
   const ico = core.icon;
-  const cityIcons = Object.freeze({ Vizag: 'map-pin', Tanuku: 'map-pin', Palakollu: 'map-pin', Bhimavaram: 'map-pin', Eluru: 'map-pin' });
   const categories = [
     { key: 'Flats', title: 'Flats', note: 'Apartments and communities', icon: 'building' },
     { key: 'Independent Houses', title: 'Independent Houses', note: 'Homes and villas with more privacy', icon: 'house' },
@@ -21,17 +20,18 @@
   const icon = p => ico(p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : 'building');
   const heroClass = p => p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : '';
   const dealClass = d => d === 'Strong Deal' ? 'strong' : d === 'Potential Bargain' ? 'bargain' : d === 'Good Value' ? 'good' : d === 'Fair / Negotiate' ? 'fair' : 'watch';
-  const marketEstimate = p => core.comparableMarketValue(p, properties);
+  const benchmarkById = new Map(properties.map(p => [p.id, core.comparableMarketValue(p, properties)]));
+  const marketEstimate = p => benchmarkById.get(p.id) || null;
   const marketValueText = p => {
     const estimate = marketEstimate(p);
-    return estimate ? priceText(estimate.valueLakh) : 'Not enough comparable data';
+    return estimate ? priceText(estimate.valueLakh) : 'Not available';
   };
   const marketDeltaText = p => {
     const estimate = marketEstimate(p);
-    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
-    const absolute = Math.abs(estimate.deltaPct);
-    if (absolute < 1) return 'Near comparable estimate';
-    return `${absolute.toFixed(0)}% ${estimate.deltaPct < 0 ? 'below' : 'above'} comparable estimate`;
+    if (!estimate) return 'Insufficient recent comparable listings';
+    const delta = Math.abs(estimate.deltaPct) < 1 ? 'Near comparable estimate' :
+      `${Math.abs(estimate.deltaPct).toFixed(0)}% ${estimate.deltaPct < 0 ? 'below' : 'above'} comparable asking benchmark`;
+    return `${delta} · ${estimate.sampleSize} comps (${estimate.scope}) · checked ${estimate.checkedOn}`;
   };
 
   function persist() {
@@ -93,7 +93,7 @@
     $('citySummary').innerHTML = Object.entries(markets).map(([city, m]) => {
       const cityLeads = properties.filter(p => p.city === city && core.isEligibleLead(p));
       return `<button type="button" class="city-card ${state.city === city ? 'active' : ''}" data-city-card="${esc(city)}" aria-pressed="${state.city === city}">
-        <span class="city-card-icon">${ico(cityIcons[city] || 'map-pin')}</span>
+        <span class="city-card-icon">${ico('map-pin')}</span>
         <span class="city-card-count">${cityLeads.length} listed</span>
         <strong>${esc(city)}</strong>
         <span class="city-sub">${esc(m.subtitle || 'Andhra Pradesh')}</span>
@@ -173,19 +173,17 @@
   }
 
   function card(p) {
-    const chips = [...new Set([p.gated==='yes'?'Gated community':p.gated==='partial'?'Community / verify':'Land ownership focus',...(p.highlights||[]).slice(0,2)])].slice(0,3);
     return `<article class="property-card">
       <div class="card-hero ${heroClass(p)}"><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><span class="hero-icon">${icon(p)}</span><button type="button" class="heart-btn ${shortlist.has(p.id)?'active':''}" data-shortlist="${p.id}" aria-label="Toggle shortlist" aria-pressed="${shortlist.has(p.id)?'true':'false'}">${ico('heart')}</button></div>
       <div class="card-body">
         <div class="price-row"><span class="price">${priceText(p.price)}</span><span class="negotiation">Target ${esc(p.target)}</span></div>
         <h3>${esc(p.name)}</h3><div class="location">${ico('map-pin')} ${esc(p.locality)}, ${esc(p.city)}</div>
         <div class="stats"><span>${esc(p.bhk)}</span><span>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Size verify'}</span><span>${esc(p.age)}</span></div>
-        <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
         <div class="market-value" title="Estimate from median asking rate of comparable public leads; not a professional appraisal.">
           <span>${ico('chart')} Est. market value*</span><strong>${esc(marketValueText(p))}</strong><small>${esc(marketDeltaText(p))}</small>
         </div>
         <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="${esc(core.sourceLinkLabel(p))} on ${esc(p.source)}">${esc(core.sourceLinkLabel(p))} ${ico("external")}</a></div>
-        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("location")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
+        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}">${ico("compare")}<span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited">${ico("check-circle")}<span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}">${ico("note")}<span>Notes</span></button></div>
       </div></article>`;
   }
 
