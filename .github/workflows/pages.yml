@@ -33,6 +33,7 @@ jobs:
           node --check assets/app.js
           node --check assets/enrichment.js
           node --check assets/mobile-location.js
+          node scripts/validate-data.cjs
           test -s index.html
           test -s robots.txt
           test -s sitemap.xml
