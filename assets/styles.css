@@ -167,3 +167,26 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   .mpl-poster{font-size:11px}
   .mpl-category-copy span,.mpl-category-copy small{font-size:12px}
 }
+
+/* Final layout and readability baseline for the five-city product. */
+@media(min-width:1251px){
+  .city-grid,.best-lead-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+@media(max-width:850px){
+  .mpl-saved-head,.mpl-back,.mpl-dialog-head button{min-width:44px;min-height:44px}
+  .mpl-filter-btn{min-height:44px;font-size:12px}
+  .mpl-city span,.mpl-city small{font-size:12px;line-height:1.4}
+  .mpl-city b,.mpl-trust span{font-size:11px}
+  .mpl-topcopy small,.mpl-result-head small,.mpl-result-head span{font-size:12px}
+  .mpl-bottom-nav button span{font-size:12px}
+  .mpl-actions a,.mpl-actions button{min-height:44px;font-size:12px}
+  .mpl-poster{font-size:12px;white-space:normal;overflow:visible}
+  .mpl-dialog[open]{display:flex;flex-direction:column}
+  .mpl-dialog-head{flex:0 0 auto}
+  .mpl-dialog-head small,.mpl-dialog-head p{font-size:12px}
+  .mpl-dialog-body{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+  .mpl-detail-price span,.mpl-detail-grid span{font-size:12px}
+  .mpl-detail-grid strong,.mpl-dialog-body p,.mpl-dialog-body li{font-size:13px}
+  .mpl-dialog-actions a{min-height:44px;font-size:12px;display:grid;place-items:center}
+  .mpl-dialog-compare{min-height:44px;font-size:12px}
+}
