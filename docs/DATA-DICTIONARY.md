@@ -32,6 +32,10 @@ The source of truth is `data/properties.js` (public research leads and market me
 | `market`, `askingRate`, `target` | Working locality reference, advertised/calculated rate and negotiation research |
 | `highlights`, `notes` | Source-backed attributes and outstanding due-diligence questions |
 
+### Derived comparable market estimate
+
+The UI derives an **estimated market value** at render time; it is not stored as a seller fact. `assets/core.js` selects eligible comparables with the same city, category and normalized size unit, excludes the subject property, prefers an exact locality when at least two comparables exist, and otherwise uses the city/category pool. The estimate is `median(comparable asking price ÷ size) × subject size` and requires at least two usable comparables. When evidence is insufficient, the UI says so rather than inventing a value. The percentage shown is the asking-price difference from that estimate. This is an asking-price comparison aid, **not** a professional appraisal or verified transaction value.
+
 `window.MARKET_DATA` supplies five-city summaries. `window.SOURCE_CONTACTS` lists deliberately published business inquiry contacts, never private numbers harvested from restricted sources.
 
 ## Review queue
