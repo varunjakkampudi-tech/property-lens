@@ -28,7 +28,7 @@ jobs:
       PROPOSED_REVIEW_QUEUE: artifacts/proposed-review-queue.json
     steps:
       - name: Checkout default branch
-          uses: actions/checkout@v7
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           # Do not leave the default GITHUB_TOKEN available to git push.
@@ -80,14 +80,38 @@ jobs:
           branch="automation/property-data-${GITHUB_RUN_ID}"
           git config user.name "property-lens-publisher[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch -c "$branch"
+          # Reruns reuse the same run id. Reuse that branch safely instead of
+          # failing because the first attempt already pushed it.
+          git fetch origin "$branch" 2>/dev/null || true
+          if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+            git switch -C "$branch" "origin/$branch"
+          else
+            git switch -c "$branch"
+          fi
           git add data/properties.js data/review-queue.json
           git diff --cached --quiet && { echo "No material data change after normalization."; exit 0; }
           git commit -m "data: publish evidence-backed property leads"
-          git push --set-upstream origin "$branch"
-          pr_url="$(gh pr create --base main --head "$branch" --title "data: review scheduled property discovery" --body "Automated evidence-first discovery proposal. Full release gates passed before opening this PR. Review source provenance and merge only under repository branch protection. Workflow: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")"
+          git push --set-upstream origin "$branch" --force-with-lease
+          pr_url="$(gh pr list --base main --head "$branch" --state open --json url --jq '.[0].url')"
+          if [[ -z "$pr_url" ]]; then
+            for attempt in 1 2 3; do
+              if pr_url="$(gh pr create --base main --head "$branch" --title "data: review scheduled property discovery" --body "Automated evidence-first discovery proposal. Full release gates passed before opening this PR. Review source provenance and merge only under repository branch protection. Workflow: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")"; then
+                break
+              fi
+              [[ "$attempt" -lt 3 ]] && sleep $((attempt * 5))
+            done
+          fi
+          [[ -n "$pr_url" ]] || { echo "::error::Unable to create or locate the scheduled discovery PR after retries."; exit 1; }
           echo "Created data-only PR: $pr_url"
-          gh pr merge "$pr_url" --auto --squash --delete-branch
+          merged=false
+          for attempt in 1 2 3; do
+            if gh pr merge "$pr_url" --auto --squash --delete-branch; then
+              merged=true
+              break
+            fi
+            [[ "$attempt" -lt 3 ]] && sleep $((attempt * 5))
+          done
+          [[ "$merged" == true ]] || { echo "::error::Unable to enable protected auto-merge after retries."; exit 1; }
       - name: Write execution summary
         if: always()
         shell: bash
