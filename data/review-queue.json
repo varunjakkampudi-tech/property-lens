@@ -189,6 +189,19 @@
       "priceLakh": 0.35,
       "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-2-bhk-independent-builder-floors-4100-sq-ft-in-satrampadu-eluru-iid-1855575174",
       "evidence": "Displayed ₹35,000 for a house, with inconsistent built-up/carpet sizes. Verify whether the ad is genuine and the actual full-sale asking price."
+    },
+    {
+      "reason": "implausible_price_and_results_page_only",
+      "city": "Eluru",
+      "category": "Flats",
+      "platform": "Housing.com",
+      "name": "Satrampadu 2BHK resale flat (1,500 sq.ft)",
+      "priceLakh": 4,
+      "url": "https://housing.com/in/buy/eluru/satrampadu-gid/",
+      "linkType": "Results page; exact property listing URL not verified",
+      "poster": "Ramesh Babu (owner, as displayed)",
+      "sourceCheckedOn": "2026-09-28",
+      "evidence": "Housing.com public Satrampadu results, checked 2026-09-28, display a resale 2 BHK flat attributed to Ramesh Babu, with 1,500 sq.ft built-up area and an advertised ₹4.0 lakh (~₹266/sq.ft). The linked source is a results page, not a verified direct listing. The unusually low full-sale asking price, exact property identity, and current availability require independent confirmation. Do not promote to active listings or use as a comparable."
     }
   ]
 }
