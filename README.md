@@ -16,6 +16,7 @@ A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Pa
 - Search, sorting, browser-local saved leads, visited tracking, notes and comparison (up to four).
 - Direct listing links where available; results-page links are explicitly labeled.
 - Poster/source provenance, source-check dates, maps and deliberately public business inquiry details.
+- **Estimated market value** on cards/details/compare, calculated from the median asking rate of at least two comparable public leads with the same city, property category and size unit (same locality when enough evidence exists). It is explicitly a comparison aid, not an appraisal or transaction-price claim.
 - Budget presets from ₹20L to ₹45L and an all-under-₹50L view.
 - A custom scalable roof-and-lens logo, Manrope typography, same-origin SVG icons, responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
 
@@ -23,7 +24,7 @@ A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Pa
 
 ![Property Lens system architecture](docs/diagrams/system-architecture.svg)
 
-The production site is **static HTML, CSS and JavaScript** on GitHub Pages. There is no runtime API, database, user account, server-side storage, privileged client key or client-side tracking. Shared browser primitives live in `assets/core.js`; desktop and mobile interfaces consume the same versioned listing data.
+The production site is **static HTML, CSS and JavaScript** on GitHub Pages. There is no runtime API, database, user account, server-side storage, privileged client key or client-side tracking. Shared browser primitives live in `assets/core.js`; desktop and mobile interfaces consume the same versioned listing data. Comparable market estimates are derived at render time from that dataset, so no separate opaque valuation feed is implied.
 
 ![Evidence-first lead lifecycle](docs/diagrams/lead-lifecycle.svg)
 
