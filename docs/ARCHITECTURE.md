@@ -106,6 +106,6 @@ Playwright derives counts from the current dataset rather than hard-coded invent
 
 ## 6. Post-release code freeze
 
-After the final quality release, the hourly task may change **only** `data/properties.js` and `data/review-queue.json`. Every data change still runs the complete release pipeline. Do not automatically rewrite the UI, architecture, dependencies, workflows or documentation. Critical defects and security fixes require a separate, reviewed engineering change.
+The active two-hour task may change **only** `data/properties.js` and `data/review-queue.json`. Every data change still runs the complete release pipeline. Do not automatically rewrite the UI, architecture, dependencies, workflows or documentation. Critical defects and security fixes require a separate, reviewed engineering change.
 
-The hourly ChatGPT task is distinct from GitHub Actions. Its execution and repository writes depend on the tools and permissions available at run time. It cannot see private or personalized Instagram feeds and must never claim exhaustive coverage. See [Lead operations](LEAD-OPERATIONS.md) for evidence and failure handling.
+The two-hour ChatGPT task is distinct from GitHub Actions. It is the active web-research publisher, while the feed workflow is an inactive alternative until an approved feed exists. Its execution and repository writes depend on the tools and permissions available at run time. It cannot see private or personalized Instagram feeds and must never claim exhaustive coverage. See [Lead operations](LEAD-OPERATIONS.md) for evidence and failure handling.

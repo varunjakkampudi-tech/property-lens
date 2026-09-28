@@ -1,8 +1,8 @@
-# Hourly lead operations
+# Two-hour lead operations
 
 ## Operating objective
 
-Run the existing **hourly ChatGPT discovery task** throughout the day for Vizag/Visakhapatnam, Tanuku, Palakollu, Bhimavaram and Eluru. Cover **Flats**, **Independent Houses/Villas** and **Residential Plots**. The user-facing budget is strictly **below ₹50 lakh**; a lower selected filter must not narrow discovery.
+Run the active **two-hour ChatGPT discovery task** throughout the day for Vizag/Visakhapatnam, Tanuku, Palakollu, Bhimavaram and Eluru. Cover **Flats**, **Independent Houses/Villas** and **Residential Plots**. The user-facing budget is strictly **below ₹50 lakh**; a lower selected filter must not narrow discovery.
 
 This is a research and data-maintenance process, **not** a browser scraper built into the website. The task can run while the user's computer is off, but GitHub updates, browsing and verification depend on the tools and permissions available during that run. The task cannot inspect personalized or private Instagram feeds.
 
@@ -30,10 +30,10 @@ A search-results URL is not an exact listing URL. Preserve `linkType` accurately
 ## Data-only update procedure
 
 1. Inspect the current dataset and review queue; compare stable IDs, canonical source URLs, property attributes and dates.
-2. Make the smallest evidence-backed changes **only** in `data/properties.js` and `data/review-queue.json`. Do not change `assets/`, `docs/`, `scripts/`, `tests/`, `package.json` or `.github/` during the hourly task.
+2. Make the smallest evidence-backed changes **only** in `data/properties.js` and `data/review-queue.json`. Do not change `assets/`, `docs/`, `scripts/`, `tests/`, `package.json` or `.github/` during the scheduled task.
 3. Validate category/type consistency, price below ₹50L, explicit availability state, safe HTTPS source/map URLs, duplicate IDs/URLs and queue reasons.
 4. Run syntax, data, unit, responsive Playwright and accessibility checks using the repository's release workflow. Do not weaken tests to accept new data.
-5. Open a data-only pull request; do not publish directly to `main`. Confirm the pull request quality run for the **exact commit** is `completed/success`, then merge only with the protected-branch review requirement satisfied. Confirm the published `deploy-version.txt` matches the merge commit and that the homepage, dataset, mobile app and shared core load.
+5. Open a data-only pull request; do not publish directly to `main`. Enable squash auto-merge, confirm the pull request quality run for the **exact commit** is `completed/success`, and let the current protected branch rule merge it only after the required check passes. Confirm the published `deploy-version.txt` matches the merge commit and that the homepage, dataset, mobile app and shared core load.
 6. Report meaningful new/retired leads and direct source URLs. If there is no material change, do not create a commit or claim a new deployment.
 
 If the task lacks write or test tools, or a scheduled execution is rejected by the platform's GitHub write-safety gate, preserve a reviewable, machine-readable data-only candidate patch with the discovered leads and exact URLs in the run report and state that publication is **not verified**. Do not disable the research schedule and do not claim that a Pages retry can fix a missing commit. Attempt publication once per run when authorized by opening a data-only PR. Repeated safety-gate denials require an explicitly authorized publisher or an approved interactive write, not a workaround in GitHub Actions. If CI or live deployment fails after a real commit exists, leave the last successful release intact, capture the exact SHA/run link and surface the failure for a separately reviewed fix.

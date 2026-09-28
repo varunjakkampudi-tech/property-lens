@@ -40,6 +40,6 @@ For an enforceable production release policy, configure a GitHub ruleset or bran
 
 ## Ongoing data updates
 
-After the final code release, the hourly discovery task may update only `data/properties.js` and `data/review-queue.json`. Every material data commit triggers the same quality and deployment gates. The ChatGPT hourly task is **separate** from GitHub Actions and can only perform repository writes when its connected tools and permissions permit.
+The active two-hour ChatGPT discovery task may update only `data/properties.js` and `data/review-queue.json`. Every material data PR triggers the same quality and deployment gates, with squash auto-merge after the required `quality` check passes. The GitHub Actions feed workflow is a separate inactive alternative until an approved feed is configured; it must not compete with the ChatGPT publisher.
 
 See [Lead operations](LEAD-OPERATIONS.md) and [Architecture](ARCHITECTURE.md).
