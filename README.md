@@ -1,11 +1,11 @@
 # Property Lens
 
-A static personal property-research dashboard for **Vizag, Tanuku, Palakollu and Bhimavaram, Andhra Pradesh**.
+A static personal property-research dashboard for **Vizag, Tanuku, Palakollu, Bhimavaram and Eluru, Andhra Pradesh**.
 
 ## What is included
 
 - Active buyer-facing property leads with confirmed asking prices strictly below ₹50 lakh
-- Four locations × three categories: Flats, Independent Houses (including villas) and Plots
+- Five locations × three categories: Flats, Independent Houses (including villas) and Plots
 - Location → property type → listings on mobile, with selectable budgets (₹20L, ₹25L, ₹30L, ₹35L, ₹40L, ₹45L or all under ₹50L)
 - Market-rate references, asking-rate comparison and negotiation targets
 - Shortlist, visited tracking and personal notes using browser localStorage
@@ -39,3 +39,11 @@ Target URL: **https://varunjakkampudi-tech.github.io/property-lens/**
 ## Important
 
 Online availability is not guaranteed. Reconfirm seller availability, legal/title documents, approvals, plot/UDS, construction condition, water/drainage, maintenance and final all-in cost before paying any token advance.
+
+## Sources and confidence
+
+The app indexes public property advertisements; a visible post is **not confirmation that a home is unsold**. Users must confirm availability, pricing, seller identity, title and municipal/land-use approvals before paying or visiting. Direct property links are preferred; entries linking to a results page are labeled as such. Eluru includes a clearly labeled outlying layout where the advertised site is about 30 km away. Instagram/YouTube posts are discovery sources only until independently corroborated.
+
+## Automated refresh
+
+An hourly ChatGPT task prioritizes public Instagram Reels and YouTube Shorts, followed by property portals, across all five locations and three categories. It updates the GitHub repository only for supported material changes, runs CI and deploys on success. Personalized/private Instagram feeds and restricted platforms cannot be fully searched without permitted access; the task cannot guarantee every market listing.

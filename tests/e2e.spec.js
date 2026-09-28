@@ -14,7 +14,7 @@ test.describe('Property Lens production flows', () => {
     const a11y = [];
 
     await expect(page.locator('#mobilePropertyApp')).toBeVisible();
-    await expect(page.locator('.mpl-city')).toHaveCount(4);
+    await expect(page.locator('.mpl-city')).toHaveCount(5);
     await expect(page.getByRole('heading', { name: 'Where do you want to buy?' })).toBeVisible();
     await page.screenshot({ path: 'visual-' + testInfo.project.name + '-01-location.png', fullPage: false });
     a11y.push(...await seriousA11y(page));
@@ -68,6 +68,17 @@ test.describe('Property Lens production flows', () => {
     await expect(page.locator('[data-category="Independent Houses"]')).toContainText('6 active');
     await expect(page.locator('[data-category="Plots"]')).toContainText('4 active');
 
+    await page.locator('[data-nav="locations"]').click();
+    await page.locator('[data-city="Eluru"]').click();
+    await expect(page.locator('[data-category="Flats"]')).toContainText('2 active');
+    await expect(page.locator('[data-category="Independent Houses"]')).toContainText('3 active');
+    await expect(page.locator('[data-category="Plots"]')).toContainText('2 active');
+    await page.screenshot({ path: 'visual-' + testInfo.project.name + '-05-eluru-categories.png', fullPage: false });
+    a11y.push(...await seriousA11y(page));
+    await page.locator('[data-category="Independent Houses"]').click();
+    await expect(page.locator('.mpl-property')).toHaveCount(3);
+    expect((await page.locator('.mpl-property .mpl-loc').allTextContents()).every(x => /Eluru/i.test(x))).toBeTruthy();
+
     expect(a11y).toEqual([]);
   });
 
@@ -114,7 +125,7 @@ test.describe('Property Lens production flows', () => {
 
     await page.goto('/');
     await expect(page.locator('#mobilePropertyApp')).toBeHidden();
-    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(54);
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(61);
     expect(await page.evaluate(() => window.PROPERTY_DATA.every(p => typeof p.price === 'number' && p.price >= 0 && p.price < 50))).toBeTruthy();
     const desktopA11y = await seriousA11y(page);
 

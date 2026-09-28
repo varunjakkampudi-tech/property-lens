@@ -4,7 +4,7 @@
 
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
-  var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram'];
+  var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram','Eluru'];
   var categories = [
     { key:'Flats', label:'Flats', icon:'▥', note:'Apartments & gated communities' },
     { key:'Independent Houses', label:'Independent Houses', icon:'⌂', note:'More privacy & land ownership' },
@@ -39,7 +39,8 @@
     if (city === 'Vizag') return '🌊';
     if (city === 'Tanuku') return '🏡';
     if (city === 'Palakollu') return '🌿';
-    return '🏙️';
+    if (city === 'Bhimavaram') return '🏙️';
+    return '🌳';
   }
 
   function categoryFor(p) {
@@ -115,7 +116,7 @@
               '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-trust"><span>✓ Active-only</span><span>✓ Exact source links</span><span>✓ Maps & poster info</span></div>' +
+          '<div class="mpl-trust"><span>✓ Listed below ₹50L</span><span>✓ Exact source links</span><span>✓ Maps & poster info</span></div>' +
         '</main>' +
       '</section>';
     bind();
@@ -273,7 +274,7 @@
           '<div><span>Verified</span><strong>' + esc(p.verifiedOn || '') + '</strong></div>' +
         '</div>' +
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
-        '<h3>Source status</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Active / publicly discoverable') + '</p>' +
+        '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
           '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">Open source ↗</a>' +
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +

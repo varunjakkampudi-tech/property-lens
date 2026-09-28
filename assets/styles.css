@@ -349,3 +349,11 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
 
 /* Hide optional mobile price controls until Filters is explicitly opened. */
 @media(max-width:850px){.mpl-filters[hidden]{display:none!important}}
+
+@media(max-width:850px){
+  .mpl-city:last-child:nth-child(odd){grid-column:1/-1;min-height:104px;padding-left:83px}
+  .mpl-city:last-child:nth-child(odd) .mpl-city-icon{position:absolute;left:16px;top:29px}
+  .mpl-city:last-child:nth-child(odd) strong{margin-top:7px}
+  .mpl-city:last-child:nth-child(odd) .mpl-arrow{right:17px;bottom:35px}
+}
+@media(max-width:380px){.mpl-city:last-child:nth-child(odd){padding-left:72px}.mpl-city:last-child:nth-child(odd) .mpl-city-icon{left:12px}}

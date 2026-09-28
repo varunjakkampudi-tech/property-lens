@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync('data/properties.js', 'utf8'), sandbox, { timeout: 3000 });
 const leads = sandbox.window.PROPERTY_DATA;
-const validCities = new Set(['Vizag', 'Tanuku', 'Palakollu', 'Bhimavaram']);
+const validCities = new Set(['Vizag', 'Tanuku', 'Palakollu', 'Bhimavaram', 'Eluru']);
 const validCategories = new Set(['Flats', 'Independent Houses', 'Plots']);
 if (!Array.isArray(leads) || !leads.length) throw Error('Active lead dataset missing');
 const ids = new Set();
@@ -16,8 +16,15 @@ for (const p of leads) {
   if (!validCities.has(p.city) || !validCategories.has(p.category)) throw Error('Invalid location/category: ' + p.id);
   if (!p.id || ids.has(p.id)) throw Error('Missing/duplicate property ID: ' + p.id);
   if (!p.url || urls.has(p.url)) throw Error('Missing/duplicate source URL: ' + p.id);
-  if (!p.name || !p.locality || !p.platform) throw Error('Missing required lead metadata: ' + p.id);
+  if (!p.name || !p.locality || !p.platform || !p.poster || !p.lastSeen || !p.verifiedOn || !p.mapUrl) throw Error('Missing required lead metadata: ' + p.id);
   ids.add(p.id);
   urls.add(p.url);
+}
+for (const city of validCities) {
+  for (const category of validCategories) {
+    if (!leads.some(p => p.city === city && p.category === category)) {
+      throw Error('Missing category inventory: ' + city + ' / ' + category);
+    }
+  }
 }
 console.log('PASS: ' + leads.length + ' active listings under ₹50L; unique IDs and URLs; valid cities and categories.');
