@@ -11,7 +11,7 @@
     { key:'Plots', label:'Plots', icon:'▧', note:'Build your home or invest' }
   ];
   var compare = new Set();
-  var state = { city:null, category:null, view:'all', query:'', budget:'999', sort:'recommended' };
+  var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended' };
 
   function readSaved() {
     try { return new Set(JSON.parse(localStorage.getItem('ap-shortlist') || '[]')); }
@@ -55,7 +55,7 @@
 
   function countFor(city, category) {
     return properties.filter(function (p) {
-      return p.city === city && (!category || categoryFor(p) === category);
+      return p.city === city && typeof p.price === 'number' && Number.isFinite(p.price) && p.price >= 0 && p.price < 50 && (!category || categoryFor(p) === category);
     }).length;
   }
 
@@ -95,13 +95,13 @@
     root.innerHTML =
       '<section class="mpl-chooser">' +
         '<header class="mpl-brandbar">' +
-          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true">⌂</div><div><strong>Property Lens</strong><small>Verified property leads</small></div></div>' +
+          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true">⌂</div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
           '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">♡</button>' +
         '</header>' +
         '<main class="mpl-chooser-body">' +
           '<p class="mpl-eyebrow">STEP 1 OF 2</p>' +
           '<h1>Where do you want to buy?</h1>' +
-          '<p class="mpl-lead">Choose a location first. Then select Flats, Independent Houses or Plots.</p>' +
+          '<p class="mpl-lead">Find properties under ₹50 lakh. Choose a city, then Flats, Independent Houses or Plots.</p>' +
           '<div class="mpl-city-grid">' +
             cities.map(function (city) {
               var m = markets[city] || {};
@@ -126,7 +126,7 @@
     state.category = null;
     state.view = 'all';
     state.query = '';
-    state.budget = '999';
+    state.budget = '50';
     state.sort = 'recommended';
 
     var market = markets[city] || {};
@@ -164,8 +164,8 @@
       if (state.view === 'saved' && !saved.has(p.id)) return false;
       if (state.view === 'best' && Number(p.score || 0) < 90) return false;
       if (state.view === 'gated' && p.gated !== 'yes') return false;
-      if (p.price != null && Number(p.price) > budget) return false;
-      if (p.price == null && budget < 999) return false;
+      if (typeof p.price !== 'number' || !Number.isFinite(p.price) || p.price < 0 || p.price >= 50) return false;
+      if (p.price > budget) return false;
       if (q && (p.name + ' ' + p.locality + ' ' + p.city + ' ' + (p.poster || '') + ' ' + (p.platform || '')).toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
@@ -179,7 +179,7 @@
 
   function filterPanel() {
     return '<section id="mplFilters" class="mpl-filters" hidden>' +
-      '<label>Budget<select id="mplBudget"><option value="999">Any price</option><option value="45">Up to ₹45L</option><option value="50">Up to ₹50L</option><option value="60">Up to ₹60L</option></select></label>' +
+      '<label>Budget<select id="mplBudget"><option value="50">All under ₹50L</option><option value="20">Up to ₹20L</option><option value="25">Up to ₹25L</option><option value="30">Up to ₹30L</option><option value="35">Up to ₹35L</option><option value="40">Up to ₹40L</option><option value="45">Up to ₹45L</option></select></label>' +
       '<label>Sort<select id="mplSort"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option></select></label>' +
     '</section>';
   }
@@ -322,7 +322,7 @@
         state.category = el.getAttribute('data-category');
         state.view = 'all';
         state.query = '';
-        state.budget = '999';
+        state.budget = '50';
         state.sort = 'recommended';
         renderResults({focusResults:true});
       };
