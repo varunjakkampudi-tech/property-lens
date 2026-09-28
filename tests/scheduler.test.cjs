@@ -65,6 +65,22 @@ test('feed failures persist a sanitized failure record', async () => {
   fs.rmSync(dir, { recursive:true, force:true });
 });
 
+test('feed rejects more than 500 records and persists a failure record', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'property-lens-record-limit-'));
+  const output = path.join(dir, 'run.json');
+  const records = Array.from({ length: 501 }, (_, index) => ({ id: `lead-${index}` }));
+  await assert.rejects(run({
+    output,
+    feedUrl: 'https://example.com/data',
+    attempts: 1,
+    fetcher: async () => ({ status:200, ok:true, text: async () => JSON.stringify(records) })
+  }), /500-record limit/);
+  const result = JSON.parse(fs.readFileSync(output));
+  assert.equal(result.status, 'failed');
+  assert.match(result.failure.message, /500-record limit/);
+  fs.rmSync(dir, { recursive:true, force:true });
+});
+
 test('publisher does not report a change for duplicate or empty input', () => {
   const current = { PROPERTY_DATA:[record], MARKET_DATA:{}, SOURCE_CONTACTS:[], REVIEW_QUEUE:{ reviewedOn:'2026-09-28', excludedFromActiveResults:[], candidatesNeedingSellerConfirmation:[] } };
   const result = buildProposal({ schemaVersion:1, accepted:[], reviewCandidates:[] }, current);

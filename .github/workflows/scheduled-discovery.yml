@@ -71,6 +71,9 @@ jobs:
             echo "::error::PROPERTY_PUBLISHER_TOKEN is required. GITHUB_TOKEN-created PRs do not trigger the normal PR workflow. Configure a narrowly scoped GitHub App or PAT secret.";
             exit 1;
           fi
+          # Use the dedicated publisher credential for git push as well as PR creation.
+          # gh configures its credential helper without exposing the token in the remote URL.
+          gh auth setup-git
           branch="automation/property-data-${GITHUB_RUN_ID}"
           git config user.name "property-lens-publisher[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -19,6 +19,7 @@ const GATED = new Set(['yes', 'no', 'partial']);
 const TYPE_CATEGORY = { Flat: 'Flats', 'Independent House': 'Independent Houses', Villa: 'Independent Houses', Plot: 'Plots' };
 const MAX_PRICE = 50;
 const MAX_FEED_BYTES = 2_000_000;
+const MAX_FEED_RECORDS = 500;
 
 function publicHttpsUrl(raw, field = 'URL') {
   let url;
@@ -146,6 +147,7 @@ async function run(options = {}) {
       const payload = await fetchJson(sourceUrl, { token: options.token || process.env.DISCOVERY_FEED_TOKEN, fetcher: options.fetcher, attempts: options.attempts, timeoutMs: options.timeoutMs });
       const records = Array.isArray(payload) ? payload : payload && Array.isArray(payload.records) ? payload.records : null;
       if (!records) throw new Error('Discovery feed must be an array or { records: [] }');
+      if (records.length > MAX_FEED_RECORDS) throw new Error(`Discovery feed exceeds the ${MAX_FEED_RECORDS}-record limit`);
       const deduped = deduplicate(records, options.existing || loadExisting());
       result.status = deduped.accepted.length || deduped.reviewCandidates.length ? 'changes_found' : 'no_change';
       result.accepted = deduped.accepted;
