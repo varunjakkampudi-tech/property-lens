@@ -18,6 +18,8 @@ const AGE_GROUPS = new Set(['new', 'resale', 'unknown']);
 const GATED = new Set(['yes', 'no', 'partial']);
 const TYPE_CATEGORY = { Flat: 'Flats', 'Independent House': 'Independent Houses', Villa: 'Independent Houses', Plot: 'Plots' };
 const MAX_PRICE = 50;
+const MAX_FEED_BYTES = 2_000_000;
+const MAX_FEED_RECORDS = 500;
 
 function publicHttpsUrl(raw, field = 'URL') {
   let url;
@@ -73,16 +75,28 @@ function deduplicate(records, existing = []) {
   const urls = new Set(existing.map(item => { try { return canonicalUrl(item.url); } catch { return ''; } }));
   const accepted = [];
   const rejected = [];
+  const reviewCandidates = [];
   for (const input of records) {
     try {
       const record = validateRecord(input);
       if (ids.has(record.id) || urls.has(record.url)) { rejected.push({ id: record.id, reason: 'duplicate_identity' }); continue; }
       ids.add(record.id); urls.add(record.url); accepted.push(record);
     } catch (error) {
-      rejected.push({ id: input && input.id, reason: error.message });
+      const rejection = { id: input && input.id, reason: error.message };
+      rejected.push(rejection);
+      try {
+        const url = canonicalUrl(input && input.url);
+        if (input && CITIES.has(input.city) && CATEGORIES.has(input.category)) {
+          reviewCandidates.push({ reason: error.message, name: input.name || input.id || 'Unidentified discovery', city: input.city, category: input.category, url });
+        }
+      } catch { /* Keep unsafe or incomplete records only in the sanitized run artifact. */ }
     }
   }
-  return { accepted, rejected };
+  return { accepted, rejected, reviewCandidates };
+}
+
+function sanitizedError(error) {
+  return String(error && error.message || error).replace(/Bearer\s+[^\s]+/gi, 'Bearer [redacted]').replace(/https?:\/\/[^\s]+/gi, '[redacted-url]');
 }
 
 async function fetchJson(url, options = {}) {
@@ -96,12 +110,19 @@ async function fetchJson(url, options = {}) {
         headers: { accept: 'application/json', ...(options.token ? { authorization: `Bearer ${options.token}` } : {}) },
         signal: AbortSignal.timeout(timeoutMs), redirect: 'error'
       });
-      if (response.status === 429 || response.status >= 500) throw new Error(`retryable HTTP ${response.status}`);
+      if (response.status === 429 || response.status >= 500) { const error = new Error(`retryable HTTP ${response.status}`); error.retryable = true; throw error; }
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (typeof response.text === 'function') {
+        const body = await response.text();
+        if (Buffer.byteLength(body, 'utf8') > (options.maxBytes || MAX_FEED_BYTES)) throw new Error('Discovery feed response exceeds the 2 MB limit');
+        return JSON.parse(body);
+      }
       return await response.json();
     } catch (error) {
       lastError = error;
-      if (attempt < attempts) await sleep(Math.min(8000, 500 * (2 ** (attempt - 1))));
+      if (error.retryable || error.name === 'AbortError' || error.name === 'TypeError') {
+        if (attempt < attempts) await sleep(Math.min(8000, 500 * (2 ** (attempt - 1))));
+      } else break;
     }
   }
   throw new Error(`Discovery feed failed after ${attempts} attempts: ${lastError.message}`);
@@ -118,18 +139,29 @@ async function run(options = {}) {
   const startedAt = new Date().toISOString();
   const output = options.output || process.env.DISCOVERY_OUTPUT || path.join('artifacts', 'discovery-run.json');
   const feedUrl = options.feedUrl || process.env.DISCOVERY_FEED_URL;
-  const result = { schemaVersion: 1, startedAt, status: 'no_feed', feedConfigured: Boolean(feedUrl), accepted: [], rejected: [], source: null };
-  if (feedUrl) {
-    const sourceUrl = publicHttpsUrl(feedUrl, 'discovery feed URL');
-    await assertSafeFeedHost(sourceUrl);
-    const payload = await fetchJson(sourceUrl, { token: options.token || process.env.DISCOVERY_FEED_TOKEN, fetcher: options.fetcher, attempts: options.attempts, timeoutMs: options.timeoutMs });
-    const records = Array.isArray(payload) ? payload : payload && Array.isArray(payload.records) ? payload.records : null;
-    if (!records) throw new Error('Discovery feed must be an array or { records: [] }');
-    const deduped = deduplicate(records, options.existing || loadExisting());
-    result.status = deduped.accepted.length ? 'changes_found' : 'no_change';
-    result.accepted = deduped.accepted;
-    result.rejected = deduped.rejected;
-    result.source = { feedUrl: sourceUrl, fetchedAt: new Date().toISOString(), recordCount: records.length };
+  const result = { schemaVersion: 1, startedAt, status: 'no_feed', feedConfigured: Boolean(feedUrl), accepted: [], rejected: [], reviewCandidates: [], source: null };
+  try {
+    if (feedUrl) {
+      const sourceUrl = publicHttpsUrl(feedUrl, 'discovery feed URL');
+      await assertSafeFeedHost(sourceUrl);
+      const payload = await fetchJson(sourceUrl, { token: options.token || process.env.DISCOVERY_FEED_TOKEN, fetcher: options.fetcher, attempts: options.attempts, timeoutMs: options.timeoutMs });
+      const records = Array.isArray(payload) ? payload : payload && Array.isArray(payload.records) ? payload.records : null;
+      if (!records) throw new Error('Discovery feed must be an array or { records: [] }');
+      if (records.length > MAX_FEED_RECORDS) throw new Error(`Discovery feed exceeds the ${MAX_FEED_RECORDS}-record limit`);
+      const deduped = deduplicate(records, options.existing || loadExisting());
+      result.status = deduped.accepted.length || deduped.reviewCandidates.length ? 'changes_found' : 'no_change';
+      result.accepted = deduped.accepted;
+      result.rejected = deduped.rejected;
+      result.reviewCandidates = deduped.reviewCandidates;
+      result.source = { feedUrl: sourceUrl, fetchedAt: new Date().toISOString(), recordCount: records.length };
+    }
+  } catch (error) {
+    result.status = 'failed';
+    result.failure = { class: error.retryable ? 'transient_feed_error' : 'validation_or_configuration_error', message: sanitizedError(error) };
+    result.finishedAt = new Date().toISOString();
+    fs.mkdirSync(path.dirname(output), { recursive: true });
+    fs.writeFileSync(output, JSON.stringify(result, null, 2) + '\n', { mode: 0o600 });
+    throw error;
   }
   result.finishedAt = new Date().toISOString();
   fs.mkdirSync(path.dirname(output), { recursive: true });

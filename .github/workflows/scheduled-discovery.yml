@@ -25,11 +25,15 @@ jobs:
       PROPERTY_PUBLISHER_TOKEN: ${{ secrets.PROPERTY_PUBLISHER_TOKEN }}
       DISCOVERY_OUTPUT: artifacts/discovery-run.json
       PROPOSED_DATA: artifacts/proposed-properties.js
+      PROPOSED_REVIEW_QUEUE: artifacts/proposed-review-queue.json
     steps:
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Do not leave the default GITHUB_TOKEN available to git push.
+          # Publishing must use the dedicated publisher credential below.
+          persist-credentials: false
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -49,6 +53,7 @@ jobs:
           if [[ "$status" == "changes_found" ]]; then
             node scripts/publish-data.cjs
             cp artifacts/proposed-properties.js data/properties.js
+            cp artifacts/proposed-review-queue.json data/review-queue.json
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -69,11 +74,14 @@ jobs:
             echo "::error::PROPERTY_PUBLISHER_TOKEN is required. GITHUB_TOKEN-created PRs do not trigger the normal PR workflow. Configure a narrowly scoped GitHub App or PAT secret.";
             exit 1;
           fi
+          # Use the dedicated publisher credential for git push as well as PR creation.
+          # gh configures its credential helper without exposing the token in the remote URL.
+          gh auth setup-git
           branch="automation/property-data-${GITHUB_RUN_ID}"
           git config user.name "property-lens-publisher[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git add data/properties.js
+          git add data/properties.js data/review-queue.json
           git diff --cached --quiet && { echo "No material data change after normalization."; exit 0; }
           git commit -m "data: publish evidence-backed property leads"
           git push --set-upstream origin "$branch"
