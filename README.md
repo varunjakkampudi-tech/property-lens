@@ -2,6 +2,7 @@
 
 [![Production E2E and deploy](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/pages.yml/badge.svg)](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/pages.yml)
 [![Pull request quality](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/quality.yml/badge.svg)](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/quality.yml)
+[![Daily production health](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/production-health.yml/badge.svg)](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/production-health.yml)
 
 A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Palakollu, Bhimavaram and Eluru, Andhra Pradesh**. Browse flats, independent houses and residential plots with publicly advertised asking prices **strictly below ₹50 lakh**.
 
@@ -44,7 +45,7 @@ Open **http://127.0.0.1:4173/**. The local server exposes only the public site f
 ```bash
 npm run test:syntax    # JavaScript syntax
 npm run test:data      # Listing, source and review-queue integrity
-npm run test:unit      # Shared core and local-server regression tests
+npm run test:unit      # Shared core, trust-contract, production-health and server tests
 npx playwright install chromium
 npm run test:e2e       # Starts its own local server if needed
 npm run test:quality   # All gates
@@ -75,13 +76,17 @@ docs/
 scripts/
   serve.cjs             Allowlisted local development server
   validate-data.cjs     Release-blocking integrity validation
+  production-health.cjs Exact-live-commit and per-city freshness checks
 tests/
   core.test.cjs         Shared primitive unit tests
+  data-contract.test.cjs Negative data-trust and schema regression tests
+  production-health.test.cjs Live verification and freshness regression tests
   server.test.cjs       Local-server security and routing tests
   e2e.spec.js           Responsive, behavioral and accessibility tests
 .github/workflows/
   quality.yml           Pull-request checks
   pages.yml             Tested GitHub Pages deployment and live verification
+  production-health.yml Independent daily live-site and source-freshness checks
 ```
 
 ## Hourly discovery and code freeze
@@ -91,6 +96,14 @@ An existing **hourly ChatGPT task** prioritizes publicly accessible Instagram Re
 **After the final quality release, hourly changes are data-only:** `data/properties.js` and `data/review-queue.json`. No scheduled UI, architecture, dependency or documentation rewrites. A substantive code/security regression requires a separately reviewed change. Every data commit must pass syntax, integrity, unit, mobile/desktop E2E, accessibility, deployment and exact-commit live smoke checks. A pending or failed run is not a published update.
 
 Submit a public Reel, Short, listing URL or sold-listing report through the [lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). Do not submit private phone numbers or unverified claims.
+
+## Production acceptance and operational boundaries
+
+- Every published application or data commit must pass source syntax, data integrity, unit tests, responsive browser journeys, accessibility, Pages deployment and exact-SHA live verification.
+- The independent daily GitHub Actions health workflow checks the live SHA and six public assets, then reports source-check freshness by city. It fails when a city with published leads has no source check within 14 days. A source check is **not** seller-confirmed availability.
+- Public asking-price comparisons are deliberately limited by comparable evidence. The UI must show **Not available** when a reliable estimate cannot be derived; it must never manufacture a value.
+- Unattended lead publication requires a publisher with explicit GitHub write authorization. A ChatGPT scheduled task can be blocked by its platform's write-safety gate. The existing task must preserve discovered evidence and report the blocker, not claim that a research run deployed new leads.
+- GitHub repository branch protections, required PR checks and task notifications are account settings. Confirm these in GitHub and ChatGPT Tasks; the repository cannot silently enable them.
 
 ## Further documentation
 
