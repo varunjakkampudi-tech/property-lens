@@ -12,6 +12,14 @@ test('development server serves only public site files with safe content types',
     assert.match(home.headers.get('content-type'), /text\/html/);
     assert.match(await home.text(), /Property Lens/);
 
+    const iconSheet = await fetch(base + '/assets/icons.svg');
+    assert.equal(iconSheet.status, 200);
+    assert.match(iconSheet.headers.get('content-type'), /image\/svg\+xml/);
+    assert.match(await iconSheet.text(), /id="map-pin"/);
+    const theme = await fetch(base + '/assets/design-refresh.css');
+    assert.equal(theme.status, 200);
+    assert.match(theme.headers.get('content-type'), /text\/css/);
+
     const script = await fetch(base + '/assets/core.js');
     assert.equal(script.status, 200);
     assert.match(script.headers.get('content-type'), /text\/javascript/);
