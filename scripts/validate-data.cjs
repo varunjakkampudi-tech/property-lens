@@ -5,6 +5,7 @@ const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync('data/properties.js', 'utf8'), sandbox, { timeout: 3000 });
 const leads = sandbox.window.PROPERTY_DATA;
 const markets = sandbox.window.MARKET_DATA;
+const contacts = sandbox.window.SOURCE_CONTACTS;
 const validCities = new Set(['Vizag', 'Tanuku', 'Palakollu', 'Bhimavaram', 'Eluru']);
 const validCategories = new Set(['Flats', 'Independent Houses', 'Plots']);
 const typeCategory = {
@@ -46,11 +47,23 @@ for (const p of leads) {
     throw Error('Invalid location/category: ' + p.id);
   }
   if (typeCategory[p.type] !== p.category) throw Error('Property type/category mismatch: ' + p.id);
-  if (!p.name || !p.locality || !p.platform || !p.poster || !p.lastSeen || !p.verifiedOn || !p.mapUrl || !p.url) {
+  if (!p.name || !p.locality || !p.platform || !p.poster || !p.lastSeen || !p.verifiedOn || !p.mapUrl || !p.url || !p.linkType || !p.status) {
     throw Error('Missing required lead metadata: ' + p.id);
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(p.verifiedOn) || Number.isNaN(Date.parse(p.verifiedOn))) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(p.verifiedOn) || !Number.isFinite(Date.parse(p.verifiedOn)) || new Date(p.verifiedOn).toISOString().slice(0, 10) !== p.verifiedOn) {
     throw Error('Invalid source-check date: ' + p.id);
+  }
+  if (!['publicly_listed_unconfirmed', 'seller_confirmed'].includes(p.availabilityStatus)) {
+    throw Error('Missing or invalid availability state: ' + p.id);
+  }
+  if (p.availabilityStatus === 'seller_confirmed' && (!p.availabilityEvidence || !p.availabilityCheckedOn)) {
+    throw Error('Seller-confirmed state requires dated evidence: ' + p.id);
+  }
+  if (p.availabilityStatus === 'publicly_listed_unconfirmed' && !p.status.includes('must be confirmed')) {
+    throw Error('Unconfirmed lead must disclose uncertainty: ' + p.id);
+  }
+  if (p.publicPhone && !/^\\d{10}$/.test(String(p.publicPhone).replace(/\\D/g, '').replace(/^91(?=\\d{10}$)/, ''))) {
+    throw Error('Invalid public business phone: ' + p.id);
   }
   if (typeof p.score !== 'number' || !Number.isFinite(p.score) || p.score < 0 || p.score > 100) {
     throw Error('Invalid deal score: ' + p.id);
@@ -72,10 +85,30 @@ const review = JSON.parse(fs.readFileSync('data/review-queue.json', 'utf8'));
 if (!Array.isArray(review.excludedFromActiveResults) || !Array.isArray(review.candidatesNeedingSellerConfirmation)) {
   throw Error('Invalid review queue');
 }
+if (!Array.isArray(contacts)) throw Error('Public business contact directory missing');
+for (const contact of contacts) {
+  if (!contact.city || !contact.platform || !contact.name || !contact.note || !contact.url) {
+    throw Error('Incomplete public contact record');
+  }
+  secureUrl(contact.url, 'business contact', contact.name);
+  if (contact.phone && !/^\\d{10}$/.test(String(contact.phone).replace(/\\D/g, '').replace(/^91(?=\\d{10}$)/, ''))) {
+    throw Error('Invalid public contact phone: ' + contact.name);
+  }
+}
+for (const candidate of review.candidatesNeedingSellerConfirmation) {
+  if (!candidate.reason || !candidate.city || !candidate.category || !candidate.url) {
+    throw Error('Incomplete review candidate');
+  }
+  if (!validCities.has(candidate.city) || !validCategories.has(candidate.category)) {
+    throw Error('Invalid review candidate location/category');
+  }
+  secureUrl(candidate.url, 'review candidate', candidate.name || candidate.reason);
+}
 for (const item of review.excludedFromActiveResults) {
   if (!item.reason || !item.lead || !item.lead.id || ids.has(item.lead.id)) {
     throw Error('Invalid or active-listed review item: ' + (item.lead && item.lead.id));
   }
+  if (item.lead.url) secureUrl(item.lead.url, 'excluded lead', item.lead.id);
 }
 JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
-console.log('PASS: ' + leads.length + ' public listings under ₹50L; safe URLs, unique IDs, consistent categories and review queue.');
+console.log('PASS: ' + leads.length + ' public listings under ₹50L; explicit availability states, safe URLs, unique IDs, consistent categories and review queue.');
