@@ -29,11 +29,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node --check data/properties.js
-          node --check assets/app.js
-          node --check assets/enrichment.js
-          node --check assets/mobile-location.js
-          node scripts/validate-data.cjs
+          npm run test:syntax
+          npm run test:data
           test -s index.html
           test -s robots.txt
           test -s sitemap.xml

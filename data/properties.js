@@ -2,7 +2,7 @@ window.MARKET_DATA = {
   "Vizag": {
     "subtitle": "Visakhapatnam",
     "range": "₹3,300–5,500+/sq.ft",
-    "note": "Freshest online inventory among the four",
+    "note": "Public listings vary by locality",
     "trend": "Active"
   },
   "Tanuku": {

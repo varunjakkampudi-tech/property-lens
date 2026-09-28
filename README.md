@@ -14,7 +14,7 @@ A static personal property-research dashboard for **Vizag, Tanuku, Palakollu, Bh
 - Responsive desktop/mobile layout
 - Buying checklist and research documentation
 - GitHub Pages deployment workflow
-- No framework, backend, npm install or build step
+- No runtime framework or backend; development tests use Node.js and Playwright
 
 ## Active-listing policy
 
@@ -51,3 +51,11 @@ An hourly ChatGPT task prioritizes public Instagram Reels and YouTube Shorts, fo
 ## Submit missed Reels and report sold listings
 
 Public search does not have access to each buyer's personalized Instagram feed. Submit a **public Instagram Reel / YouTube Short / portal URL** or flag a listing as sold using [the lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). The hourly review can use your exact links to find matching properties; all submissions are review-needed until price and availability are corroborated. Do not submit private individuals' phone numbers.
+
+## Quality gates and release verification
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module boundaries, data provenance, accessibility, responsive behavior and release policy.
+
+Run `npm install`, `npx playwright install chromium`, then `npm run test:quality` with a local server at `http://127.0.0.1:4173`. GitHub Actions validates data and syntax, exercises mobile/desktop browser journeys and accessibility, then deploys Pages. The deployment workflow checks the published commit marker, homepage, lead dataset and mobile application. Pending, cancelled or failed runs are **not** successful releases.
+
+E2E assertions derive city/category counts from the dataset rather than hard-coding inventory, so legitimate lead changes do not break tests. Empty categories are valid and shown as disabled choices rather than blocking a release.

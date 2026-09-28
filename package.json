@@ -3,7 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test:e2e": "playwright test"
+    "test:syntax": "node --check data/properties.js && node --check assets/app.js && node --check assets/enrichment.js && node --check assets/mobile-location.js && node --check tests/e2e.spec.js && node --check playwright.config.js && node --check scripts/validate-data.cjs",
+    "test:data": "node scripts/validate-data.cjs",
+    "test:e2e": "playwright test",
+    "test:quality": "npm run test:syntax && npm run test:data && npm run test:e2e"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
