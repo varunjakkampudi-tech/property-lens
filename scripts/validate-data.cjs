@@ -62,7 +62,7 @@ for (const p of leads) {
   if (p.availabilityStatus === 'publicly_listed_unconfirmed' && !p.status.includes('must be confirmed')) {
     throw Error('Unconfirmed lead must disclose uncertainty: ' + p.id);
   }
-  if (p.publicPhone && !/^\\d{10}$/.test(String(p.publicPhone).replace(/\\D/g, '').replace(/^91(?=\\d{10}$)/, ''))) {
+  if (p.publicPhone && !/^[0-9]{10}$/.test(String(p.publicPhone).replace(/[^0-9]/g, '').replace(/^91(?=[0-9]{10}$)/, ''))) {
     throw Error('Invalid public business phone: ' + p.id);
   }
   if (typeof p.score !== 'number' || !Number.isFinite(p.score) || p.score < 0 || p.score > 100) {
@@ -91,7 +91,7 @@ for (const contact of contacts) {
     throw Error('Incomplete public contact record');
   }
   secureUrl(contact.url, 'business contact', contact.name);
-  if (contact.phone && !/^\\d{10}$/.test(String(contact.phone).replace(/\\D/g, '').replace(/^91(?=\\d{10}$)/, ''))) {
+  if (contact.phone && !/^[0-9]{10}$/.test(String(contact.phone).replace(/[^0-9]/g, '').replace(/^91(?=[0-9]{10}$)/, ''))) {
     throw Error('Invalid public contact phone: ' + contact.name);
   }
 }
