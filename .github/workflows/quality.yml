@@ -29,6 +29,8 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
+          test -s docs/diagrams/system-architecture.svg
+          test -s docs/diagrams/lead-lifecycle.svg
       - name: Install browser tests
         run: |
           npm install --no-audit --no-fund
