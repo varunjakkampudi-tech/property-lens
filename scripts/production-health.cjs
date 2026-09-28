@@ -88,6 +88,13 @@ async function verifyLive(options = {}) {
 async function main() {
   const leads = readLeads();
   const freshness = assessFreshness(leads);
+  if (freshness.staleCities.length) {
+    throw Error('No recently source-checked leads in: ' + freshness.staleCities.join(', '));
+  }
+  if (process.env.FRESHNESS_ONLY === '1') {
+    console.log('PASS: Per-city source freshness: ' + JSON.stringify(freshness));
+    return;
+  }
   const sha = process.env.EXPECTED_SHA || process.env.GITHUB_SHA;
   const live = await verifyLive({ siteUrl: process.env.SITE_URL || DEFAULT_SITE, sha });
   const summary = {
@@ -104,9 +111,6 @@ async function main() {
       '- Cities without a source check in the past ' + MAX_SOURCE_AGE_DAYS + ' days: ' +
       (freshness.staleCities.join(', ') || 'None') + '\n\n' +
       'Source checks do not establish seller availability.\n');
-  }
-  if (freshness.staleCities.length) {
-    throw Error('No recently source-checked leads in: ' + freshness.staleCities.join(', '));
   }
 }
 
