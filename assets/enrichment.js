@@ -1,23 +1,12 @@
 (function () {
+  var core = window.PropertyLensCore;
   var properties = window.PROPERTY_DATA || [];
   var contacts = window.SOURCE_CONTACTS || [];
   var markets = window.MARKET_DATA || {};
 
-  function esc(value) {
-    return String(value == null ? "" : value).replace(/[&<>'"]/g, function (c) {
-      return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c];
-    });
-  }
-
-  function priceText(value) {
-    if (value == null) return "Price on request";
-    var n = Number(value);
-    return "₹" + n.toFixed(n % 1 ? 1 : 0) + "L";
-  }
-
-  function wa(phone) {
-    return "https://wa.me/91" + String(phone || "").replace(/\D/g, "").replace(/^91/, "");
-  }
+  var esc = core.escapeHtml;
+  var priceText = core.formatPrice;
+  function wa(phone) { return 'https://wa.me/91' + core.normalizeIndianBusinessPhone(phone); }
 
   function topLead(city) {
     return properties
@@ -41,7 +30,7 @@
         '<div class="best-facts"><span>' + esc(p.bhk) + '</span><span>' + esc(p.size || "Verify") + ' ' + esc(p.sizeUnit || "") + '</span><span>' + esc(p.platform) + '</span></div>' +
         '<p class="best-why">' + esc((p.highlights || []).slice(0, 2).join(" · ")) + '</p>' +
         '<p class="lead-source-meta"><strong>' + esc(p.platform) + '</strong> · ' + esc(p.poster) + ' · ' + esc(p.lastSeen) + '</p>' +
-        '<div class="best-action-row"><a class="best-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Exact source ↗</a>' + mapLink + '</div>' +
+        '<div class="best-action-row"><a class="best-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' + mapLink + '</div>' +
       '</article>';
     }).join("");
   }
@@ -50,7 +39,7 @@
     var root = document.getElementById("sourceContactGrid");
     if (!root) return;
     root.innerHTML = contacts.map(function (c) {
-      var phone = String(c.phone || "").replace(/\D/g, "");
+      var phone = core.normalizeIndianBusinessPhone(c.phone);
       return '<article class="source-city-card contact-card">' +
         '<div class="source-platform">' + esc(c.platform) + ' · ' + esc(c.city) + '</div>' +
         '<h3>' + esc(c.name) + '</h3>' +
@@ -58,7 +47,7 @@
         '<p class="contact-note">' + esc(c.note) + '</p>' +
         '<div class="source-actions">' +
           '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">Source ↗</a>' +
-          (phone ? '<a href="tel:+91' + esc(phone.replace(/^91/, "")) + '">Call ' + esc(c.phone) + '</a>' : '') +
+          (phone ? '<a href="tel:+91' + esc(phone) + '">Call ' + esc(c.phone) + '</a>' : '') +
           (phone ? '<a href="' + esc(wa(c.phone)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
         '</div>' +
       '</article>';
@@ -100,7 +89,7 @@
         if (p.publicPhone) {
           var callA = document.createElement("a");
           callA.className = "source-link phone-link";
-          callA.href = "tel:+91" + String(p.publicPhone).replace(/\D/g, "").replace(/^91/, "");
+          callA.href = "tel:+91" + core.normalizeIndianBusinessPhone(p.publicPhone);
           callA.textContent = "Call";
           actions.appendChild(callA);
         }
@@ -132,9 +121,9 @@
         '</div>' +
         (p.publicPhone ? '<div class="public-phone"><span>Public business contact</span><strong>' + esc(p.publicPhone) + '</strong><small>' + esc(p.phoneLabel || "") + '</small></div>' : '') +
         '<div class="source-detail-actions">' +
-          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">Open source ↗</a>' +
+          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +
-          (p.publicPhone ? '<a href="tel:+91' + esc(String(p.publicPhone).replace(/\D/g, "").replace(/^91/, "")) + '">Call</a>' : '') +
+          (p.publicPhone ? '<a href="tel:+91' + esc(core.normalizeIndianBusinessPhone(p.publicPhone)) + '">Call</a>' : '') +
           (p.publicPhone ? '<a href="' + esc(wa(p.publicPhone)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
         '</div>';
       grid.insertAdjacentElement("afterend", sourceBox);
