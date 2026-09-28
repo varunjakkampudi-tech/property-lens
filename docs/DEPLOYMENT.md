@@ -11,7 +11,7 @@ In **Settings → Pages**, choose **GitHub Actions** as the build/deployment sou
 ## Local release validation
 
 ```bash
-npm install
+npm ci
 npx playwright install chromium
 npm run test:quality
 ```
