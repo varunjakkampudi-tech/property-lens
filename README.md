@@ -77,6 +77,7 @@ scripts/
   serve.cjs             Allowlisted local development server
   validate-data.cjs     Release-blocking integrity validation
   production-health.cjs Exact-live-commit and per-city freshness checks
+  market-coverage.cjs  Transparent comparable-coverage report
 tests/
   core.test.cjs         Shared primitive unit tests
   data-contract.test.cjs Negative data-trust and schema regression tests
