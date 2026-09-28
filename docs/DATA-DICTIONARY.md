@@ -29,7 +29,13 @@ The source of truth is `data/properties.js` (public research leads and market me
 | `mapUrl` | HTTPS Google Maps search URL; not a verified parcel boundary |
 | `publicPhone`, `phoneLabel` | Optional deliberately advertised business/agent inquiry contact and its context |
 | `deal`, `score` | Research heuristics for display/sorting, **not** professional valuations |
-| `market`, `askingRate`, `target` | Working locality reference, advertised/calculated rate and negotiation research |
+| `market`, `askingRate`, `target` | **`market` is a reference locality, not a property valuation.** `askingRate` is the listing's reported/calculated asking rate; `target` is negotiation research, not an independently verified market price. |
+
+### Indicative market value shown on cards
+
+`assets/core.js` calculates a conservative **comparable asking-value benchmark** at render time, not a seller-verified valuation. It requires at least three *other* eligible direct listings with the same city, locality reference (`market`), category, property type and exact size unit, within ±30% of the subject's size, whose public sources were checked within 90 days. The median peer asking price per unit × the subject's stated size yields an approximate value in lakh INR. Flats and plots are eligible only when comparable evidence exists; houses are excluded because land and built-up-area pricing cannot safely be inferred from the current fields. The card shows the estimate, asking-price difference, sample count, basis and latest peer source-check date. A missing or stale benchmark is displayed as **Not available**.
+
+**Important:** All input leads are restricted to asking prices below ₹50L, so this is a narrow, potentially biased listing comparison, not a full-market estimate, registered-sale price, bank valuation or independent appraisal. The source-check date is not proof the property remains available. Never fabricate a value to fill a card.
 | `highlights`, `notes` | Source-backed attributes and outstanding due-diligence questions |
 
 `window.MARKET_DATA` supplies five-city summaries. `window.SOURCE_CONTACTS` lists deliberately published business inquiry contacts, never private numbers harvested from restricted sources.
