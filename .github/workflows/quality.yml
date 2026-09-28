@@ -23,6 +23,13 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+      # Temporary lock regeneration for dependency upgrade; remove after committing lockfile.
+      - name: Generate reviewed dependency lockfile
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          echo PROPERTY_LENS_LOCKFILE_START
+          cat package-lock.json
+          echo PROPERTY_LENS_LOCKFILE_END
       - name: Validate source and data
         run: |
           npm run test:syntax
