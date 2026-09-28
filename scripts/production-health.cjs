@@ -39,7 +39,8 @@ function assessFreshness(leads, now = new Date(), maxAgeDays = MAX_SOURCE_AGE_DA
       throw Error('Invalid source-check date for ' + lead.id);
     }
     const ageDays = Math.floor((today - checked) / 86400000);
-    if (ageDays < 0) throw Error('Future source-check date for ' + lead.id);
+    // India-local source checks can be one calendar day ahead of UTC near midnight.
+    if (ageDays < -1) throw Error('Future source-check date for ' + lead.id);
     const city = cities.get(lead.city) || { total: 0, fresh: 0, latest: '' };
     city.total++;
     if (ageDays <= maxAgeDays) { city.fresh++; fresh++; }
