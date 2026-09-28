@@ -84,6 +84,7 @@ jobs:
           mkdir -p _site
           cp index.html 404.html robots.txt sitemap.xml manifest.webmanifest .nojekyll _site/
           cp -R assets data _site/
+          printf '%s\n' "$GITHUB_SHA" > _site/deploy-version.txt
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -98,3 +99,40 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify live website and deployed commit
+        shell: bash
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [[ "$SITE_URL" != https://* ]]; then
+            echo "::error::GitHub Pages did not return a valid HTTPS site URL."
+            exit 1
+          fi
+          site="${SITE_URL%/}/"
+          echo "Checking published site: $site"
+          echo "Expected commit: $EXPECTED_SHA"
+
+          for attempt in $(seq 1 30); do
+            # Cache-busting query and retries allow GitHub Pages CDN propagation.
+            cache_key="${GITHUB_RUN_ID}-${attempt}"
+            live_sha="$(curl -fsSL --max-time 20 "$site/deploy-version.txt?check=$cache_key" 2>/dev/null || true)"
+            if [[ "$live_sha" == "$EXPECTED_SHA" ]]; then
+              if curl -fsSL --max-time 20 "$site?check=$cache_key" -o /tmp/property-lens-home.html &&
+                 grep -q "Property Lens" /tmp/property-lens-home.html &&
+                 curl -fsSL --max-time 20 "$site/data/properties.js?check=$cache_key" -o /tmp/property-lens-data.js &&
+                 grep -q 'window.PROPERTY_DATA' /tmp/property-lens-data.js &&
+                 curl -fsSL --max-time 20 "$site/assets/mobile-location.js?check=$cache_key" -o /tmp/property-lens-mobile.js &&
+                 grep -q 'mobilePropertyApp' /tmp/property-lens-mobile.js; then
+                echo "PASS: Pages serves commit $EXPECTED_SHA, homepage, lead data and mobile app."
+                exit 0
+              fi
+            fi
+            echo "Pages not verified yet (attempt $attempt/30)."
+            sleep 10
+          done
+
+          echo "::error::Deployment was attempted but the public site could not be verified at commit $EXPECTED_SHA."
+          exit 1
