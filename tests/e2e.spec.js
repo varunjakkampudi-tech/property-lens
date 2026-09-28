@@ -17,6 +17,8 @@ test.describe('Property Lens production flows', () => {
     await expect(page.locator('.mpl-city')).toHaveCount(5);
     await expect(page.getByRole('heading', { name: 'Where do you want to buy?' })).toBeVisible();
     await page.screenshot({ path: 'visual-' + testInfo.project.name + '-01-location.png', fullPage: false });
+    const width = await page.evaluate(() => ({ page:document.documentElement.scrollWidth, viewport:window.innerWidth }));
+    expect(width.page).toBeLessThanOrEqual(width.viewport + 1);
     a11y.push(...await seriousA11y(page));
 
     await page.locator('[data-city="Vizag"]').click();
@@ -93,7 +95,8 @@ test.describe('Property Lens production flows', () => {
 
     await page.locator('[data-category="Independent Houses"]').click();
     await expect(page.locator('.mpl-property')).toHaveCount(6);
-    await page.locator('#mplSearch').fill('RK Nagar');
+    await page.locator('#mplSearch').pressSequentially('RK Nagar', { delay: 40 });
+    await expect(page.locator('#mplSearch')).toBeFocused();
     await expect(page.locator('.mpl-property')).toHaveCount(2);
     await page.locator('#mplSearch').fill('');
     await expect(page.locator('.mpl-property')).toHaveCount(6);

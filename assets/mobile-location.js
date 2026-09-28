@@ -372,7 +372,16 @@
     root.querySelectorAll('[data-compare]').forEach(function (el) { el.onclick = function () { toggleCompare(el.getAttribute('data-compare')); }; });
 
     var search = document.getElementById('mplSearch');
-    if (search) search.oninput = function () { state.query = search.value; renderResults(); };
+    if (search) search.oninput = function () {
+      state.query = search.value;
+      var cursor = search.selectionStart;
+      renderResults();
+      var updated = document.getElementById('mplSearch');
+      if (updated) {
+        updated.focus({ preventScroll: true });
+        if (typeof cursor === 'number') updated.setSelectionRange(cursor, cursor);
+      }
+    };
     var budget = document.getElementById('mplBudget');
     if (budget) budget.onchange = function () { state.budget = budget.value; renderResults(); };
     var sort = document.getElementById('mplSort');
