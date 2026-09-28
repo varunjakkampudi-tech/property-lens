@@ -33,7 +33,9 @@ function secureUrl(raw, field, id) {
   try { parsed = new URL(raw); }
   catch { throw Error('Invalid ' + field + ' URL: ' + id); }
   if (parsed.protocol !== 'https:' || !parsed.hostname || parsed.username || parsed.password ||
-      /^(localhost\.?|127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|169\.254\.|0\.|.*\.local\.?$)/i.test(parsed.hostname)) {
+      // Raw IPv6 literals and non-public development domains must never be published as lead links.
+      parsed.hostname.startsWith('[') || /(?:^|\.)(?:localhost|local|internal|test|invalid)$/i.test(parsed.hostname) ||
+      /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|169\.254\.|0\.)/i.test(parsed.hostname)) {
     throw Error('Only public HTTPS ' + field + ' URLs are allowed: ' + id);
   }
   return parsed;
