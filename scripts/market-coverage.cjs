@@ -51,8 +51,10 @@ function report(leads = loadDataset(), asOf = process.env.COVERAGE_AS_OF || new 
       reasons[reason] = (reasons[reason] || 0) + 1;
     }
   }
-  const percentage = value => leads.length ? Number((value / leads.length * 100).toFixed(1)) : 0;
-  for (const group of [byCity, byType]) for (const item of Object.values(group)) item.coveragePct = percentage(item.supported);
+  const percentage = (value, denominator = leads.length) => denominator ? Number((value / denominator * 100).toFixed(1)) : 0;
+  for (const group of [byCity, byType]) {
+    for (const item of Object.values(group)) item.coveragePct = percentage(item.supported, item.total);
+  }
   return {
     asOf,
     totalProperties: leads.length,
