@@ -90,7 +90,7 @@
     var title = 'Indicative market value';
     if (!benchmark) {
       return '<div class="market-value market-value--unavailable" aria-label="' + title + '">' +
-        '<span class="market-value__label">'+ icon('info') + '' + title + '</span>' +
+        '<span class="market-value__label">' + icon('info') + title + '</span>' +
         '<strong>Not available</strong>' +
         '<small>Insufficient recent, like-for-like listings. Confirm with local sale records or an independent valuer.</small></div>';
     }
@@ -98,7 +98,7 @@
       'Asking ' + Math.abs(benchmark.differencePercent) + '% ' +
       (benchmark.differencePercent < 0 ? 'below' : 'above') + ' benchmark';
     return '<div class="market-value" aria-label="' + title + '">' +
-      '<span class="market-value__label">'+ icon('info') + '' + title + '</span>' +
+      '<span class="market-value__label">' + icon('info') + title + '</span>' +
       '<strong>' + formatPrice(benchmark.estimateLakhs) + '</strong>' +
       '<span class="market-value__delta">' + escapeHtml(delta) + '</span>' +
       '<small>Indicative only: ' + benchmark.sampleSize + ' comparable asking listings in ' +
