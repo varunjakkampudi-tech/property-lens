@@ -1,6 +1,6 @@
 (function () {
   var mq = window.matchMedia('(max-width: 850px)');
-  if (!mq.matches) return;
+
 
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
@@ -11,7 +11,8 @@
     { key:'Plots', label:'Plots', icon:'▧', note:'Build your home or invest' }
   ];
   var compare = new Set();
-  var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended' };
+  var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended', filtersOpen:false };
+  var screen = 'locations';
 
   function readSaved() {
     try { return new Set(JSON.parse(localStorage.getItem('ap-shortlist') || '[]')); }
@@ -63,7 +64,13 @@
   var root = document.createElement('div');
   root.id = 'mobilePropertyApp';
   root.className = 'mpl-app';
-  document.body.prepend(root);
+  var skipLink = document.querySelector('.skip-link');
+  if (skipLink) {
+    document.body.insertBefore(root, skipLink.nextSibling);
+    function syncSkipLink() { skipLink.setAttribute('href', mq.matches ? '#mplMain' : '#main'); }
+    syncSkipLink();
+    mq.addEventListener('change', syncSkipLink);
+  } else document.body.prepend(root);
   document.body.classList.add('mobile-app-active');
 
   var dialog = document.createElement('dialog');
@@ -76,7 +83,7 @@
     return '<header class="mpl-topbar">' +
       '<button type="button" class="mpl-back" data-action="' + esc(backAction) + '" aria-label="Go back">‹</button>' +
       '<div class="mpl-topcopy"><small>' + esc(subtitle || '') + '</small><strong>' + esc(title) + '</strong></div>' +
-      (showFilter ? '<button type="button" class="mpl-filter-btn" data-action="toggle-filter" aria-expanded="false">Filters</button>' : '<span class="mpl-header-spacer"></span>') +
+      (showFilter ? '<button type="button" class="mpl-filter-btn" data-action="toggle-filter" aria-expanded="' + (state.filtersOpen ? 'true' : 'false') + '" aria-controls="mplFilters">Filters</button>' : '<span class="mpl-header-spacer"></span>') +
     '</header>';
   }
 
@@ -90,6 +97,8 @@
   }
 
   function renderChooser() {
+    screen = 'locations';
+    state.filtersOpen = false;
     state.city = null;
     state.category = null;
     state.view = 'all';
@@ -99,7 +108,7 @@
           '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true">⌂</div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
           '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">♡</button>' +
         '</header>' +
-        '<main class="mpl-chooser-body">' +
+        '<main id="mplMain" tabindex="-1" class="mpl-chooser-body">' +
           '<p class="mpl-eyebrow">STEP 1 OF 2</p>' +
           '<h1>Where do you want to buy?</h1>' +
           '<p class="mpl-lead">Find properties under ₹50 lakh. Choose a city, then Flats, Independent Houses or Plots.</p>' +
@@ -124,6 +133,8 @@
   }
 
   function renderCategories(city) {
+    screen = 'categories';
+    state.filtersOpen = false;
     state.city = city;
     state.category = null;
     state.view = 'all';
@@ -135,7 +146,7 @@
     root.innerHTML =
       '<section class="mpl-category-screen">' +
         topHeader(city, market.subtitle || 'Choose property type', 'locations', false) +
-        '<main class="mpl-category-body">' +
+        '<main id="mplMain" tabindex="-1" class="mpl-category-body">' +
           '<p class="mpl-eyebrow">STEP 2 OF 2</p>' +
           '<h1>What are you looking for?</h1>' +
           '<p class="mpl-lead">Choose one property type to see only relevant ' + esc(city) + ' listings.</p>' +
@@ -180,7 +191,7 @@
   }
 
   function filterPanel() {
-    return '<section id="mplFilters" class="mpl-filters" hidden>' +
+    return '<section id="mplFilters" class="mpl-filters"' + (state.filtersOpen ? '' : ' hidden') + '>' +
       '<label>Budget<select id="mplBudget"><option value="50">All under ₹50L</option><option value="20">Up to ₹20L</option><option value="25">Up to ₹25L</option><option value="30">Up to ₹30L</option><option value="35">Up to ₹35L</option><option value="40">Up to ₹40L</option><option value="45">Up to ₹45L</option></select></label>' +
       '<label>Sort<select id="mplSort"><option value="recommended">Best first</option><option value="price-asc">Price low to high</option><option value="price-desc">Price high to low</option></select></label>' +
     '</section>';
@@ -194,7 +205,7 @@
       '<div class="mpl-property-top">' +
         '<div class="mpl-thumb"><div>' + (p.type === 'Plot' ? '▧' : p.type === 'Flat' ? '▥' : '⌂') + '</div><small>' + esc(typeLabel(p.type)) + '</small></div>' +
         '<div class="mpl-property-info">' +
-          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Active') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + (isSaved ? '♥' : '♡') + '</button></div>' +
+          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Active') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + (isSaved ? '♥' : '♡') + '</button></div>' +
           '<div class="mpl-price">' + price(p.price) + '<small>' + esc(p.target || 'Negotiate') + '</small></div>' +
           '<h3>' + esc(p.name) + '</h3>' +
           '<div class="mpl-loc">' + esc(p.locality) + ', ' + esc(p.city) + '</div>' +
@@ -207,11 +218,12 @@
         '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">Source ↗</a>' +
         (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">⌖</a>' : '<span></span>') +
       '</div>' +
-      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '">' + (inCompare ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + (inCompare ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
     '</article>';
   }
 
   function renderResults(options) {
+    screen = 'results';
     options = options || {};
     var list = filtered();
     var savedMode = state.view === 'saved';
@@ -223,15 +235,15 @@
     root.innerHTML =
       '<section class="mpl-results">' +
         topHeader(title, subtitle, savedMode ? 'locations' : 'categories', !savedMode) +
-        '<main class="mpl-results-body">' +
+        '<main id="mplMain" tabindex="-1" class="mpl-results-body">' +
           '<div class="mpl-search"><span aria-hidden="true">⌕</span><input id="mplSearch" type="search" aria-label="Search properties" placeholder="Search locality or property" value="' + esc(state.query) + '"></div>' +
           filterPanel() +
-          '<div class="mpl-pills" role="tablist" aria-label="Property filters">' +
+          '<div class="mpl-pills" role="group" aria-label="Property filters">' +
             [['all','All'],['best','Best'],['gated','Gated']].map(function (pair) {
-              return '<button type="button" role="tab" aria-selected="' + (state.view === pair[0] ? 'true' : 'false') + '" class="mpl-pill ' + (state.view === pair[0] ? 'active' : '') + '" data-view="' + pair[0] + '">' + pair[1] + '</button>';
+              return '<button type="button" aria-pressed="' + (state.view === pair[0] ? 'true' : 'false') + '" class="mpl-pill ' + (state.view === pair[0] ? 'active' : '') + '" data-view="' + pair[0] + '">' + pair[1] + '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-result-head"><div><small>' + esc(categoryLabel) + '</small><h2>' + esc(heading) + '</h2></div><span>' + (state.sort === 'recommended' ? 'Best first' : state.sort === 'price-asc' ? 'Lowest price' : 'Highest price') + '</span></div>' +
+          '<div class="mpl-result-head"><div><small>' + esc(categoryLabel) + '</small><h2 aria-live="polite" aria-atomic="true">' + esc(heading) + '</h2></div><span>' + (state.sort === 'recommended' ? 'Best first' : state.sort === 'price-asc' ? 'Lowest price' : 'Highest price') + '</span></div>' +
           '<div class="mpl-cards">' + (list.length ? list.map(card).join('') : '<div class="mpl-empty"><strong>No matching properties</strong><span>Try another filter or category.</span></div>') + '</div>' +
         '</main>' +
         bottomNav(savedMode ? 'saved' : 'browse') +
@@ -246,11 +258,12 @@
   }
 
   function renderCompare() {
+    screen = 'compare';
     var list = Array.from(compare).map(function (id) { return properties.find(function (p) { return p.id === id; }); }).filter(Boolean);
     root.innerHTML =
       '<section class="mpl-results">' +
         topHeader('Compare', list.length ? list.length + ' selected' : 'No properties selected', state.city ? 'categories' : 'locations', false) +
-        '<main class="mpl-results-body mpl-compare-body">' +
+        '<main id="mplMain" tabindex="-1" class="mpl-results-body mpl-compare-body">' +
           (list.length ? '<div class="mpl-cards">' + list.map(card).join('') + '</div>' : '<div class="mpl-empty mpl-empty-large"><strong>No properties selected</strong><span>Open a property and tap “Add to compare”.</span><button type="button" data-nav="browse">Browse properties</button></div>') +
         '</main>' +
         bottomNav('compare') +
@@ -294,14 +307,16 @@
   function toggleSaved(id) {
     if (saved.has(id)) saved.delete(id); else saved.add(id);
     persistSaved();
-    renderResults();
+    if (screen === 'compare') renderCompare(); else renderResults();
   }
 
   function toggleCompare(id) {
     if (compare.has(id)) compare.delete(id);
     else if (compare.size < 4) compare.add(id);
     else { showToast('Compare up to 4 properties.'); return; }
-    if (!dialog.open) renderResults();
+    if (!dialog.open) {
+      if (screen === 'compare') renderCompare(); else renderResults();
+    }
   }
 
   function showToast(message) {
@@ -312,6 +327,21 @@
     t.textContent = message;
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, 2200);
+  }
+
+  function bindPropertyCards() {
+    root.querySelectorAll('[data-details]').forEach(function (el) { el.onclick = function () { openDetails(el.getAttribute('data-details')); }; });
+    root.querySelectorAll('[data-save]').forEach(function (el) { el.onclick = function () { toggleSaved(el.getAttribute('data-save')); }; });
+    root.querySelectorAll('[data-compare]').forEach(function (el) { el.onclick = function () { toggleCompare(el.getAttribute('data-compare')); }; });
+  }
+
+  function updateResultCards() {
+    var list = filtered();
+    var heading = root.querySelector('.mpl-result-head h2');
+    if (heading) heading.textContent = list.length + ' active ' + (list.length === 1 ? 'property' : 'properties');
+    var cards = root.querySelector('.mpl-cards');
+    if (cards) cards.innerHTML = list.length ? list.map(card).join('') : '<div class="mpl-empty"><strong>No matching properties</strong><span>Try another filter or category.</span></div>';
+    bindPropertyCards();
   }
 
   function bind() {
@@ -326,12 +356,12 @@
         state.query = '';
         state.budget = '50';
         state.sort = 'recommended';
+        state.filtersOpen = false;
         renderResults({focusResults:true});
       };
     });
 
     root.querySelectorAll('[data-action="locations"]').forEach(function (el) { el.onclick = renderChooser; });
-    root.querySelectorAll('[data-action="categories"]').forEach(function (el) { el.onclick = function () { if (state.city && state.city !== 'all') renderCategories(state.city); else renderChooser(); }; });
     root.querySelectorAll('[data-action="categories"]').forEach(function (el) {
       el.onclick = function () { if (state.city && state.city !== 'all') renderCategories(state.city); else renderChooser(); };
     });
@@ -341,6 +371,7 @@
         var panel = document.getElementById('mplFilters');
         if (!panel) return;
         var open = panel.hasAttribute('hidden');
+        state.filtersOpen = open;
         if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden','');
         el.setAttribute('aria-expanded', open ? 'true' : 'false');
       };
@@ -367,20 +398,12 @@
       };
     });
 
-    root.querySelectorAll('[data-details]').forEach(function (el) { el.onclick = function () { openDetails(el.getAttribute('data-details')); }; });
-    root.querySelectorAll('[data-save]').forEach(function (el) { el.onclick = function () { toggleSaved(el.getAttribute('data-save')); }; });
-    root.querySelectorAll('[data-compare]').forEach(function (el) { el.onclick = function () { toggleCompare(el.getAttribute('data-compare')); }; });
+    bindPropertyCards();
 
     var search = document.getElementById('mplSearch');
     if (search) search.oninput = function () {
       state.query = search.value;
-      var cursor = search.selectionStart;
-      renderResults();
-      var updated = document.getElementById('mplSearch');
-      if (updated) {
-        updated.focus({ preventScroll: true });
-        if (typeof cursor === 'number') updated.setSelectionRange(cursor, cursor);
-      }
+      updateResultCards();
     };
     var budget = document.getElementById('mplBudget');
     if (budget) budget.onchange = function () { state.budget = budget.value; renderResults(); };
