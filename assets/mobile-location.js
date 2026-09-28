@@ -25,20 +25,21 @@
   var esc = core.escapeHtml;
   var price = core.formatPrice;
 
-  function marketEstimate(p) { return core.comparableMarketValue(p, properties); }
+  var benchmarkById = new Map(properties.map(function (p) { return [p.id, core.comparableMarketValue(p, properties)]; }));
+  function marketEstimate(p) { return benchmarkById.get(p.id) || null; }
   function marketValueText(p) {
     var estimate = marketEstimate(p);
-    return estimate ? price(estimate.valueLakh) : 'Not enough comparable data';
+    return estimate ? price(estimate.valueLakh) : 'Not available';
   }
   function marketDeltaText(p) {
     var estimate = marketEstimate(p);
-    if (!estimate || !Number.isFinite(estimate.deltaPct)) return 'Estimate unavailable';
-    var absolute = Math.abs(estimate.deltaPct);
-    if (absolute < 1) return 'Near comparable estimate';
-    return absolute.toFixed(0) + '% ' + (estimate.deltaPct < 0 ? 'below' : 'above') + ' comparable estimate';
+    if (!estimate) return 'Insufficient recent comparable listings';
+    var delta = Math.abs(estimate.deltaPct) < 1 ? 'Near comparable estimate' :
+      Math.abs(estimate.deltaPct).toFixed(0) + '% ' +
+      (estimate.deltaPct < 0 ? 'below' : 'above') + ' comparable asking benchmark';
+    return delta + ' · ' + estimate.sampleSize + ' comps (' + estimate.scope +
+      ') · checked ' + estimate.checkedOn;
   }
-
-  function iconForCity() { return ico('map-pin'); }
 
   function categoryFor(p) { return p.category; }
 
@@ -107,7 +108,7 @@
             cities.map(function (city) {
               var m = markets[city] || {};
               return '<button type="button" class="mpl-city" data-city="' + esc(city) + '">' +
-                '<div class="mpl-city-icon" aria-hidden="true">' + iconForCity(city) + '</div>' +
+                '<div class="mpl-city-icon" aria-hidden="true">' + ico('map-pin') + '</div>' +
                 '<b>' + countFor(city) + ' listed</b>' +
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
@@ -287,7 +288,7 @@
         '<div class="mpl-dialog-actions">' +
           '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
-          (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
+          (phone ? '<a href="tel:+91' + esc(phone) + '">Call ' + ico('phone') + '</a>' : '') +
         '</div>' +
         '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare') + '</button>' +
       '</div>';

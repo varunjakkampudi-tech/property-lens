@@ -33,45 +33,66 @@
     return /^\d{10}$/.test(digits) ? digits : '';
   }
   // Icons are same-origin SVG symbols. Both inputs are allowlisted before HTML insertion.
-  var iconNames = new Set(['map-pin','waves','building','house','plot','search','heart','compare','check',
-    'check-circle','filter','arrow-right','arrow-left','chevron-right','external','bookmark',
-    'shield-check','book-open','clock','list','trees','landmark','info','x','plus',
-    'clipboard','reset','phone','eye','note','chart','location']);
+  var iconNames = new Set(['map-pin','building','house','plot','search','heart','compare','check',
+    'check-circle','filter','arrow-left','chevron-right','external','book-open','list',
+    'info','x','plus','clipboard','reset','phone','note','chart']);
   function icon(name, className) {
     if (!iconNames.has(name)) return '';
     var cssClass = typeof className === 'string' && /^[a-zA-Z0-9_-]+$/.test(className) ? ' ' + className : '';
     return '<svg class="pl-icon' + cssClass + '" aria-hidden="true" focusable="false"><use href="assets/icons.svg#' + name + '"></use></svg>';
   }
-  function comparableMarketValue(lead, leads) {
-    if (!lead || !Number.isFinite(Number(lead.size)) || Number(lead.size) <= 0 || !Array.isArray(leads)) return null;
-    var unit = String(lead.sizeUnit || '').toLowerCase().replace(/\s+/g, '');
-    if (!unit) return null;
-    var locality = String(lead.locality || '').trim().toLowerCase();
-    var pool = leads.filter(function (candidate) {
-      if (!candidate || candidate.id === lead.id || !isEligibleLead(candidate)) return false;
-      if (candidate.city !== lead.city || candidate.category !== lead.category) return false;
-      if (!Number.isFinite(Number(candidate.size)) || Number(candidate.size) <= 0) return false;
-      return String(candidate.sizeUnit || '').toLowerCase().replace(/\s+/g, '') === unit;
+  // Median comparable *asking* prices, never a sale-price valuation.
+  // Require recent, similarly sized listings with the same area measurement basis.
+  function comparableMarketValue(lead, leads, asOf) {
+    if (!lead || !isEligibleLead(lead) || !Array.isArray(leads) ||
+        !['Flats', 'Plots'].includes(lead.category) ||
+        typeof lead.size !== 'number' || !Number.isFinite(lead.size) || lead.size <= 0 ||
+        typeof lead.sizeUnit !== 'string' || !lead.sizeUnit.trim()) return null;
+    var now = asOf ? new Date(asOf) : new Date();
+    if (!Number.isFinite(now.getTime())) return null;
+    var latest = now.getTime() + 86400000;
+    var earliest = now.getTime() - 90 * 86400000;
+    function recentlyChecked(date) {
+      if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+      var timestamp = Date.parse(date + 'T00:00:00Z');
+      return Number.isFinite(timestamp) && timestamp >= earliest && timestamp <= latest;
+    }
+    if (!recentlyChecked(lead.verifiedOn)) return null;
+    var locality = String(lead.market || lead.locality || '').trim().toLowerCase();
+    var peers = leads.filter(function (candidate) {
+      if (!candidate || candidate.id === lead.id || !isEligibleLead(candidate) ||
+          candidate.city !== lead.city || candidate.category !== lead.category ||
+          candidate.type !== lead.type || candidate.sizeUnit !== lead.sizeUnit ||
+          candidate.linkType !== 'Direct listing' || !recentlyChecked(candidate.verifiedOn) ||
+          typeof candidate.size !== 'number' || !Number.isFinite(candidate.size) ||
+          candidate.size < lead.size * 0.7 || candidate.size > lead.size * 1.3) return false;
+      return !lead.ageGroup || lead.ageGroup === 'unknown' ||
+        !candidate.ageGroup || candidate.ageGroup === 'unknown' ||
+        candidate.ageGroup === lead.ageGroup;
     });
-    var local = pool.filter(function (candidate) {
-      return locality && String(candidate.locality || '').trim().toLowerCase() === locality;
+    var local = peers.filter(function (p) {
+      return locality && String(p.market || p.locality || '').trim().toLowerCase() === locality;
     });
-    var comparables = local.length >= 2 ? local : pool;
-    if (comparables.length < 2) return null;
-    var rates = comparables.map(function (candidate) {
-      return Number(candidate.price) * 100000 / Number(candidate.size);
-    }).filter(function (rate) { return Number.isFinite(rate) && rate > 0; }).sort(function (a, b) { return a - b; });
-    if (rates.length < 2) return null;
+    // A city-wide fallback is only useful for flats, and requires more evidence.
+    // House values combine land and buildings, so built-up-area ratios are not comparable.
+    var comparables = local.length >= 3 ? local :
+      lead.category === 'Flats' && peers.length >= 5 ? peers : [];
+    if (comparables.length < 3) return null;
+    var rates = comparables.map(function (p) { return p.price * 100000 / p.size; })
+      .filter(function (rate) { return Number.isFinite(rate) && rate > 0; })
+      .sort(function (a, b) { return a - b; });
+    if (rates.length < 3) return null;
     var middle = Math.floor(rates.length / 2);
     var medianRate = rates.length % 2 ? rates[middle] : (rates[middle - 1] + rates[middle]) / 2;
-    var valueLakh = medianRate * Number(lead.size) / 100000;
-    var deltaPct = Number(lead.price) > 0 ? ((Number(lead.price) - valueLakh) / valueLakh) * 100 : null;
+    var valueLakh = Math.round(medianRate * lead.size / 10000) / 10;
+    if (!(valueLakh > 0)) return null;
     return Object.freeze({
       valueLakh: valueLakh,
-      rate: medianRate,
+      rate: Math.round(medianRate),
       sampleSize: rates.length,
-      scope: local.length >= 2 ? 'same locality' : 'same city & property type',
-      deltaPct: deltaPct
+      scope: local.length >= 3 ? 'same locality' : 'city-wide asking listings',
+      checkedOn: comparables.map(function (p) { return p.verifiedOn; }).sort().pop(),
+      deltaPct: Math.round((lead.price - valueLakh) / valueLakh * 100)
     });
   }
   function sourceLinkLabel(lead) {

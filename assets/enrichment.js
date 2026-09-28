@@ -91,7 +91,7 @@
           var callA = document.createElement("a");
           callA.className = "source-link phone-link";
           callA.href = "tel:+91" + core.normalizeIndianBusinessPhone(p.publicPhone);
-          callA.textContent = "Call";
+          callA.innerHTML = "Call " + ico("phone");
           actions.appendChild(callA);
         }
       }
