@@ -377,6 +377,9 @@
           state.category = 'all';
           state.view = 'saved';
           state.query = '';
+          state.budget = '50';
+          state.sort = 'recommended';
+          state.filtersOpen = false;
           renderResults();
         } else if (nav === 'compare') renderCompare();
       };
