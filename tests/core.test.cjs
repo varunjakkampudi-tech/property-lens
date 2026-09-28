@@ -69,3 +69,39 @@ test('shared SVG icons reject unknown names and unsafe CSS class input', () => {
   assert.equal(core.icon('not-a-real-icon'), '');
   assert.equal(core.icon('map-pin', 'x" onload="alert(1)'), core.icon('map-pin'));
 });
+
+test('indicative market value uses at least three recent like-for-like asking listings', () => {
+  const core = loadCore();
+  const base = { city: 'Vizag', category: 'Flats', type: 'Flat',
+    market: 'Sujatha Nagar', size: 1000, sizeUnit: 'sq.ft',
+    verifiedOn: '2026-09-28', linkType: 'Direct listing' };
+  const subject = { ...base, id: 'subject', price: 36 };
+  const peers = [
+    { ...base, id: 'one', price: 38 },
+    { ...base, id: 'two', price: 40 },
+    { ...base, id: 'three', price: 42 }
+  ];
+  const result = core.marketBenchmark(subject, [subject, ...peers], '2026-09-28');
+  assert.equal(result.estimateLakhs, 40);
+  assert.equal(result.differencePercent, -10);
+  assert.equal(result.sampleSize, 3);
+  assert.equal(result.checkedOn, '2026-09-28');
+  assert.equal(result.method, 'comparable asking listings');
+  assert.equal(core.marketBenchmark(subject, [subject, ...peers.slice(0, 2)], '2026-09-28'), null);
+  assert.equal(core.marketBenchmark(subject, [subject, ...peers.map(p => ({ ...p, sizeUnit: 'sq.ft carpet' }))], '2026-09-28'), null);
+  assert.equal(core.marketBenchmark(subject, [subject, ...peers.map(p => ({ ...p, market: 'Madhurawada' }))], '2026-09-28'), null);
+  assert.equal(core.marketBenchmark(subject, [subject, ...peers.map(p => ({ ...p, verifiedOn: '2026-01-01' }))], '2026-09-28'), null);
+  assert.equal(core.marketBenchmark({ ...subject, category: 'Independent Houses' }, [subject, ...peers], '2026-09-28'), null);
+});
+
+test('market value cards disclose unavailable estimates and escape locality metadata', () => {
+  const core = loadCore();
+  const lead = { id: 'x', city: 'Vizag', category: 'Flats', type: 'Flat',
+    market: '<script>alert(1)</script>', size: 1000, sizeUnit: 'sq.ft',
+    verifiedOn: '2026-09-28', linkType: 'Direct listing', price: 35 };
+  assert.match(core.marketValueMarkup(lead, []), /Indicative market value/);
+  assert.match(core.marketValueMarkup(lead, []), /Not available/);
+  assert.equal(core.icon('waves'), '');
+  assert.match(core.icon('plot'), /icons\\.svg#plot/);
+  assert.match(core.icon('compare'), /icons\\.svg#compare/);
+});
