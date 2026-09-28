@@ -10,7 +10,6 @@
   const notes = core.readRecord('ap-notes');
   const esc = core.escapeHtml;
   const ico = core.icon;
-  const cityIcons = Object.freeze({ Vizag: 'map-pin', Tanuku: 'map-pin', Palakollu: 'map-pin', Bhimavaram: 'map-pin', Eluru: 'map-pin' });
   const categories = [
     { key: 'Flats', title: 'Flats', note: 'Apartments and communities', icon: 'building' },
     { key: 'Independent Houses', title: 'Independent Houses', note: 'Homes and villas with more privacy', icon: 'house' },
@@ -21,7 +20,8 @@
   const icon = p => ico(p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : 'building');
   const heroClass = p => p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : '';
   const dealClass = d => d === 'Strong Deal' ? 'strong' : d === 'Potential Bargain' ? 'bargain' : d === 'Good Value' ? 'good' : d === 'Fair / Negotiate' ? 'fair' : 'watch';
-  const marketEstimate = p => core.comparableMarketValue(p, properties);
+  const benchmarkById = new Map(properties.map(p => [p.id, core.comparableMarketValue(p, properties)]));
+  const marketEstimate = p => benchmarkById.get(p.id) || null;
   const marketValueText = p => {
     const estimate = marketEstimate(p);
     return estimate ? priceText(estimate.valueLakh) : 'Not available';
@@ -93,7 +93,7 @@
     $('citySummary').innerHTML = Object.entries(markets).map(([city, m]) => {
       const cityLeads = properties.filter(p => p.city === city && core.isEligibleLead(p));
       return `<button type="button" class="city-card ${state.city === city ? 'active' : ''}" data-city-card="${esc(city)}" aria-pressed="${state.city === city}">
-        <span class="city-card-icon">${ico(cityIcons[city] || 'map-pin')}</span>
+        <span class="city-card-icon">${ico('map-pin')}</span>
         <span class="city-card-count">${cityLeads.length} listed</span>
         <strong>${esc(city)}</strong>
         <span class="city-sub">${esc(m.subtitle || 'Andhra Pradesh')}</span>
