@@ -1806,11 +1806,11 @@ window.PROPERTY_DATA = [
     "poster": "Jayanth Motamarri (qatar)",
     "posterType": "Owner",
     "lastSeen": "Last updated Aug 24, 2026; still indexed Sep 2026",
-    "verifiedOn": "2026-09-28",
-    "url": "https://housing.com/in/buy/resale/page/19859118-2-bhk-apartment-in-tanuku-for-rs-3500000",
-    "linkType": "Direct listing",
+    "verifiedOn": "2026-09-29",
+    "url": "https://housing.com/in/buy/west-godavari/tanuku-gid/2bhk-flats-fid/",
+    "linkType": "Results page",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=SR%20Plaza%20Tanuku%20West%20Godavari",
-    "notes": "Good central-apartment option. Confirm whether registration/parking offers still apply and check association dues.",
+    "notes": "Housing currently resolves the former property URL to a Tanuku 2BHK results page rather than a unique listing. Treat price, availability, registration, parking and association dues as unconfirmed until independently re-verified.",
     "availabilityStatus": "publicly_listed_unconfirmed"
   },
   {

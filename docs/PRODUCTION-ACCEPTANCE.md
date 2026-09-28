@@ -18,7 +18,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Protected publisher | Implemented | Data-only PR creation, bounded retries, duplicate-PR handling and squash auto-merge are implemented. |
 | Publisher no-feed smoke test | Passed | Manual run [36483418521](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521) completed as `no_feed` with zero accepted/rejected records, no PR, and a persistent artifact. |
 | Genuine unattended cycles | Not yet proven | At least two independent cloud runs must produce discovery evidence, a data-only PR, protected merge, Pages deployment and exact-SHA health evidence. |
-| Market benchmark coverage | Incomplete | 14 of 61 properties currently have supported comparable estimates; 48 records now disclose direct listing evidence, but coverage is still concentrated in Vizag. |
+| Market benchmark coverage | Incomplete | 14 of 61 properties currently have supported comparable estimates; 47 records now disclose direct listing evidence, but coverage is still concentrated in Vizag. |
 | Workflow error history | Clear | The final inventory contained no failed or cancelled runs; successful runs were retained as release evidence. |
 | Operational notifications | Partially verified | Task and GitHub failure-notification settings require account-level confirmation; repository files cannot prove them. |
 
