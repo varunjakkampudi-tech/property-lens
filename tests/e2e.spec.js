@@ -336,4 +336,20 @@ test.describe('Property Lens production flows', () => {
     await assertA11y(page);
   });
 
+  test('desktop: intermediate widths retain usable navigation and no horizontal overflow', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    for (const width of [851, 940, 1024, 1280, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expect(page.locator('#mobilePropertyApp')).toBeHidden();
+      await expect(page.locator('.sidebar')).toBeVisible();
+      await expect(page.locator('.city-card')).toHaveCount(cities.length);
+      await assertNoHorizontalOverflow(page);
+      if (width === 851) {
+        await assertA11y(page);
+        await page.screenshot({ path: 'visual-desktop-851.png', fullPage: false });
+      }
+    }
+  });
+
 });
