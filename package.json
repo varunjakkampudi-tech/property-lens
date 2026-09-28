@@ -3,12 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test:syntax": "node --check data/properties.js && node --check assets/core.js && node --check assets/app.js && node --check assets/enrichment.js && node --check assets/mobile-location.js && node --check scripts/serve.cjs && node --check scripts/validate-data.cjs && node --check scripts/production-health.cjs && node --check tests/core.test.cjs && node --check tests/server.test.cjs && node --check tests/production-health.test.cjs && node --check tests/e2e.spec.js && node --check playwright.config.js",
+    "test:syntax": "node --check data/properties.js && node --check assets/core.js && node --check assets/app.js && node --check assets/enrichment.js && node --check assets/mobile-location.js && node --check scripts/serve.cjs && node --check scripts/validate-data.cjs && node --check scripts/production-health.cjs && node --check tests/core.test.cjs && node --check tests/server.test.cjs && node --check tests/production-health.test.cjs && node --check tests/data-contract.test.cjs && node --check tests/e2e.spec.js && node --check playwright.config.js",
     "test:data": "node scripts/validate-data.cjs",
     "test:e2e": "playwright test",
     "test:quality": "npm run test:syntax && npm run test:data && npm run test:unit && npm run test:e2e",
     "dev": "node scripts/serve.cjs",
-    "test:unit": "node --test tests/core.test.cjs tests/server.test.cjs tests/production-health.test.cjs"
+    "test:unit": "node --test tests/core.test.cjs tests/server.test.cjs tests/production-health.test.cjs tests/data-contract.test.cjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
