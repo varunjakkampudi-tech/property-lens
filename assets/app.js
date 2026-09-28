@@ -59,7 +59,7 @@
     $('searchInput').addEventListener('input', render);
     $('resetFilters').addEventListener('click', () => {
       state.city='all'; state.view='all';
-      $('cityFilter').value='all'; $('typeFilter').value='all'; $('budgetFilter').value='999'; $('ageFilter').value='all'; $('gatedFilter').value='all'; $('dealFilter').value='all'; $('sortSelect').value='recommended'; $('searchInput').value='';
+      $('cityFilter').value='all'; $('typeFilter').value='all'; $('budgetFilter').value='50'; $('ageFilter').value='all'; $('gatedFilter').value='all'; $('dealFilter').value='all'; $('sortSelect').value='recommended'; $('searchInput').value='';
       document.querySelectorAll('.tab').forEach(t=>{ const active=t.dataset.view==='all'; t.classList.toggle('active',active); t.setAttribute('aria-selected', active ? 'true' : 'false'); }); renderCities(); render();
     });
     document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
@@ -76,8 +76,8 @@
     let list=properties.filter(p => {
       if(state.city!=='all'&&p.city!==state.city) return false;
       if(type!=='all'&&p.type!==type) return false;
-      if(p.price!=null&&p.price>budget) return false;
-      if(p.price==null&&budget<999) return false;
+      if(typeof p.price!=='number'||!Number.isFinite(p.price)||p.price<0||p.price>=50) return false;
+      if(p.price>budget) return false;
       if(age!=='all'&&p.ageGroup!==age) return false;
       if(gated!=='all') {
         if(gated==='yes'&&p.gated!=='yes') return false;
