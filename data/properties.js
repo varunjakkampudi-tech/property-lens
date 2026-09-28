@@ -1200,7 +1200,7 @@ window.PROPERTY_DATA = [
     "availabilityStatus": "publicly_listed_unconfirmed"
   },
   {
-    "verifiedOn": "2026-09-28",
+    "verifiedOn": "2026-09-29",
     "status": "Public listing; availability must be confirmed",
     "ageGroup": "resale",
     "gated": "partial",
@@ -1212,7 +1212,7 @@ window.PROPERTY_DATA = [
       "Gym & lift",
       "Power backup"
     ],
-    "notes": "Availability can change quickly. Reconfirm with the poster before travelling or paying any token.",
+    "notes": "Direct Housing.com listing verified 2026-09-29. Availability can change quickly; reconfirm with the poster before travelling or paying any token.",
     "source": "Housing.com",
     "platform": "Housing.com",
     "poster": "Owner listing",
@@ -1220,7 +1220,7 @@ window.PROPERTY_DATA = [
     "lastSeen": "Updated Sep 2026",
     "publicPhone": null,
     "phoneLabel": null,
-    "linkType": "Current locality results page",
+    "linkType": "Direct listing",
     "score": 86,
     "id": "live-bvrm-03",
     "city": "Bhimavaram",
@@ -1233,7 +1233,7 @@ window.PROPERTY_DATA = [
     "type": "Flat",
     "age": "Ready resale",
     "deal": "Fair / Negotiate",
-    "url": "https://housing.com/in/buy/bhimavaram/chinamiram-rural-gid/2bhk-ready-to-move-fid/",
+    "url": "https://housing.com/in/buy/resale/page/16568548-2-bhk-apartment-in-chinnamiram-for-rs-4950000-v2",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=Chinnamiram%20Bhimavaram",
     "category": "Flats",
     "availabilityStatus": "publicly_listed_unconfirmed"
@@ -2153,7 +2153,7 @@ window.PROPERTY_DATA = [
   },
   {
     "city": "Eluru",
-    "verifiedOn": "2026-09-28",
+    "verifiedOn": "2026-09-29",
     "status": "Public listing; availability must be confirmed",
     "availabilityStatus": "publicly_listed_unconfirmed",
     "ageGroup": "resale",
@@ -2166,7 +2166,7 @@ window.PROPERTY_DATA = [
       "Owner listing",
       "Near local schools and hospitals"
     ],
-    "notes": "Housing search-results page rather than a unique property URL. Do not treat the seller's availability as confirmed; open the results and verify the individual listing.",
+    "notes": "Direct Housing.com listing verified 2026-09-29. Availability can change quickly; reconfirm with the poster before travelling or paying any token.",
     "platform": "Housing.com",
     "source": "Housing.com",
     "poster": "Mohammad Imam",
@@ -2174,7 +2174,7 @@ window.PROPERTY_DATA = [
     "lastSeen": "Included in Housing.com Eluru results indexed Sep 2026",
     "publicPhone": null,
     "phoneLabel": null,
-    "linkType": "Current search-results page; locate the Ashok Nagar 1138 sq.ft listing",
+    "linkType": "Direct listing",
     "score": 76,
     "id": "elr-housing-flat-ashok-1138",
     "name": "Ashok Nagar owner 2BHK flat",
@@ -2186,7 +2186,7 @@ window.PROPERTY_DATA = [
     "type": "Flat",
     "category": "Flats",
     "age": "Ready-to-move resale",
-    "url": "https://housing.com/in/buy/eluru/chinnampet-gid/resale-fid/",
+    "url": "https://housing.com/in/buy/resale/page/18075691-2-bhk-apartment-in-ashok-nagar-for-rs-4000000",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=Ashok%20Nagar%20Eluru"
   },
   {
