@@ -41,6 +41,8 @@ flowchart LR
 | `scripts/validate-data.cjs` | Release-blocking schema, identity, price, URL, provenance and queue checks | Proving a seller still has inventory |
 | `scripts/serve.cjs` | Local, allowlisted development/test HTTP server | Production hosting |
 | `tests/*` | Unit, security, responsive, behavioral and accessibility regression checks | Real-time seller availability checks |
+| `scripts/production-health.cjs` | Read-only exact-SHA live asset verification and 14-day per-city source-check freshness | Discovery, seller confirmation or GitHub mutation |
+| `.github/workflows/production-health.yml` | Independent daily production health signal | Data publication or permission escalation |
 
 Keep modules dependency-free at runtime. Load the dataset, then `core.js`, then desktop/enrichment/mobile modules. The mobile UI is the sole mobile implementation; obsolete mobile navigation and legacy city-mode CSS must not be reintroduced. Desktop follows the same location → category → listings decision flow, with optional advanced filters and secondary resources.
 
@@ -90,10 +92,12 @@ The selected budget is a **view filter**. Discovery covers the full under-₹50L
 | Syntax | `npm run test:syntax` | Any checked JS file fails parsing |
 | Data and trust | `npm run test:data` | Invalid identity, price, category, status, date, URL, contact or review queue |
 | Unit and security | `npm run test:unit` | Shared primitives or local-server tests fail |
+| Dependency security | `npm audit --audit-level=high` | A high/critical npm advisory affects the locked dependency tree |
 | Browser journeys | `npm run test:e2e` | Mobile/desktop flow, filters, focus, shortlist, compare or dialogs regress |
 | Accessibility | Playwright + axe | Serious or critical violations |
 | Deployment | `.github/workflows/pages.yml` | Build, Pages deployment or live smoke verification fails |
 | Publication identity | `deploy-version.txt` | Published SHA differs from the commit being released |
+| Daily operational health | `scripts/production-health.cjs` in scheduled workflow | Live SHA/assets fail or an active city lacks a source check within 14 days |
 
 Playwright derives counts from the current dataset rather than hard-coded inventory. The local server starts automatically during E2E; CI uses a fresh server. GitHub Actions deploys only from `main`, creates a clean `_site` artifact and verifies the live homepage, data, mobile script, shared core and exact commit marker. A queued, in-progress, cancelled or failed workflow is not a successful release.
 

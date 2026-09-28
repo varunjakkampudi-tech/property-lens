@@ -28,6 +28,16 @@ Playwright starts the allowlisted local server automatically. The workflow uses 
 
 The workflow retains Playwright screenshots, traces and HTML reports as short-lived artifacts for debugging. A successful workflow is stronger evidence than a green local build because it verifies the public Pages CDN after deployment.
 
+## Daily production health and freshness
+
+The read-only [Daily production health](../.github/workflows/production-health.yml) workflow runs every day at approximately 08:47 IST (GitHub may delay scheduled jobs) and supports manual `workflow_dispatch`. It verifies the exact default-branch SHA against the live `deploy-version.txt`, checks the homepage and five critical public assets, and assesses source-check freshness per city. A city with published leads and no source check within 14 days causes the health run to fail. The workflow does not mutate leads, infer seller availability or circumvent the scheduled research task's GitHub write restrictions. Its unit tests run in the PR and production release quality gates.
+
+A failing daily health check is an operational alert, not evidence that an individual property is sold. Investigate the exact SHA, source-check dates and failing asset; perform a real source review before changing `verifiedOn`. Do not fabricate dates to clear the check.
+
+## GitHub repository protections (owner configuration)
+
+For an enforceable production release policy, configure a GitHub ruleset or branch protection for `main` in **Settings → Rules → Rulesets** or **Settings → Branches**, subject to your account's available controls. Require pull requests for application/workflow changes, the **Pull request quality / quality** status check, and prevent force pushes/deletions. Keep Pages publishing limited to the tested `main` workflow. Allow the explicitly authorized data publisher only the minimal exception necessary for reviewed data-only updates; never grant it a blanket quality-gate bypass. Check GitHub Actions permissions and GitHub Pages source in repository settings. These administrative settings cannot be established or verified by changing repository files alone.
+
 ## Ongoing data updates
 
 After the final code release, the hourly discovery task may update only `data/properties.js` and `data/review-queue.json`. Every material data commit triggers the same quality and deployment gates. The ChatGPT hourly task is **separate** from GitHub Actions and can only perform repository writes when its connected tools and permissions permit.

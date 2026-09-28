@@ -1,0 +1,34 @@
+name: Daily production health
+
+on:
+  schedule:
+    # 08:47 IST; GitHub's scheduled runs may start later under load.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: property-lens-production-health
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout current default branch
+        uses: actions/checkout@v6
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Validate published lead integrity
+        run: npm run test:data
+      - name: Verify exact live commit, public assets and city freshness
+        env:
+          SITE_URL: https://varunjakkampudi-tech.github.io/property-lens/
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/production-health.cjs

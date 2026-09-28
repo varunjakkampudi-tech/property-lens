@@ -38,6 +38,12 @@ A search-results URL is not an exact listing URL. Preserve `linkType` accurately
 
 If the task lacks write or test tools, or a scheduled execution is rejected by the platform's GitHub write-safety gate, preserve a reviewable, machine-readable data-only candidate patch with the discovered leads and exact URLs in the run report and state that publication is **not verified**. Do not disable the research schedule and do not claim that a Pages retry can fix a missing commit. Attempt publication once per run when authorized; direct-to-main is preferred for data-only writes, with a data-only branch/PR fallback only when those mutations are permitted. Repeated safety-gate denials require an explicitly authorized publisher or an approved interactive write, not a workaround in GitHub Actions. If CI or live deployment fails after a real commit exists, leave the last successful release intact, capture the exact SHA/run link and surface the failure for a separately reviewed fix.
 
+## Independent production health
+
+The repository's daily GitHub Actions health check is independent of ChatGPT Tasks and runs even if the research task cannot write. It compares the exact live commit with the default branch, checks public assets and flags cities whose published leads have not been source-checked within 14 days. A health failure does **not** authorize an artificial `verifiedOn` update. Investigate the sources, retain evidence and publish only when the GitHub writer is authorized.
+
+For genuinely unattended publication, the repository owner must provide an explicitly authorized publishing integration with the necessary GitHub permissions and approved public discovery sources. A GitHub Actions deployment workflow cannot publish a lead that was never committed, and a workflow cannot remove the ChatGPT scheduler's write-safety restriction. Keep the research task enabled and retain its evidence when writes are blocked.
+
 ## Code freeze and escalation
 
 The final application release is frozen. Scheduled discovery is authorized for **data-only updates**, not opportunistic refactors. A broken user flow, security issue or required schema change is an engineering escalation and needs a separately reviewed change, full regression tests and a verified release.

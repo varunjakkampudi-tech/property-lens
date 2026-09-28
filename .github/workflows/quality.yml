@@ -42,6 +42,7 @@ jobs:
       - name: Install browser tests
         run: |
           npm ci --no-audit --no-fund
+          npm audit --audit-level=high --no-fund
           npx playwright install --with-deps chromium
       - name: Mobile, desktop and accessibility E2E
         run: npm run test:e2e

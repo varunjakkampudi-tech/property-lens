@@ -37,6 +37,15 @@ async function chooseCategory(page, city, category) {
 }
 
 test.describe('Property Lens production flows', () => {
+  test.beforeEach(async ({ page }) => {
+    page.__propertyLensErrors = [];
+    page.on('pageerror', error => page.__propertyLensErrors.push(error.message));
+  });
+
+  test.afterEach(async ({ page }) => {
+    expect(page.__propertyLensErrors, 'No uncaught browser errors are permitted').toEqual([]);
+  });
+
   test('mobile: every city and category renders the current dataset, including zero-inventory states', async ({ page }, testInfo) => {
     test.skip(!testInfo.project.name.startsWith('mobile'));
     await page.goto('/');
