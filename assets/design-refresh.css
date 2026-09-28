@@ -47,7 +47,6 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .nav-item span{flex:0 0 auto}
   .nav-item b{font-size:11px}
   .nav-item.active,.nav-item:hover{background:#eaf1ff;color:#1749b6}
-  .tip-card{display:none!important}
   .main-content{max-width:1300px;padding:30px 26px 24px}
   .simple-hero{
     background:linear-gradient(110deg,#eaf2ff,#f7faff 72%,#eaf7f7);
@@ -141,17 +140,15 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .location{font-size:12px;display:flex;align-items:center;gap:5px}
   .location .pl-icon{width:15px;height:15px}
   .stats{font-size:12px}
-  .chips{display:none}
-  .valuation{display:none}
   .market-value{
     display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;
     margin-top:2px;padding:10px 11px;border:1px solid #dce8f7;border-radius:11px;
     background:#f7faff;color:#315172
   }
-  .market-value span{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800}
+  .market-value span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800}
   .market-value span .pl-icon{width:14px;height:14px;color:#2259d5}
-  .market-value strong{font-size:13px;color:#153c79}
-  .market-value small{grid-column:1/-1;font-size:10px;color:#657892}
+  .market-value strong{font-size:16px;color:#153c79}
+  .market-value small{grid-column:1/-1;font-size:11px;line-height:1.55;color:#526780}
   .market-disclaimer{margin:8px 0 0;font-size:10px;line-height:1.55;color:#6a7b91}
   .detail-box small{display:block;margin-top:4px;font-size:10px;line-height:1.45;color:#6a7b91}
   .lead-source-meta{font-size:11px;line-height:1.6}
@@ -243,13 +240,16 @@ button .pl-icon,a .pl-icon{pointer-events:none}
     display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;
     margin-top:8px;padding:8px 9px;border:1px solid #dce8f7;border-radius:10px;background:#f7faff
   }
-  .mpl-market-value span{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:800;color:#46617f}
+  .mpl-market-value span{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:#46617f}
   .mpl-market-value span .pl-icon{width:13px;height:13px;color:#2259d5}
-  .mpl-market-value strong{font-size:12px;color:#153c79}
-  .mpl-market-value small{grid-column:1/-1;font-size:9px;color:#6b7d93}
+  .mpl-market-value strong{font-size:15px;color:#153c79}
+  .mpl-market-value small{grid-column:1/-1;font-size:11px;line-height:1.5;color:#526780}
   .mpl-market-disclaimer{font-size:10px!important;line-height:1.55!important;color:#6a7b91!important}
   .mpl-property h3{font-size:14px}
   .mpl-deal,.mpl-source{font-size:10px}
   .mpl-loc,.mpl-facts span{font-size:11px}
   .mpl-price small{font-size:10px}
+}
+@media(max-width:370px){
+  .mpl-market-value,.market-value{grid-template-columns:1fr}
 }
