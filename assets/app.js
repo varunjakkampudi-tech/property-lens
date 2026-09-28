@@ -173,14 +173,12 @@
   }
 
   function card(p) {
-    const chips = [...new Set([p.gated==='yes'?'Gated community':p.gated==='partial'?'Community / verify':'Land ownership focus',...(p.highlights||[]).slice(0,2)])].slice(0,3);
     return `<article class="property-card">
       <div class="card-hero ${heroClass(p)}"><span class="deal-badge ${dealClass(p.deal)}">${esc(p.deal)}</span><span class="hero-icon">${icon(p)}</span><button type="button" class="heart-btn ${shortlist.has(p.id)?'active':''}" data-shortlist="${p.id}" aria-label="Toggle shortlist" aria-pressed="${shortlist.has(p.id)?'true':'false'}">${ico('heart')}</button></div>
       <div class="card-body">
         <div class="price-row"><span class="price">${priceText(p.price)}</span><span class="negotiation">Target ${esc(p.target)}</span></div>
         <h3>${esc(p.name)}</h3><div class="location">${ico('map-pin')} ${esc(p.locality)}, ${esc(p.city)}</div>
         <div class="stats"><span>${esc(p.bhk)}</span><span>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Size verify'}</span><span>${esc(p.age)}</span></div>
-        <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
         <div class="market-value" title="Estimate from median asking rate of comparable public leads; not a professional appraisal.">
           <span>${ico('chart')} Est. market value*</span><strong>${esc(marketValueText(p))}</strong><small>${esc(marketDeltaText(p))}</small>
         </div>
