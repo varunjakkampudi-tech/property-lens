@@ -13,6 +13,6 @@ test('market coverage report uses the strict renderer methodology', () => {
   assert.equal(result.byType.Flat.coveragePct, 46.7);
   assert.equal(result.byCity.Tanuku.supported, 0);
   assert.equal(result.byType['Independent House'].supported, 0);
-  assert.equal(result.sourceLinks.directListing, 47);
+  assert.equal(result.sourceLinks.directListing, 48);
   assert.ok(result.unsupportedReasons['insufficient-recent-like-for-like-comparables'] > 0);
 });

@@ -1161,7 +1161,7 @@ window.PROPERTY_DATA = [
     "availabilityStatus": "publicly_listed_unconfirmed"
   },
   {
-    "verifiedOn": "2026-09-28",
+    "verifiedOn": "2026-09-29",
     "status": "Public listing; availability must be confirmed",
     "ageGroup": "resale",
     "gated": "partial",
@@ -1173,7 +1173,7 @@ window.PROPERTY_DATA = [
       "Water supply",
       "Owner listing"
     ],
-    "notes": "Availability can change quickly. Reconfirm with the poster before travelling or paying any token.",
+    "notes": "Direct Housing.com listing verified 2026-09-29. Availability can change quickly; reconfirm with the poster before travelling or paying any token.",
     "source": "Housing.com",
     "platform": "Housing.com",
     "poster": "N N Varma",
@@ -1181,11 +1181,11 @@ window.PROPERTY_DATA = [
     "lastSeen": "Updated Sep 2026",
     "publicPhone": null,
     "phoneLabel": null,
-    "linkType": "Current locality results page",
+    "linkType": "Direct listing",
     "score": 91,
     "id": "live-bvrm-02",
     "city": "Bhimavaram",
-    "name": "Adarsh Nagar 2BHK Flat",
+    "name": "Satyam Nest Adarsh Nagar 2BHK Flat",
     "locality": "Adarsh Nagar",
     "price": 37,
     "size": 1000,
@@ -1194,7 +1194,7 @@ window.PROPERTY_DATA = [
     "type": "Flat",
     "age": "Ready resale",
     "deal": "Good Value",
-    "url": "https://housing.com/in/buy/bhimavaram/adarsh-nagar-gid/2bhk-flats-fid/",
+    "url": "https://housing.com/in/buy/resale/page/12597442-2-bhk-apartment-in-adarsh-nagar-for-rs-3700000",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=Adarsh%20Nagar%20Bhimavaram",
     "category": "Flats",
     "availabilityStatus": "publicly_listed_unconfirmed"
