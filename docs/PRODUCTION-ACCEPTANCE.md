@@ -1,7 +1,7 @@
 # Property Lens production acceptance
 
 **Evidence snapshot:** 2026-09-29 IST  
-**Verified default-branch commit:** `a974e53a94b997404ae5f04e1f25c145bc6e33e5`
+**Verified default-branch commit:** `185e5f784acdeff5e20aa5750b9f880cbb06ad6c`
 
 This document records what is verified, what is implemented but not yet proven in unattended operation, and what remains an owner or data-quality requirement. It deliberately does not treat a configured scheduler as evidence that a scheduled cycle has executed.
 
@@ -9,7 +9,7 @@ This document records what is verified, what is implemented but not yet proven i
 
 | Area | Status | Evidence or remaining requirement |
 | --- | --- | --- |
-| GitHub Pages deployment | Passed | Production workflow [36481088532](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36481088532) passed for the exact `main` commit `a974e53`. |
+| GitHub Pages deployment | Passed | Production workflow [36484969756](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36484969756) passed for the exact `main` commit `185e5f7`. |
 | Live production health | Passed | Six public assets passed exact-SHA verification; 61/61 published records are fresh. |
 | Release quality gates | Passed | PR quality workflows pass syntax, data, unit, responsive browser and accessibility checks. |
 | Branch protection | Passed | `main` requires `quality`, enforces linear history, and disallows force pushes and deletions. |
@@ -43,6 +43,9 @@ The overall score remains below 100% because the missing evidence is operational
 - [PR #25: refresh direct listing evidence](https://github.com/varunjakkampudi-tech/property-lens/pull/25)
 - [PR #25 quality run](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36480785724)
 - [PR #25 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36481088532)
+- [PR #29: correct stale Tanuku source classification](https://github.com/varunjakkampudi-tech/property-lens/pull/29)
+- [PR #29 quality run](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36484655886)
+- [PR #29 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36484969756)
 - [Manual publisher smoke test](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521)
 - Production URL: https://varunjakkampudi-tech.github.io/property-lens/
 
