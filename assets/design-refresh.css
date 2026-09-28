@@ -142,7 +142,6 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .location .pl-icon{width:15px;height:15px}
   .stats{font-size:12px}
   .chips{display:none}
-  .valuation{display:none}
   .lead-source-meta{font-size:11px;line-height:1.6}
   .card-actions{gap:7px}
   .card-actions button,.card-actions a{display:inline-flex;align-items:center;
@@ -232,4 +231,60 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .mpl-deal,.mpl-source{font-size:10px}
   .mpl-loc,.mpl-facts span{font-size:11px}
   .mpl-price small{font-size:10px}
+}
+
+/* A comparable asking-price benchmark is an indicative reference, never an appraisal. */
+.market-value{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:3px 9px;
+  min-width:0;
+  padding:11px 12px;
+  margin:7px 0 4px;
+  border:1px solid #dbe7f6;
+  border-radius:12px;
+  background:#f5f9ff;
+}
+.market-value__label{
+  grid-column:1/-1;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#38527b;
+  font-size:11px;
+  font-weight:800;
+}
+.market-value__label .pl-icon{width:15px;height:15px;color:#3867bd}
+.market-value strong{
+  color:#173e7e;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:-.035em;
+  line-height:1.35;
+}
+.market-value__delta{
+  color:#395b83;
+  font-size:11px;
+  font-weight:700;
+  text-align:right;
+}
+.market-value small{
+  grid-column:1/-1;
+  font-size:10px;
+  line-height:1.55;
+  color:#526780;
+}
+.market-value--unavailable{background:#f8fafc;border-color:#e1e8f1}
+.market-value--unavailable strong{font-size:14px;color:#56677f}
+.dialog-content>.market-value,.mpl-dialog-body>.market-value{margin-top:13px}
+@media(max-width:850px){
+  .mpl-property>.market-value{margin-top:12px;margin-bottom:2px}
+  .mpl-property .market-value strong{font-size:17px}
+  .mpl-property .market-value small{font-size:10px}
+  .mpl-property .market-value__delta{font-size:10px}
+}
+@media(max-width:370px){
+  .market-value{grid-template-columns:1fr}
+  .market-value__delta{text-align:left}
 }
