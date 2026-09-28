@@ -1,6 +1,6 @@
 {
   "eligibility": "Only public listings with supported asking prices strictly below ₹50,00,000 qualify for the main research results. A visible ad does not establish current availability.",
-  "reviewedOn": "2026-09-28",
+  "reviewedOn": "2026-09-29",
   "excludedFromActiveResults": [
     {
       "reason": "price_not_under_50_lakh",
@@ -212,6 +212,19 @@
       "priceLakh": 40,
       "url": "https://www.olx.in/item/for-sale-houses-apartments-c1725-1-bhk-house-villa-540-sq-ft-in-satrampadu-eluru-iid-1855331564",
       "evidence": "Direct OLX detail page checked 2026-09-28: 1 BHK, 540 sq.ft., ₹40,00,000, ready to move, Satrampadu, Eluru. Confirm current availability, ownership/listing authority, and community status before active publication."
+    },
+    {
+      "reason": "implausible_area_and_seller_availability_need_confirmation",
+      "city": "Palakollu",
+      "category": "Independent Houses",
+      "platform": "Housing.com",
+      "name": "Housing Board Colony 2BHK independent house",
+      "priceLakh": 40,
+      "url": "https://housing.com/in/buy/resale/page/20557754-2-bhk-independent-house-in-palakollu-for-rs-4000000",
+      "linkType": "Direct listing",
+      "poster": "Owner, as displayed",
+      "sourceCheckedOn": "2026-09-29",
+      "evidence": "Housing.com detail page checked 2026-09-29 shows a 2 BHK independent house in Housing Board Colony, Palakollu, at ₹40.0 lakh and a reported 150 sq.ft built-up area. The area is implausibly small for the listing type; confirm the actual measurement, identity and current availability before active publication or market comparison."
     }
   ]
 }
