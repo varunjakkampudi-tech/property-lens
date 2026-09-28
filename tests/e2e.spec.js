@@ -352,4 +352,67 @@ test.describe('Property Lens production flows', () => {
     }
   });
 
+  test('every property card shows an honest market-value state on desktop and mobile', async ({ page }, testInfo) => {
+    await page.goto('/');
+    const leads = await inventory(page);
+    test.skip(!leads.length, 'No leads to compare');
+    const subject = leads.find(p => p.city === 'Vizag' && p.category === 'Flats') || leads[0];
+    const benchmark = await page.evaluate(id => {
+      const lead = window.PROPERTY_DATA.find(p => p.id === id);
+      return window.PropertyLensCore.marketBenchmark(lead, window.PROPERTY_DATA);
+    }, subject.id);
+    let card;
+    if (testInfo.project.name === 'desktop') {
+      card = page.locator('#propertyGrid .property-card').filter({
+        has: page.locator('[data-details="' + subject.id + '"]')
+      });
+    } else {
+      await chooseCategory(page, subject.city, subject.category);
+      card = page.locator('.mpl-property').filter({
+        has: page.locator('[data-details="' + subject.id + '"]')
+      });
+    }
+    await expect(card).toHaveCount(1);
+    const market = card.locator('.market-value');
+    await expect(market).toBeVisible();
+    await expect(market).toContainText('Indicative market value');
+    if (benchmark) {
+      await expect(market).toContainText('comparable asking listings');
+      await expect(market).toContainText(benchmark.sampleSize + ' comparable');
+      await expect(market).toContainText('Not a verified sale price or appraisal');
+    } else {
+      await expect(market).toContainText('Not available');
+      await expect(market).toContainText('Insufficient recent');
+    }
+    await assertNoHorizontalOverflow(page);
+    await assertA11y(page);
+  });
+
+  test('location and action icons match their labels and all referenced SVG symbols exist', async ({ page }, testInfo) => {
+    await page.goto('/');
+    const response = await page.request.get('/assets/icons.svg');
+    expect(response.ok()).toBeTruthy();
+    const sprite = await response.text();
+    const symbols = new Set([...sprite.matchAll(/<symbol id="([^"]+)"/g)].map(m => m[1]));
+    const iconRefs = await page.locator('svg.pl-icon use').evaluateAll(nodes =>
+      nodes.map(node => node.getAttribute('href')).filter(Boolean)
+    );
+    for (const href of iconRefs) {
+      expect(href).toMatch(/^assets\\/icons\\.svg#[a-z-]+$/);
+      expect(symbols.has(href.split('#')[1])).toBeTruthy();
+    }
+    if (testInfo.project.name === 'desktop') {
+      for (const city of cities) {
+        await expect(page.locator('[data-city-card="' + city + '"] .city-card-icon use'))
+          .toHaveAttribute('href', 'assets/icons.svg#map-pin');
+      }
+      await expect(page.locator('#allLocations use')).toHaveAttribute('href', 'assets/icons.svg#map-pin');
+    } else {
+      await expect(page.locator('.mpl-city-icon use')).toHaveCount(cities.length);
+      for (const use of await page.locator('.mpl-city-icon use').all()) {
+        await expect(use).toHaveAttribute('href', 'assets/icons.svg#map-pin');
+      }
+    }
+  });
+
 });
