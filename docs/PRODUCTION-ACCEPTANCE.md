@@ -12,7 +12,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Area | Status | Evidence or remaining requirement |
 | --- | --- | --- |
 | GitHub Pages deployment | Passed | Production workflow [36487810530](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36487810530) passed for the exact data/runtime commit `af750bb`. |
-| Live production health | Passed | Six public assets passed exact-SHA verification; 61/61 published records are fresh. |
+| Live production health | Passed | Six public assets passed exact-SHA verification; the last verified runtime release had 61/61 published records fresh. The pending data release adds two evidence-backed Eluru records and will be reverified after deployment. |
 | Release quality gates | Passed | PR quality workflows pass syntax, data, unit, responsive browser and accessibility checks. |
 | Branch protection | Passed | `main` requires `quality`, enforces linear history, and disallows force pushes and deletions. |
 | Active scheduler | Configured | One active ChatGPT cloud heartbeat is configured for every two hours. |
@@ -20,7 +20,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Protected publisher | Implemented | Data-only PR creation, bounded retries, duplicate-PR handling and squash auto-merge are implemented. |
 | Publisher no-feed smoke test | Passed | Manual run [36483418521](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521) completed as `no_feed` with zero accepted/rejected records, no PR, and a persistent artifact. |
 | Genuine unattended cycles | Not yet proven | At least two independent cloud runs must produce discovery evidence, a data-only PR, protected merge, Pages deployment and exact-SHA health evidence. |
-| Market benchmark coverage | Incomplete | 14 of 61 properties currently have supported comparable estimates; 47 records now disclose direct listing evidence, but coverage is still concentrated in Vizag. |
+| Market benchmark coverage | Incomplete | 14 of 63 properties currently have supported comparable estimates; 49 records disclose direct listing evidence, but coverage is still concentrated in Vizag. |
 | Workflow error history | Clear | The final inventory contained no failed or cancelled runs; successful runs were retained as release evidence. |
 | Operational notifications | Partially verified | Task and GitHub failure-notification settings require account-level confirmation; repository files cannot prove them. |
 
