@@ -33,6 +33,6 @@ The authoritative variables are in `assets/design-refresh.css`: navy `#12336d`, 
 
 **Mobile:** preserve the approved location → category → listings layout and bottom navigation. Apply the same brand, type and icon system without changing the mobile information architecture.
 
-**Release policy:** After this one-time reviewed design release, the hourly lead task changes only `data/properties.js` and `data/review-queue.json`. A new UI change requires a separate reviewed engineering release.
+**Release policy:** After this one-time reviewed design release, the two-hour lead task changes only `data/properties.js` and `data/review-queue.json`. A new UI change requires a separate reviewed engineering release.
 
 [UI reference](UI-REFERENCE.md) · [Architecture](ARCHITECTURE.md)

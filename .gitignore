@@ -12,6 +12,7 @@ test-results/
 visual-*.png
 coverage/
 *.log
+artifacts/
 .env
 .env.*
 !.env.example
