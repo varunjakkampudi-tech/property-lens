@@ -1,7 +1,7 @@
 # Property Lens production acceptance
 
 **Evidence snapshot:** 2026-09-29 IST  
-**Verified production data/runtime commit:** `00be14415d754d94f34a4182706d5c63b5bd04d8`
+**Verified production data/runtime commit:** `310c5534ee0be6c4efb03dc3724b5f37153326b4`
 
 Documentation-only follow-up commits may advance `main` after this runtime verification; each such release is independently checked by the production workflow.
 
@@ -11,8 +11,8 @@ This document records what is verified, what is implemented but not yet proven i
 
 | Area | Status | Evidence or remaining requirement |
 | --- | --- | --- |
-| GitHub Pages deployment | Passed | Production workflow [36489642362](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489642362) passed for the exact data/runtime commit `00be144`. |
-| Live production health | Passed | Six public assets passed exact-SHA verification; 63/63 published records are fresh. |
+| GitHub Pages deployment | Passed | Production workflow [36491506410](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36491506410) passed for the exact data/runtime commit `310c553`. |
+| Live production health | Passed | Six public assets passed exact-SHA verification; 64/64 published records are fresh. |
 | Release quality gates | Passed | PR quality workflows pass syntax, data, unit, responsive browser and accessibility checks. |
 | Branch protection | Passed | `main` requires `quality`, enforces linear history, and disallows force pushes and deletions. |
 | Active scheduler | Configured | One active ChatGPT cloud heartbeat is configured for every two hours. |
@@ -20,7 +20,7 @@ This document records what is verified, what is implemented but not yet proven i
 | Protected publisher | Implemented | Data-only PR creation, bounded retries, duplicate-PR handling and squash auto-merge are implemented. |
 | Publisher no-feed smoke test | Passed | Manual run [36483418521](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521) completed as `no_feed` with zero accepted/rejected records, no PR, and a persistent artifact. |
 | Genuine unattended cycles | Not yet proven | At least two independent cloud runs must produce discovery evidence, a data-only PR, protected merge, Pages deployment and exact-SHA health evidence. |
-| Market benchmark coverage | Incomplete | 14 of 63 properties currently have supported comparable estimates (22.2%); 49 records disclose direct listing evidence, but coverage is still concentrated in Vizag. |
+| Market benchmark coverage | Incomplete | 14 of 64 properties currently have supported comparable estimates (21.9%); 50 records disclose direct listing evidence, but coverage is still concentrated in Vizag. |
 | Workflow error history | Clear | The final inventory contained no failed or cancelled runs; successful runs were retained as release evidence. |
 | Operational notifications | Partially verified | Task and GitHub failure-notification settings require account-level confirmation; repository files cannot prove them. |
 
@@ -55,6 +55,9 @@ The overall score remains below 100% because the missing evidence is operational
 - [PR #34: add verified Eluru listing evidence](https://github.com/varunjakkampudi-tech/property-lens/pull/34)
 - [PR #34 quality run](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489395756)
 - [PR #34 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36489642362)
+- [PR #36: add verified Bhimavaram listing evidence](https://github.com/varunjakkampudi-tech/property-lens/pull/36)
+- [PR #36 quality run](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36491272580)
+- [PR #36 production deployment](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36491506410)
 - [Manual publisher smoke test](https://github.com/varunjakkampudi-tech/property-lens/actions/runs/36483418521)
 - Production URL: https://varunjakkampudi-tech.github.io/property-lens/
 
