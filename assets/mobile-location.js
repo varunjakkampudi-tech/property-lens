@@ -109,7 +109,7 @@
             cities.map(function (city) {
               var m = markets[city] || {};
               return '<button type="button" class="mpl-city" data-city="' + esc(city) + '">' +
-                '<div class="mpl-city-icon" aria-hidden="true">' + iconForCity(city) + '</div>' +
+                '<div class="mpl-city-icon" aria-hidden="true">' + iconForCity() + '</div>' +
                 '<b>' + countFor(city) + ' listed</b>' +
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
@@ -289,7 +289,7 @@
         '<div class="mpl-dialog-actions">' +
           '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
-          (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
+          (phone ? '<a href="tel:+91' + esc(phone) + '">Call ' + ico('phone') + '</a>' : '') +
         '</div>' +
         '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare') + '</button>' +
       '</div>';
