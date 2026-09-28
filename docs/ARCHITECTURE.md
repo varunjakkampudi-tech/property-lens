@@ -92,6 +92,7 @@ The selected budget is a **view filter**. Discovery covers the full under-₹50L
 | Syntax | `npm run test:syntax` | Any checked JS file fails parsing |
 | Data and trust | `npm run test:data` | Invalid identity, price, category, status, date, URL, contact or review queue |
 | Unit and security | `npm run test:unit` | Shared primitives or local-server tests fail |
+| Dependency security | `npm audit --audit-level=high` | A high/critical npm advisory affects the locked dependency tree |
 | Browser journeys | `npm run test:e2e` | Mobile/desktop flow, filters, focus, shortlist, compare or dialogs regress |
 | Accessibility | Playwright + axe | Serious or critical violations |
 | Deployment | `.github/workflows/pages.yml` | Build, Pages deployment or live smoke verification fails |
