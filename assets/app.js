@@ -188,6 +188,10 @@
     $('propertyGrid').innerHTML=list.map(card).join('');
     $('emptyState').hidden=list.length!==0;
     $('resultsMeta').textContent=state.view==='visited' ? `${list.length} visited propert${list.length===1?'y':'ies'}` : `${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} public leads under ₹50L · confirm availability`;
+    $('browseStepLabel').textContent = state.view === 'visited' ? 'YOUR RESEARCH · VISITED' :
+      state.view === 'shortlisted' ? 'YOUR RESEARCH · SAVED' :
+      state.category !== 'all' ? 'STEP 03 · LISTINGS' :
+      state.city !== 'all' ? 'EXPLORE ' + state.city.toUpperCase() + ' · OPTIONAL' : 'EXPLORE ALL · OPTIONAL';
     $('resultsTitle').textContent=state.view==='visited' ? 'Visited properties' : state.view==='shortlisted' ? 'Saved properties' : state.city==='all' ? 'Property leads' : `${state.city} ${state.category === 'all' ? 'property leads' : state.category}`;
     bindCards(); updateCounts();
   }
