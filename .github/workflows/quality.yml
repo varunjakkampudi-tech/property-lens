@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
       - name: Validate source and data
         run: |
           npm run test:syntax
@@ -29,17 +30,13 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
+          test -s package-lock.json
           test -s docs/diagrams/system-architecture.svg
           test -s docs/diagrams/lead-lifecycle.svg
       - name: Install browser tests
         run: |
-          npm install --no-audit --no-fund
+          npm ci --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Emit dependency lock for deterministic installs
-        run: |
-          echo 'PACKAGE_LOCK_BEGIN'
-          node -e "console.log(JSON.stringify(JSON.parse(require('fs').readFileSync('package-lock.json', 'utf8'))))"
-          echo 'PACKAGE_LOCK_END'
       - name: Mobile, desktop and accessibility E2E
         run: npm run test:e2e
       - name: Upload test evidence
