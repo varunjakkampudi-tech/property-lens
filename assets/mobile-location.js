@@ -3,13 +3,14 @@
 
 
   var core = window.PropertyLensCore;
+  var ico = core.icon;
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
   var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram','Eluru'];
   var categories = [
-    { key:'Flats', label:'Flats', icon:'▥', note:'Apartments & gated communities' },
-    { key:'Independent Houses', label:'Independent Houses', icon:'⌂', note:'More privacy & land ownership' },
-    { key:'Plots', label:'Plots', icon:'▧', note:'Build your home or invest' }
+    { key:'Flats', label:'Flats', icon:'building', note:'Apartments & gated communities' },
+    { key:'Independent Houses', label:'Independent Houses', icon:'house', note:'More privacy & land ownership' },
+    { key:'Plots', label:'Plots', icon:'plot', note:'Build your home or invest' }
   ];
   var compare = new Set();
   var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended', filtersOpen:false };
@@ -25,11 +26,8 @@
   var price = core.formatPrice;
 
   function iconForCity(city) {
-    if (city === 'Vizag') return '🌊';
-    if (city === 'Tanuku') return '🏡';
-    if (city === 'Palakollu') return '🌿';
-    if (city === 'Bhimavaram') return '🏙️';
-    return '🌳';
+    var names = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
+    return ico(names[city] || 'map-pin');
   }
 
   function categoryFor(p) { return p.category; }
@@ -64,7 +62,7 @@
 
   function topHeader(title, subtitle, backAction, showFilter) {
     return '<header class="mpl-topbar">' +
-      '<button type="button" class="mpl-back" data-action="' + esc(backAction) + '" aria-label="Go back">‹</button>' +
+      '<button type="button" class="mpl-back" data-action="' + esc(backAction) + '" aria-label="Go back">' + ico('arrow-left') + '</button>' +
       '<div class="mpl-topcopy"><small>' + esc(subtitle || '') + '</small><strong>' + esc(title) + '</strong></div>' +
       (showFilter ? '<button type="button" class="mpl-filter-btn" data-action="toggle-filter" aria-expanded="' + (state.filtersOpen ? 'true' : 'false') + '" aria-controls="mplFilters">Filters</button>' : '<span class="mpl-header-spacer"></span>') +
     '</header>';
@@ -72,10 +70,10 @@
 
   function bottomNav(active) {
     return '<nav class="mpl-bottom-nav" aria-label="Mobile navigation">' +
-      '<button type="button" class="' + (active === 'locations' ? 'active' : '') + '" data-nav="locations">⌖<span>Locations</span></button>' +
-      '<button type="button" class="' + (active === 'browse' ? 'active' : '') + '" data-nav="browse">▦<span>Browse</span></button>' +
-      '<button type="button" class="' + (active === 'saved' ? 'active' : '') + '" data-nav="saved">♡<span>Saved' + (saved.size ? ' (' + saved.size + ')' : '') + '</span></button>' +
-      '<button type="button" class="' + (active === 'compare' ? 'active' : '') + '" data-nav="compare">⇄<span>Compare' + (compare.size ? ' (' + compare.size + ')' : '') + '</span></button>' +
+      '<button type="button" class="' + (active === 'locations' ? 'active' : '') + '" data-nav="locations">' + ico('map-pin') + '<span>Locations</span></button>' +
+      '<button type="button" class="' + (active === 'browse' ? 'active' : '') + '" data-nav="browse">' + ico('list') + '<span>Browse</span></button>' +
+      '<button type="button" class="' + (active === 'saved' ? 'active' : '') + '" data-nav="saved">' + ico('heart') + '<span>Saved' + (saved.size ? ' (' + saved.size + ')' : '') + '</span></button>' +
+      '<button type="button" class="' + (active === 'compare' ? 'active' : '') + '" data-nav="compare">' + ico('compare') + '<span>Compare' + (compare.size ? ' (' + compare.size + ')' : '') + '</span></button>' +
     '</nav>';
   }
 
@@ -88,8 +86,8 @@
     root.innerHTML =
       '<section class="mpl-chooser">' +
         '<header class="mpl-brandbar">' +
-          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true">⌂</div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
-          '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">♡</button>' +
+          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true"><img src="assets/favicon.svg" alt="" width="42" height="42"></div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
+          '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">' + ico('heart') + '</button>' +
         '</header>' +
         '<main id="mplMain" tabindex="-1" class="mpl-chooser-body">' +
           '<p class="mpl-eyebrow">STEP 1 OF 2</p>' +
@@ -104,11 +102,11 @@
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
                 '<small>' + countFor(city,'Flats') + ' flats · ' + countFor(city,'Independent Houses') + ' houses · ' + countFor(city,'Plots') + ' plots</small>' +
-                '<div class="mpl-arrow" aria-hidden="true">›</div>' +
+                '<div class="mpl-arrow" aria-hidden="true">' + ico('chevron-right') + '</div>' +
               '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-trust"><span>✓ Listed below ₹50L</span><span>✓ Source links</span><span>✓ Maps & poster info</span></div>' +
+          '<div class="mpl-trust"><span>' + ico('check-circle') + ' Listed below ₹50L</span><span>' + ico('check-circle') + ' Source links</span><span>' + ico('check-circle') + ' Maps & poster info</span></div>' +
           '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ↗</a>' +
         '</main>' +
       '</section>';
@@ -137,9 +135,9 @@
             categories.map(function (c) {
               var count = countFor(city,c.key);
               return '<button type="button" class="mpl-category-card" data-category="' + esc(c.key) + '"' + (count ? '' : ' disabled') + '>' +
-                '<div class="mpl-category-icon" aria-hidden="true">' + c.icon + '</div>' +
+                '<div class="mpl-category-icon" aria-hidden="true">' + ico(c.icon) + '</div>' +
                 '<div class="mpl-category-copy"><strong>' + esc(c.label) + '</strong><span>' + esc(c.note) + '</span><small>' + count + ' listed ' + (count === 1 ? 'lead' : 'leads') + '</small></div>' +
-                '<div class="mpl-category-arrow" aria-hidden="true">›</div>' +
+                '<div class="mpl-category-arrow" aria-hidden="true">' + ico('chevron-right') + '</div>' +
               '</button>';
             }).join('') +
           '</div>' +
