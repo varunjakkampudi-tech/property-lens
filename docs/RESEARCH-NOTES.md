@@ -2,7 +2,7 @@
 
 **Snapshot date:** 28 September 2026  
 **Primary target budget:** ₹40–45 lakh  
-**Locations:** Vizag, Tanuku, Palakollu, Bhimavaram
+**Locations:** Vizag, Tanuku, Palakollu, Bhimavaram, Eluru
 
 ## Decision framework
 
@@ -22,8 +22,11 @@ Online inventory is thin. Independent houses and land-heavy opportunities are pr
 ### Bhimavaram
 Better residential pockets can be more expensive than Tanuku/Palakollu. Independent houses remain attractive when plot value works; otherwise a sensibly priced gated flat is a reasonable fallback.
 
+### Eluru
+Research covers Eluru city and clearly labeled nearby/outlying layouts. A public advertisement described as “Eluru” may be many kilometres from the city centre; confirm the precise pin, access road, planning authority and legal approvals before comparing it with city properties.
+
 ## Limitations
-- Live/discoverable does not guarantee the unit is unsold.
+- Publicly listed does not guarantee the unit is unsold; all current main leads are marked unconfirmed unless dated seller evidence exists.
 - Portal area fields can be incorrect.
 - Market rates are working references from available listing data.
 - Construction quality cannot be established from photos, portal descriptions or social media.
