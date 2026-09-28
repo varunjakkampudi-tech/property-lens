@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: property-lens-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -30,6 +34,8 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
+          test -s assets/icons.svg
+          test -s assets/design-refresh.css
           test -s package-lock.json
           test -s docs/diagrams/system-architecture.svg
           test -s docs/diagrams/lead-lifecycle.svg
@@ -40,7 +46,7 @@ jobs:
       - name: Mobile, desktop and accessibility E2E
         run: npm run test:e2e
       - name: Upload test evidence
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: property-lens-pr-e2e

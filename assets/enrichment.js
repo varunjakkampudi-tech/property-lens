@@ -5,6 +5,7 @@
   var markets = window.MARKET_DATA || {};
 
   var esc = core.escapeHtml;
+  var ico = core.icon;
   var priceText = core.formatPrice;
   function wa(phone) { return 'https://wa.me/91' + core.normalizeIndianBusinessPhone(phone); }
 
@@ -20,7 +21,7 @@
     root.innerHTML = Object.keys(markets).map(function (city) {
       var p = topLead(city);
       if (!p) return "";
-      var mapLink = p.mapUrl ? '<a class="best-link alt" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Map ⌖</a>' : "";
+      var mapLink = p.mapUrl ? '<a class="best-link alt" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Map ' + ico('map-pin') + '</a>' : "";
       return '<article class="best-lead-card">' +
         '<div class="best-city">' + esc(city) + '</div>' +
         '<span class="deal-badge ' + (p.deal === "Strong Deal" ? "strong" : p.deal === "Potential Bargain" ? "bargain" : p.deal === "Good Value" ? "good" : "fair") + '">' + esc(p.deal) + '</span>' +
@@ -30,7 +31,7 @@
         '<div class="best-facts"><span>' + esc(p.bhk) + '</span><span>' + esc(p.size || "Verify") + ' ' + esc(p.sizeUnit || "") + '</span><span>' + esc(p.platform) + '</span></div>' +
         '<p class="best-why">' + esc((p.highlights || []).slice(0, 2).join(" · ")) + '</p>' +
         '<p class="lead-source-meta"><strong>' + esc(p.platform) + '</strong> · ' + esc(p.poster) + ' · ' + esc(p.lastSeen) + '</p>' +
-        '<div class="best-action-row"><a class="best-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' + mapLink + '</div>' +
+        '<div class="best-action-row"><a class="best-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' + mapLink + '</div>' +
       '</article>';
     }).join("");
   }
@@ -46,7 +47,7 @@
         '<p class="contact-role">' + esc(c.role) + '</p>' +
         '<p class="contact-note">' + esc(c.note) + '</p>' +
         '<div class="source-actions">' +
-          '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">Source ↗</a>' +
+          '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">Source ' + ico('external') + '</a>' +
           (phone ? '<a href="tel:+91' + esc(phone) + '">Call ' + esc(c.phone) + '</a>' : '') +
           (phone ? '<a href="' + esc(wa(c.phone)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
         '</div>' +
@@ -83,7 +84,7 @@
           mapA.href = p.mapUrl;
           mapA.target = "_blank";
           mapA.rel = "noopener";
-          mapA.textContent = "Map ⌖";
+          mapA.innerHTML = 'Map ' + ico('map-pin');
           actions.appendChild(mapA);
         }
         if (p.publicPhone) {
@@ -121,8 +122,8 @@
         '</div>' +
         (p.publicPhone ? '<div class="public-phone"><span>Public business contact</span><strong>' + esc(p.publicPhone) + '</strong><small>' + esc(p.phoneLabel || "") + '</small></div>' : '') +
         '<div class="source-detail-actions">' +
-          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
-          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +
+          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
+          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
           (p.publicPhone ? '<a href="tel:+91' + esc(core.normalizeIndianBusinessPhone(p.publicPhone)) + '">Call</a>' : '') +
           (p.publicPhone ? '<a href="' + esc(wa(p.publicPhone)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
         '</div>';

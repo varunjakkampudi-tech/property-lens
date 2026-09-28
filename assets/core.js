@@ -32,12 +32,22 @@
     var digits = String(value || '').replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
     return /^\d{10}$/.test(digits) ? digits : '';
   }
+  // Icons are same-origin SVG symbols. Both inputs are allowlisted before HTML insertion.
+  var iconNames = new Set(['map-pin','waves','building','house','plot','search','heart','compare','check',
+    'check-circle','filter','arrow-right','arrow-left','chevron-right','external','bookmark',
+    'shield-check','book-open','clock','list','trees','landmark','info','x','plus',
+    'clipboard','reset','phone','eye','note']);
+  function icon(name, className) {
+    if (!iconNames.has(name)) return '';
+    var cssClass = typeof className === 'string' && /^[a-zA-Z0-9_-]+$/.test(className) ? ' ' + className : '';
+    return '<svg class="pl-icon' + cssClass + '" aria-hidden="true" focusable="false"><use href="assets/icons.svg#' + name + '"></use></svg>';
+  }
   function sourceLinkLabel(lead) {
     return lead && lead.linkType === 'Direct listing' ? 'Open listing' : 'Open source results';
   }
   window.PropertyLensCore = Object.freeze({
     escapeHtml: escapeHtml, formatPrice: formatPrice, isEligibleLead: isEligibleLead,
     readArray: readArray, readRecord: readRecord,
-    normalizeIndianBusinessPhone: normalizeIndianBusinessPhone, sourceLinkLabel: sourceLinkLabel
+    normalizeIndianBusinessPhone: normalizeIndianBusinessPhone, sourceLinkLabel: sourceLinkLabel, icon: icon
   });
 })();

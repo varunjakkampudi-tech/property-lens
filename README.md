@@ -11,13 +11,13 @@ A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Pa
 
 ## Product
 
-- Five locations × three categories; mobile **Location → Category → Listings** navigation.
-- Desktop filtering by location, property type, budget, age, community and research label.
+- Five locations × three categories; **Location → Property type → Listings** on both desktop and mobile.
+- A streamlined desktop chooser with search, budget and sorting up front; optional advanced age, community and research filters.
 - Search, sorting, browser-local saved leads, visited tracking, notes and comparison (up to four).
 - Direct listing links where available; results-page links are explicitly labeled.
 - Poster/source provenance, source-check dates, maps and deliberately public business inquiry details.
 - Budget presets from ₹20L to ₹45L and an all-under-₹50L view.
-- Responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
+- A custom scalable roof-and-lens logo, Manrope typography, same-origin SVG icons, responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
 
 ## System architecture
 
@@ -55,11 +55,14 @@ Playwright covers 375px, 390px and 430px mobile viewports plus desktop, navigati
 
 ```text
 assets/
-  core.js               Shared escaping, eligibility, storage and source helpers
+  core.js               Shared escaping, eligibility, storage, source and icon helpers
   app.js                Desktop interface and browser-local research tools
   mobile-location.js    Mobile location → category → listings interface
   enrichment.js         Source provenance, contact and desktop detail panels
-  styles.css            Design tokens, desktop/mobile layout and accessibility
+  styles.css            Established layout and accessibility foundations
+  design-refresh.css    Shared brand typography and simplified desktop layout
+  icons.svg             Same-origin professional icon symbols
+  favicon.svg           Scalable Property Lens roof-and-lens mark
 data/
   properties.js         Public research leads and market metadata
   review-queue.json     Excluded and evidence-pending discoveries
@@ -90,4 +93,4 @@ Submit a public Reel, Short, listing URL or sold-listing report through the [lea
 
 ## Further documentation
 
-[Architecture](docs/ARCHITECTURE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)
+[Architecture](docs/ARCHITECTURE.md) · [Brand guide](docs/BRAND-GUIDE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)

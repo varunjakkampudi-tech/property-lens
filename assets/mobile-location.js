@@ -3,13 +3,14 @@
 
 
   var core = window.PropertyLensCore;
+  var ico = core.icon;
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
   var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram','Eluru'];
   var categories = [
-    { key:'Flats', label:'Flats', icon:'▥', note:'Apartments & gated communities' },
-    { key:'Independent Houses', label:'Independent Houses', icon:'⌂', note:'More privacy & land ownership' },
-    { key:'Plots', label:'Plots', icon:'▧', note:'Build your home or invest' }
+    { key:'Flats', label:'Flats', icon:'building', note:'Apartments & gated communities' },
+    { key:'Independent Houses', label:'Independent Houses', icon:'house', note:'More privacy & land ownership' },
+    { key:'Plots', label:'Plots', icon:'plot', note:'Build your home or invest' }
   ];
   var compare = new Set();
   var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended', filtersOpen:false };
@@ -25,11 +26,8 @@
   var price = core.formatPrice;
 
   function iconForCity(city) {
-    if (city === 'Vizag') return '🌊';
-    if (city === 'Tanuku') return '🏡';
-    if (city === 'Palakollu') return '🌿';
-    if (city === 'Bhimavaram') return '🏙️';
-    return '🌳';
+    var names = { Vizag: 'waves', Tanuku: 'house', Palakollu: 'trees', Bhimavaram: 'building', Eluru: 'landmark' };
+    return ico(names[city] || 'map-pin');
   }
 
   function categoryFor(p) { return p.category; }
@@ -64,7 +62,7 @@
 
   function topHeader(title, subtitle, backAction, showFilter) {
     return '<header class="mpl-topbar">' +
-      '<button type="button" class="mpl-back" data-action="' + esc(backAction) + '" aria-label="Go back">‹</button>' +
+      '<button type="button" class="mpl-back" data-action="' + esc(backAction) + '" aria-label="Go back">' + ico('arrow-left') + '</button>' +
       '<div class="mpl-topcopy"><small>' + esc(subtitle || '') + '</small><strong>' + esc(title) + '</strong></div>' +
       (showFilter ? '<button type="button" class="mpl-filter-btn" data-action="toggle-filter" aria-expanded="' + (state.filtersOpen ? 'true' : 'false') + '" aria-controls="mplFilters">Filters</button>' : '<span class="mpl-header-spacer"></span>') +
     '</header>';
@@ -72,10 +70,10 @@
 
   function bottomNav(active) {
     return '<nav class="mpl-bottom-nav" aria-label="Mobile navigation">' +
-      '<button type="button" class="' + (active === 'locations' ? 'active' : '') + '" data-nav="locations">⌖<span>Locations</span></button>' +
-      '<button type="button" class="' + (active === 'browse' ? 'active' : '') + '" data-nav="browse">▦<span>Browse</span></button>' +
-      '<button type="button" class="' + (active === 'saved' ? 'active' : '') + '" data-nav="saved">♡<span>Saved' + (saved.size ? ' (' + saved.size + ')' : '') + '</span></button>' +
-      '<button type="button" class="' + (active === 'compare' ? 'active' : '') + '" data-nav="compare">⇄<span>Compare' + (compare.size ? ' (' + compare.size + ')' : '') + '</span></button>' +
+      '<button type="button" class="' + (active === 'locations' ? 'active' : '') + '" data-nav="locations">' + ico('map-pin') + '<span>Locations</span></button>' +
+      '<button type="button" class="' + (active === 'browse' ? 'active' : '') + '" data-nav="browse">' + ico('list') + '<span>Browse</span></button>' +
+      '<button type="button" class="' + (active === 'saved' ? 'active' : '') + '" data-nav="saved">' + ico('heart') + '<span>Saved' + (saved.size ? ' (' + saved.size + ')' : '') + '</span></button>' +
+      '<button type="button" class="' + (active === 'compare' ? 'active' : '') + '" data-nav="compare">' + ico('compare') + '<span>Compare' + (compare.size ? ' (' + compare.size + ')' : '') + '</span></button>' +
     '</nav>';
   }
 
@@ -88,8 +86,8 @@
     root.innerHTML =
       '<section class="mpl-chooser">' +
         '<header class="mpl-brandbar">' +
-          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true">⌂</div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
-          '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">♡</button>' +
+          '<div class="mpl-brand"><div class="mpl-logo" aria-hidden="true"><img src="assets/favicon.svg" alt="" width="42" height="42"></div><div><strong>Property Lens</strong><small>Properties under ₹50L</small></div></div>' +
+          '<button type="button" class="mpl-saved-head" data-nav="saved" aria-label="Open saved properties">' + ico('heart') + '</button>' +
         '</header>' +
         '<main id="mplMain" tabindex="-1" class="mpl-chooser-body">' +
           '<p class="mpl-eyebrow">STEP 1 OF 2</p>' +
@@ -104,12 +102,12 @@
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
                 '<small>' + countFor(city,'Flats') + ' flats · ' + countFor(city,'Independent Houses') + ' houses · ' + countFor(city,'Plots') + ' plots</small>' +
-                '<div class="mpl-arrow" aria-hidden="true">›</div>' +
+                '<div class="mpl-arrow" aria-hidden="true">' + ico('chevron-right') + '</div>' +
               '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-trust"><span>✓ Listed below ₹50L</span><span>✓ Source links</span><span>✓ Maps & poster info</span></div>' +
-          '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ↗</a>' +
+          '<div class="mpl-trust"><span>' + ico('check-circle') + ' Listed below ₹50L</span><span>' + ico('check-circle') + ' Source links</span><span>' + ico('check-circle') + ' Maps & poster info</span></div>' +
+          '<a class="mpl-submit-lead" href="https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml" target="_blank" rel="noopener">Found a reel or property? Submit a lead ' + ico('external') + '</a>' +
         '</main>' +
       '</section>';
     bind();
@@ -137,9 +135,9 @@
             categories.map(function (c) {
               var count = countFor(city,c.key);
               return '<button type="button" class="mpl-category-card" data-category="' + esc(c.key) + '"' + (count ? '' : ' disabled') + '>' +
-                '<div class="mpl-category-icon" aria-hidden="true">' + c.icon + '</div>' +
+                '<div class="mpl-category-icon" aria-hidden="true">' + ico(c.icon) + '</div>' +
                 '<div class="mpl-category-copy"><strong>' + esc(c.label) + '</strong><span>' + esc(c.note) + '</span><small>' + count + ' listed ' + (count === 1 ? 'lead' : 'leads') + '</small></div>' +
-                '<div class="mpl-category-arrow" aria-hidden="true">›</div>' +
+                '<div class="mpl-category-arrow" aria-hidden="true">' + ico('chevron-right') + '</div>' +
               '</button>';
             }).join('') +
           '</div>' +
@@ -186,22 +184,22 @@
     var facts = [p.bhk, p.size ? p.size + ' ' + p.sizeUnit : null, p.gated === 'yes' ? 'Gated' : typeLabel(p.type)].filter(Boolean);
     return '<article class="mpl-property">' +
       '<div class="mpl-property-top">' +
-        '<div class="mpl-thumb"><div>' + (p.type === 'Plot' ? '▧' : p.type === 'Flat' ? '▥' : '⌂') + '</div><small>' + esc(typeLabel(p.type)) + '</small></div>' +
+        '<div class="mpl-thumb"><div>' + ico(p.type === 'Plot' ? 'plot' : p.type === 'Flat' ? 'building' : 'house') + '</div><small>' + esc(typeLabel(p.type)) + '</small></div>' +
         '<div class="mpl-property-info">' +
-          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Active') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + (isSaved ? '♥' : '♡') + '</button></div>' +
+          '<div class="mpl-badges"><span class="mpl-deal">' + esc(p.deal || 'Public listing') + '</span><span class="mpl-source">' + esc(p.platform || p.source) + '</span><button type="button" class="mpl-heart ' + (isSaved ? 'active' : '') + '" data-save="' + esc(p.id) + '" aria-pressed="' + isSaved + '" aria-label="' + (isSaved ? 'Remove from saved' : 'Save property') + '">' + ico('heart') + '</button></div>' +
           '<div class="mpl-price">' + price(p.price) + '<small>' + esc(p.target || 'Negotiate') + '</small></div>' +
           '<h3>' + esc(p.name) + '</h3>' +
           '<div class="mpl-loc">' + esc(p.locality) + ', ' + esc(p.city) + '</div>' +
           '<div class="mpl-facts">' + facts.map(function (f) { return '<span>' + esc(f) + '</span>'; }).join('') + '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Recently verified') + '</div>' +
+      '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Source date unavailable') + '</div>' +
       '<div class="mpl-actions">' +
         '<button type="button" class="mpl-details" data-details="' + esc(p.id) + '">View details</button>' +
-        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
-        (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">⌖</a>' : '<span></span>') +
+        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
+        (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">' + ico('map-pin') + '</a>' : '<span></span>') +
       '</div>' +
-      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + (inCompare ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+      '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + ico(inCompare ? 'check' : 'plus') + ' ' + (inCompare ? 'Added to compare' : 'Add to compare') + '</button>' +
     '</article>';
   }
 
@@ -219,7 +217,7 @@
       '<section class="mpl-results">' +
         topHeader(title, subtitle, savedMode ? 'locations' : 'categories', !savedMode) +
         '<main id="mplMain" tabindex="-1" class="mpl-results-body">' +
-          '<div class="mpl-search"><span aria-hidden="true">⌕</span><input id="mplSearch" type="search" aria-label="Search properties" placeholder="Search locality or property" value="' + esc(state.query) + '"></div>' +
+          '<div class="mpl-search"><span aria-hidden="true">' + ico('search') + '</span><input id="mplSearch" type="search" aria-label="Search properties" placeholder="Search locality or property" value="' + esc(state.query) + '"></div>' +
           filterPanel() +
           '<div class="mpl-pills" role="group" aria-label="Property filters">' +
             [['all','All'],['best','Best'],['gated','Gated']].map(function (pair) {
@@ -259,7 +257,7 @@
     if (!p) return;
     var phone = core.normalizeIndianBusinessPhone(p.publicPhone);
     dialog.innerHTML =
-      '<div class="mpl-dialog-head"><div><small>' + esc(p.platform || p.source) + '</small><h2>' + esc(p.name) + '</h2><p>' + esc(p.locality) + ', ' + esc(p.city) + '</p></div><button type="button" data-close aria-label="Close">×</button></div>' +
+      '<div class="mpl-dialog-head"><div><small>' + esc(p.platform || p.source) + '</small><h2>' + esc(p.name) + '</h2><p>' + esc(p.locality) + ', ' + esc(p.city) + '</p></div><button type="button" data-close aria-label="Close">' + ico('x') + '</button></div>' +
       '<div class="mpl-dialog-body">' +
         '<div class="mpl-detail-price"><strong>' + price(p.price) + '</strong><span>Target ' + esc(p.target || 'Negotiate') + '</span></div>' +
         '<div class="mpl-detail-grid">' +
@@ -273,16 +271,16 @@
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
         '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
-          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
-          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +
+          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ' + ico('external') + '</a>' +
+          (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ' + ico('map-pin') + '</a>' : '') +
           (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
         '</div>' +
-        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + (compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare') + '</button>' +
       '</div>';
     dialog.querySelector('[data-close]').onclick = function () { dialog.close(); };
     dialog.querySelector('[data-compare]').onclick = function () {
       toggleCompare(p.id);
-      this.textContent = compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare';
+      this.innerHTML = ico(compare.has(p.id) ? 'check' : 'plus') + ' ' + (compare.has(p.id) ? 'Added to compare' : 'Add to compare');
       this.setAttribute('aria-pressed', String(compare.has(p.id)));
     };
     dialog.showModal();
@@ -379,6 +377,9 @@
           state.category = 'all';
           state.view = 'saved';
           state.query = '';
+          state.budget = '50';
+          state.sort = 'recommended';
+          state.filtersOpen = false;
           renderResults();
         } else if (nav === 'compare') renderCompare();
       };

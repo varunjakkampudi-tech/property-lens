@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Property Lens">
-  <rect width="64" height="64" rx="16" fill="#1769ff"/>
-  <path d="M14 31.5 32 16l18 15.5v18A4.5 4.5 0 0 1 45.5 54h-27A4.5 4.5 0 0 1 14 49.5z" fill="#fff"/>
-  <path d="M26 54V38h12v16" fill="#dce9ff"/>
-  <circle cx="47" cy="19" r="9" fill="#102650" stroke="#fff" stroke-width="3"/>
-  <path d="m53.5 25.5 6 6" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Property Lens</title>
+  <defs>
+    <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#174bd3"/><stop offset="1" stop-color="#0c2b65"/></linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="17" fill="url(#surface)"/>
+  <path d="M13 29 32 14l19 15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 29v19a3 3 0 0 0 3 3h12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="41" cy="40" r="9" fill="#0c2b65" stroke="#5ce1df" stroke-width="4.5"/>
+  <path d="m47.5 46.5 6.5 6.5" fill="none" stroke="#5ce1df" stroke-width="4.5" stroke-linecap="round"/>
 </svg>

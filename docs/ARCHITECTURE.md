@@ -31,16 +31,18 @@ flowchart LR
 |---|---|---|
 | `data/properties.js` | Versioned public leads, market metadata and published business contacts | Seller verification, user state, credentials |
 | `data/review-queue.json` | Excluded or evidence-pending discoveries and reasons | Published inventory |
-| `assets/core.js` | HTML escaping, price formatting, eligibility, safe local storage and source-link semantics | DOM rendering and network access |
+| `assets/core.js` | HTML escaping, price formatting, eligibility, safe local storage, source-link semantics and allowlisted icon markup | DOM rendering and network access |
 | `assets/app.js` | Desktop navigation, filtering, shortlist, visited state, notes and comparison | Data discovery or source ingestion |
 | `assets/mobile-location.js` | Mobile location → category → listings flow, search, filters, details and comparison | Desktop layout |
 | `assets/enrichment.js` | Desktop source metadata, contact directory and detail enrichment | Property identity matching by display name |
-| `assets/styles.css` | Design tokens, desktop/mobile styles, focus, touch targets and reduced motion | Application state |
+| `assets/styles.css` | Established desktop/mobile layout, focus, touch targets and reduced motion | Application state |
+| `assets/design-refresh.css` | Shared Manrope typography, brand tokens and mobile-inspired desktop composition | Business logic |
+| `assets/icons.svg`, `assets/favicon.svg` | Same-origin SVG icon library and roof-and-lens brand mark | Remote icon fonts |
 | `scripts/validate-data.cjs` | Release-blocking schema, identity, price, URL, provenance and queue checks | Proving a seller still has inventory |
 | `scripts/serve.cjs` | Local, allowlisted development/test HTTP server | Production hosting |
 | `tests/*` | Unit, security, responsive, behavioral and accessibility regression checks | Real-time seller availability checks |
 
-Keep modules dependency-free at runtime. Load the dataset, then `core.js`, then desktop/enrichment/mobile modules. The mobile UI is the sole mobile implementation; obsolete mobile navigation and legacy city-mode CSS must not be reintroduced.
+Keep modules dependency-free at runtime. Load the dataset, then `core.js`, then desktop/enrichment/mobile modules. The mobile UI is the sole mobile implementation; obsolete mobile navigation and legacy city-mode CSS must not be reintroduced. Desktop follows the same location → category → listings decision flow, with optional advanced filters and secondary resources.
 
 ## 3. Lead lifecycle and data contract
 

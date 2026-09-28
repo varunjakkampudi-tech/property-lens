@@ -69,6 +69,8 @@ test.describe('Property Lens production flows', () => {
         expect(labels.every(label => label.includes(city))).toBeTruthy();
         await assertNoHorizontalOverflow(page);
         if (city === cities[0] && category === 'Flats') {
+          const navBox = await page.locator('.mpl-bottom-nav').boundingBox();
+          expect(navBox.y + navBox.height).toBeLessThanOrEqual(page.viewportSize().height + 1);
           await assertA11y(page);
           await page.screenshot({ path: 'visual-' + testInfo.project.name + '-02-listings.png', fullPage: false });
         }
@@ -266,6 +268,88 @@ test.describe('Property Lens production flows', () => {
       has: page.locator('[data-details="' + searchResult.id + '"]')
     });
     await expect(mobileCard.locator('.mpl-actions a').first()).toContainText('Open source results');
+  });
+
+  test('desktop: location and category flow stays simple and data-driven', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    const leads = await inventory(page);
+    await expect(page.locator('.city-card')).toHaveCount(cities.length);
+    await expect(page.locator('#desktopCategoryStep')).toBeHidden();
+    await expect(page.locator('#browseStepLabel')).toHaveText('EXPLORE ALL · OPTIONAL');
+    await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
+    await expect(page.locator('.desktop-resources .source-evidence')).toBeHidden();
+    await assertNoHorizontalOverflow(page);
+    await assertA11y(page);
+    await page.screenshot({ path: 'visual-desktop-refresh-location.png', fullPage: false });
+
+    for (const city of cities) {
+      const cityCount = matching(leads, city, 'all').length;
+      await expect(page.locator('[data-city-card="' + city + '"]')).toContainText(cityCount + ' listed');
+      await page.locator('[data-city-card="' + city + '"]').click();
+      await expect(page.locator('#desktopCategoryStep')).toBeVisible();
+      await expect(page.locator('.desktop-category-card')).toHaveCount(4);
+      await expect(page.locator('#propertyGrid .property-card')).toHaveCount(cityCount);
+      for (const category of categories) {
+        const count = matching(leads, city, category).length;
+        const button = page.locator('[data-category-card="' + category + '"]');
+        await expect(button).toContainText(count + ' listed');
+        if (!count) { await expect(button).toBeDisabled(); continue; }
+        await button.click();
+        await expect(page.locator('#propertyGrid .property-card')).toHaveCount(count);
+        await expect(page.locator('#resultsTitle')).toContainText(category);
+        await expect(page.locator('#browseStepLabel')).toHaveText('STEP 03 · LISTINGS');
+        await assertNoHorizontalOverflow(page);
+        if (city === 'Vizag' && category === 'Flats') {
+          await assertA11y(page);
+          await page.screenshot({ path: 'visual-desktop-refresh-category.png', fullPage: false });
+        }
+      }
+      await page.locator('#allLocations').click();
+      await expect(page.locator('#desktopCategoryStep')).toBeHidden();
+      await expect(page.locator('#propertyGrid .property-card')).toHaveCount(leads.length);
+    }
+    await page.locator('.desktop-resources > summary').click();
+    await expect(page.locator('.desktop-resources .source-evidence')).toBeVisible();
+  });
+
+  test('brand, typography and professional icon assets work at desktop and mobile sizes', async ({ page }) => {
+    await page.goto('/');
+    const font = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
+    expect(font).toContain('Manrope');
+    const logo = await page.request.get('/assets/favicon.svg');
+    const icons = await page.request.get('/assets/icons.svg');
+    const theme = await page.request.get('/assets/design-refresh.css');
+    expect(logo.ok()).toBeTruthy();
+    expect(icons.ok()).toBeTruthy();
+    expect(theme.ok()).toBeTruthy();
+    expect(await icons.text()).toContain('id="heart"');
+    await expect(page.locator('#mobilePropertyApp')).toHaveCount(1);
+    if (page.viewportSize().width > 850) {
+      await expect(page.locator('.brand-mark img')).toBeVisible();
+      await expect(page.locator('.nav-item .pl-icon').first()).toBeVisible();
+    } else {
+      await expect(page.locator('.mpl-logo img')).toBeVisible();
+      await expect(page.locator('.mpl-city-icon .pl-icon').first()).toBeVisible();
+    }
+    await assertNoHorizontalOverflow(page);
+    await assertA11y(page);
+  });
+
+  test('desktop: intermediate widths retain usable navigation and no horizontal overflow', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop');
+    await page.goto('/');
+    for (const width of [851, 940, 1024, 1280, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expect(page.locator('#mobilePropertyApp')).toBeHidden();
+      await expect(page.locator('.sidebar')).toBeVisible();
+      await expect(page.locator('.city-card')).toHaveCount(cities.length);
+      await assertNoHorizontalOverflow(page);
+      if (width === 851) {
+        await assertA11y(page);
+        await page.screenshot({ path: 'visual-desktop-851.png', fullPage: false });
+      }
+    }
   });
 
 });

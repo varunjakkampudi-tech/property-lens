@@ -61,3 +61,11 @@ test('price formatting is stable for whole, fractional and unknown prices', () =
   assert.equal(core.formatPrice(35.5, ' Lakhs'), '₹35.5 Lakhs');
   assert.equal(core.formatPrice(null), 'Price on request');
 });
+
+test('shared SVG icons reject unknown names and unsafe CSS class input', () => {
+  const core = loadCore();
+  assert.match(core.icon('map-pin'), /assets\/icons\.svg#map-pin/);
+  assert.match(core.icon('heart', 'nav-icon'), /class="pl-icon nav-icon"/);
+  assert.equal(core.icon('not-a-real-icon'), '');
+  assert.equal(core.icon('map-pin', 'x" onload="alert(1)'), core.icon('map-pin'));
+});

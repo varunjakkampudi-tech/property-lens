@@ -44,6 +44,8 @@ jobs:
           test -s manifest.webmanifest
           test -s assets/favicon.svg
           test -s assets/core.js
+          test -s assets/icons.svg
+          test -s assets/design-refresh.css
           test -s package-lock.json
           test -s docs/diagrams/system-architecture.svg
           test -s docs/diagrams/lead-lifecycle.svg
@@ -118,7 +120,11 @@ jobs:
                  curl -fsSL --max-time 20 "$site/assets/mobile-location.js?check=$cache_key" -o /tmp/property-lens-mobile.js &&
                  grep -q 'mobilePropertyApp' /tmp/property-lens-mobile.js &&
                  curl -fsSL --max-time 20 "$site/assets/core.js?check=$cache_key" -o /tmp/property-lens-core.js &&
-                 grep -q 'PropertyLensCore' /tmp/property-lens-core.js; then
+                 grep -q 'PropertyLensCore' /tmp/property-lens-core.js &&
+                 curl -fsSL --max-time 20 "$site/assets/design-refresh.css?check=$cache_key" -o /tmp/property-lens-design.css &&
+                 grep -q 'desktop-category-card' /tmp/property-lens-design.css &&
+                 curl -fsSL --max-time 20 "$site/assets/icons.svg?check=$cache_key" -o /tmp/property-lens-icons.svg &&
+                 grep -q 'id="map-pin"' /tmp/property-lens-icons.svg; then
                 echo "PASS: Pages serves commit $EXPECTED_SHA, homepage, lead data and mobile app."
                 exit 0
               fi
