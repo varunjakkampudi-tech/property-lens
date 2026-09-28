@@ -38,6 +38,19 @@ A search-results URL is not an exact listing URL. Preserve `linkType` accurately
 
 If the task lacks write or test tools, preserve the findings as review-needed information and report that publication is **not verified**. If CI or live deployment fails, leave the last successful release intact, capture the run link and surface the failure for a separately reviewed fix.
 
+## Publication permissions and recovery
+
+The GitHub Pages workflow is triggered by a **new commit to `main`**. Research findings alone do not trigger a build. A ChatGPT scheduled run can find leads but may still be denied a GitHub write by its **scheduled-execution safety gate**, even when the interactive GitHub connection can write. A GitHub Actions retry cannot repair a commit that was never created.
+
+1. Attempt one evidence-backed data-only commit using the connected GitHub write action, or an authorized data-only PR if direct `main` writes are blocked by branch protection.
+2. If the write action is denied by the scheduled-run safety gate, **do not retry repeatedly or route around the gate**. Keep the hourly research task enabled, report the exact denial and produce a reviewable data-only candidate/patch with source links. The lead is **discovered, not published**.
+3. A user-approved interactive publication or separately configured, authorized repository publisher can apply the validated data patch. Once a commit reaches `main`, GitHub Actions automatically builds, tests and deploys it.
+4. Track the exact commit and workflow run until the live commit verification passes. If CI fails, distinguish a deterministic validation failure from a transient Pages/CDN error. Never mark a discovery run as a successful deployment.
+
+Unattended GitHub publication requires a write-capable identity that the **scheduled runtime itself** is authorized to use. The repository cannot grant that authority to ChatGPT or bypass its safety controls. Do not put access tokens in browser code, source files or task messages.
+
+For market-value research, only collect independent, dated locality comparables with the same property type and area measurement basis. The UI's calculated benchmark is explicitly a median of comparable **asking listings**, not a verified sale price or appraisal. Never invent market values when comparables are insufficient.
+
 ## Code freeze and escalation
 
 The final application release is frozen. Scheduled discovery is authorized for **data-only updates**, not opportunistic refactors. A broken user flow, security issue or required schema change is an engineering escalation and needs a separately reviewed change, full regression tests and a verified release.
