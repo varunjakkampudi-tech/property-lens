@@ -17,7 +17,8 @@ A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Pa
 - Direct listing links where available; results-page links are explicitly labeled.
 - Poster/source provenance, source-check dates, maps and deliberately public business inquiry details.
 - Budget presets from ₹20L to ₹45L and an all-under-₹50L view.
-- A custom scalable roof-and-lens logo, Manrope typography, same-origin SVG icons, responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
+- A custom scalable roof-and-lens logo, Manrope typography, label-matched SVG icons, responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
+- An **indicative market-value comparison on every desktop/mobile card**. Where at least three recent, like-for-like direct listings exist in the same locality and measurement basis, it shows the median comparable asking-rate estimate and the difference from the property's asking price. Otherwise it explicitly says **Not available**. This is not a verified transaction value or appraisal.
 
 ## System architecture
 
