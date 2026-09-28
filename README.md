@@ -115,4 +115,4 @@ If Option B is activated later, the feed must be an owner-approved JSON endpoint
 
 ## Further documentation
 
-[Architecture](docs/ARCHITECTURE.md) · [Brand guide](docs/BRAND-GUIDE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)
+[Acceptance report](docs/PRODUCTION-ACCEPTANCE.md) · [Architecture](docs/ARCHITECTURE.md) · [Brand guide](docs/BRAND-GUIDE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)
