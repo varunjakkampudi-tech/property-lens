@@ -1,7 +1,7 @@
 {
   "name": "Property Lens",
   "short_name": "Property Lens",
-  "description": "Active property leads across Vizag, Tanuku, Palakollu and Bhimavaram.",
+  "description": "Public property research leads across Vizag, Tanuku, Palakollu, Bhimavaram and Eluru.",
   "start_url": "/property-lens/",
   "scope": "/property-lens/",
   "display": "standalone",

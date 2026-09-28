@@ -1,27 +1,18 @@
 (() => {
+  const core = window.PropertyLensCore;
   const properties = window.PROPERTY_DATA || [];
   const markets = window.MARKET_DATA || {};
   const $ = (id) => document.getElementById(id);
   const state = { view: 'all', city: 'all' };
-  const safeRead = (key, fallback) => {
-    try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : fallback;
-    } catch {
-      return fallback;
-    }
-  };
-  const safeArray = key => { const value = safeRead(key, []); return Array.isArray(value) ? value : []; };
-  const shortlist = new Set(safeArray('ap-shortlist'));
-  const visited = new Set(safeArray('ap-visited'));
+  const shortlist = new Set(core.readArray('ap-shortlist'));
+  const visited = new Set(core.readArray('ap-visited'));
   const compare = new Set();
-  const notes = safeRead('ap-notes', {});
-
-  const esc = (s='') => String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-  const priceText = p => p == null ? 'Price on request' : `₹${Number(p).toFixed(Number(p)%1 ? 1 : 0)} Lakhs`;
+  const notes = core.readRecord('ap-notes');
+  const esc = core.escapeHtml;
+  const priceText = p => core.formatPrice(p, ' Lakhs');
   const gatedText = g => g === 'yes' ? 'Gated' : g === 'partial' ? 'Verify gated' : 'Independent';
-  const icon = p => p.type === 'Plot' ? '▧' : p.type === 'Independent House' ? '⌂' : p.type === 'Villa' ? '⌂' : p.type === 'Watchlist' ? '◎' : '▥';
-  const heroClass = p => p.type === 'Plot' ? 'plot' : p.type === 'Independent House' ? 'house' : p.type === 'Watchlist' ? 'watch' : '';
+  const icon = p => p.type === 'Plot' ? '▧' : p.type === 'Independent House' || p.type === 'Villa' ? '⌂' : '▥';
+  const heroClass = p => p.type === 'Plot' ? 'plot' : p.type === 'Independent House' || p.type === 'Villa' ? 'house' : '';
   const dealClass = d => d === 'Strong Deal' ? 'strong' : d === 'Potential Bargain' ? 'bargain' : d === 'Good Value' ? 'good' : d === 'Fair / Negotiate' ? 'fair' : 'watch';
 
   function persist() {
@@ -43,8 +34,8 @@
 
   function renderCities() {
     $('citySummary').innerHTML = Object.entries(markets).map(([city, m]) => `
-      <button type="button" class="city-card ${state.city===city?'active':''}" data-city-card="${city}" aria-pressed="${state.city===city?'true':'false'}">
-        <h3>${city}</h3><span class="city-sub">${esc(m.subtitle)}</span>
+      <button type="button" class="city-card ${state.city===city?'active':''}" data-city-card="${esc(city)}" aria-pressed="${state.city===city?'true':'false'}">
+        <h3>${esc(city)}</h3><span class="city-sub">${esc(m.subtitle)}</span>
         <div class="market-rate">${esc(m.range)}</div><div class="market-note">${esc(m.note)}</div>
         <div class="trend">↗ ${esc(m.trend)}</div>
       </button>`).join('');
@@ -55,7 +46,7 @@
   }
 
   function setupFilters() {
-    Object.keys(markets).forEach(city => $('cityFilter').insertAdjacentHTML('beforeend', `<option value="${city}">${city}</option>`));
+    Object.keys(markets).forEach(city => $('cityFilter').insertAdjacentHTML('beforeend', `<option value="${esc(city)}">${esc(city)}</option>`));
     ['cityFilter','typeFilter','budgetFilter','ageFilter','gatedFilter','dealFilter','sortSelect'].forEach(id => $(id).addEventListener('change', () => { if(id==='cityFilter'){state.city=$(id).value;renderCities();} render(); }));
     $('searchInput').addEventListener('input', render);
     $('resetFilters').addEventListener('click', () => {
@@ -77,7 +68,7 @@
     let list=properties.filter(p => {
       if(state.city!=='all'&&p.city!==state.city) return false;
       if(type!=='all'&&p.type!==type) return false;
-      if(typeof p.price!=='number'||!Number.isFinite(p.price)||p.price<0||p.price>=50) return false;
+      if (!core.isEligibleLead(p)) return false;
       if(p.price>budget) return false;
       if(age!=='all'&&p.ageGroup!==age) return false;
       if(gated!=='all') {
@@ -109,13 +100,13 @@
         <div class="stats"><span>${esc(p.bhk)}</span><span>${p.size?`${esc(p.size)} ${esc(p.sizeUnit)}`:'Size verify'}</span><span>${esc(p.age)}</span></div>
         <div class="chips">${chips.map((c,i)=>`<span class="chip ${i===0?'green':''}">${esc(c)}</span>`).join('')}</div>
         <div class="valuation"><div>Market / area ref<strong>${esc(p.market)}</strong></div><div>Asking rate<strong>${esc(p.askingRate)}</strong></div></div>
-        <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.source)} ↗</a></div>
-        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-label="Compare ${esc(p.name)}"><span aria-hidden="true">⇄</span><span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-label="Mark ${esc(p.name)} visited"><span aria-hidden="true">✓</span><span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}"><span aria-hidden="true">✎</span><span>Notes</span></button></div>
+        <div class="card-actions"><button type="button" class="details-btn" data-details="${p.id}">View details</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="${esc(core.sourceLinkLabel(p))} on ${esc(p.source)}">${esc(p.source)} ↗</a></div>
+        <div class="small-actions"><button type="button" class="small-action ${compare.has(p.id)?'active':''}" data-compare="${p.id}" aria-pressed="${compare.has(p.id)?'true':'false'}" aria-label="Compare ${esc(p.name)}"><span aria-hidden="true">⇄</span><span>Compare</span></button><button type="button" class="small-action ${visited.has(p.id)?'active':''}" data-visited="${p.id}" aria-pressed="${visited.has(p.id)?'true':'false'}" aria-label="Mark ${esc(p.name)} visited"><span aria-hidden="true">✓</span><span>Visited</span></button><button type="button" class="small-action" data-note="${p.id}" aria-label="Notes for ${esc(p.name)}"><span aria-hidden="true">✎</span><span>Notes</span></button></div>
       </div></article>`;
   }
 
   function bindCards() {
-    document.querySelectorAll('[data-shortlist]').forEach(b=>b.onclick=()=>{shortlist.has(b.dataset.shortlist)?shortlist.delete(b.dataset.shortlist):shortlist.add(b.dataset.shortlist);persist();updateCounts();render();});
+    document.querySelectorAll('[data-shortlist]').forEach(b=>b.onclick=()=>{shortlist.has(b.dataset.shortlist)?shortlist.delete(b.dataset.shortlist):shortlist.add(b.dataset.shortlist);persist();window.dispatchEvent(new Event('pl-saved-sync'));updateCounts();render();});
     document.querySelectorAll('[data-visited]').forEach(b=>b.onclick=()=>{visited.has(b.dataset.visited)?visited.delete(b.dataset.visited):visited.add(b.dataset.visited);persist();updateCounts();render();});
     document.querySelectorAll('[data-compare]').forEach(b=>b.onclick=()=>{const id=b.dataset.compare;if(compare.has(id))compare.delete(id);else if(compare.size<4)compare.add(id);else alert('Compare up to 4 properties at a time.');updateCounts();render();});
     document.querySelectorAll('[data-details]').forEach(b=>b.onclick=()=>openDetails(b.dataset.details));
@@ -143,7 +134,7 @@
         <div class="detail-box"><span>Area market reference</span><strong>${esc(p.market)}</strong></div><div class="detail-box"><span>Asking rate</span><strong>${esc(p.askingRate)}</strong></div>
       </div><h3>Why it is on the list</h3><ul class="highlights-list">${(p.highlights||[]).map(h=>`<li>${esc(h)}</li>`).join('')}</ul><h3>Research note</h3><p class="location" style="font-size:12px;line-height:1.7">${esc(p.notes)}</p>
       <h3>My notes</h3><textarea id="propertyNote" class="note-area" aria-label="My property notes" placeholder="Site-visit observations, seller quote, plot size, road width...">${esc(notes[p.id]||'')}</textarea>
-      <div class="card-actions" style="margin-top:12px"><button type="button" id="saveNote" class="details-btn">Save note</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">Open ${esc(p.source)} ↗</a></div></div>`;
+      <div class="card-actions" style="margin-top:12px"><button type="button" id="saveNote" class="details-btn">Save note</button><a class="source-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(core.sourceLinkLabel(p))} ↗</a></div></div>`;
     d.querySelector('#saveNote').onclick=()=>{notes[p.id]=d.querySelector('#propertyNote').value;persist();d.querySelector('#saveNote').textContent='Saved ✓';};
     d.showModal();
     d.querySelector('.close-btn')?.focus({preventScroll:true});
@@ -173,6 +164,13 @@
       e.preventDefault();
       d.close();
     });
+  });
+  window.addEventListener('pl-saved-sync', () => {
+    const ids = core.readArray('ap-shortlist');
+    if (ids.length === shortlist.size && ids.every(id => shortlist.has(id))) return;
+    shortlist.clear();
+    ids.forEach(id => shortlist.add(id));
+    render();
   });
   setupFilters(); renderCities(); render(); updateCounts();
 })();

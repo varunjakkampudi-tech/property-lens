@@ -1,61 +1,93 @@
 # Property Lens
 
-A static personal property-research dashboard for **Vizag, Tanuku, Palakollu, Bhimavaram and Eluru, Andhra Pradesh**.
+[![Production E2E and deploy](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/pages.yml/badge.svg)](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/pages.yml)
+[![Pull request quality](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/quality.yml/badge.svg)](https://github.com/varunjakkampudi-tech/property-lens/actions/workflows/quality.yml)
 
-## What is included
+A lightweight, source-backed property-research dashboard for **Vizag, Tanuku, Palakollu, Bhimavaram and Eluru, Andhra Pradesh**. Browse flats, independent houses and residential plots with publicly advertised asking prices **strictly below ₹50 lakh**.
 
-- Public buyer-facing property leads with listed asking prices strictly below ₹50 lakh
-- Five locations × three categories: Flats, Independent Houses (including villas) and Plots
-- Location → property type → listings on mobile, with selectable budgets (₹20L, ₹25L, ₹30L, ₹35L, ₹40L, ₹45L or all under ₹50L)
-- Market-rate references, asking-rate comparison and negotiation targets
-- Shortlist, visited tracking and personal notes using browser localStorage
-- Up to four-property side-by-side comparison
-- Direct listing/source links
-- Responsive desktop/mobile layout
-- Buying checklist and research documentation
-- GitHub Pages deployment workflow
-- No runtime framework or backend; development tests use Node.js and Playwright
+**[Open Property Lens](https://varunjakkampudi-tech.github.io/property-lens/)** · [Architecture](docs/ARCHITECTURE.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Deployment](docs/DEPLOYMENT.md)
 
-## Main-listing policy
+> **Availability disclaimer:** A property appearing on a public portal or social post does not establish that it remains unsold. Property Lens displays research leads, not seller-guaranteed inventory. Confirm price, availability, identity and legal documents before visiting or paying an advance.
 
-Only leads with a published asking price **strictly below ₹50 lakh** appear in active results. The selected price ceiling only filters what a visitor sees; it never limits the hourly discovery search. Listings priced at ₹50L or more and records without a confirmed asking price are excluded from active counts and retained in `data/review-queue.json`. An online listing remaining visible does not guarantee that the property is unsold. Instagram Reels are the first discovery priority; newly discovered posts need current availability evidence before they enter active results. The CI pipeline runs `scripts/validate-data.cjs` to enforce the price cap before deployment.
+## Product
 
-## Run locally
+- Five locations × three categories; mobile **Location → Category → Listings** navigation.
+- Desktop filtering by location, property type, budget, age, community and research label.
+- Search, sorting, browser-local saved leads, visited tracking, notes and comparison (up to four).
+- Direct listing links where available; results-page links are explicitly labeled.
+- Poster/source provenance, source-check dates, maps and deliberately public business inquiry details.
+- Budget presets from ₹20L to ₹45L and an all-under-₹50L view.
+- Responsive layouts, keyboard support, visible focus and automated axe accessibility checks.
 
-Open `index.html` directly, or run:
+## System architecture
+
+![Property Lens system architecture](docs/diagrams/system-architecture.svg)
+
+The production site is **static HTML, CSS and JavaScript** on GitHub Pages. There is no runtime API, database, user account, server-side storage, privileged client key or client-side tracking. Shared browser primitives live in `assets/core.js`; desktop and mobile interfaces consume the same versioned listing data.
+
+![Evidence-first lead lifecycle](docs/diagrams/lead-lifecycle.svg)
+
+Unknown-price, conflicting, out-of-budget and uncorroborated social discoveries remain in `data/review-queue.json`. The main dataset `data/properties.js` contains source-backed under-₹50L research leads with an explicit availability state. The selected UI budget never restricts discovery.
+
+## Get started
+
+**Requirements:** Node.js 22+; Python is not required.
 
 ```bash
-python -m http.server 8080
+npm ci
+npm run dev
 ```
 
-Then open `http://localhost:8080`.
+Open **http://127.0.0.1:4173/**. The local server exposes only the public site files and does not publish repository internals.
 
-## GitHub Pages
+```bash
+npm run test:syntax    # JavaScript syntax
+npm run test:data      # Listing, source and review-queue integrity
+npm run test:unit      # Shared core and local-server regression tests
+npx playwright install chromium
+npm run test:e2e       # Starts its own local server if needed
+npm run test:quality   # All gates
+```
 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Playwright covers 375px, 390px and 430px mobile viewports plus desktop, navigation, data-driven counts, search focus, filters, saved/compare state, dialogs and serious/critical axe violations. See [quality and release gates](docs/ARCHITECTURE.md#quality-and-release-gates).
 
-Target URL: **https://varunjakkampudi-tech.github.io/property-lens/**
+## Repository layout
 
-## Important
+```text
+assets/
+  core.js               Shared escaping, eligibility, storage and source helpers
+  app.js                Desktop interface and browser-local research tools
+  mobile-location.js    Mobile location → category → listings interface
+  enrichment.js         Source provenance, contact and desktop detail panels
+  styles.css            Design tokens, desktop/mobile layout and accessibility
+data/
+  properties.js         Public research leads and market metadata
+  review-queue.json     Excluded and evidence-pending discoveries
+docs/
+  diagrams/             Editable SVG architecture and lifecycle images
+  ARCHITECTURE.md       Boundaries, Mermaid diagrams and release contract
+  DATA-DICTIONARY.md    Listing schema and status semantics
+  LEAD-OPERATIONS.md    Hourly discovery and data-only release runbook
+scripts/
+  serve.cjs             Allowlisted local development server
+  validate-data.cjs     Release-blocking integrity validation
+tests/
+  core.test.cjs         Shared primitive unit tests
+  server.test.cjs       Local-server security and routing tests
+  e2e.spec.js           Responsive, behavioral and accessibility tests
+.github/workflows/
+  quality.yml           Pull-request checks
+  pages.yml             Tested GitHub Pages deployment and live verification
+```
 
-Online availability is not guaranteed. Reconfirm seller availability, legal/title documents, approvals, plot/UDS, construction condition, water/drainage, maintenance and final all-in cost before paying any token advance.
+## Hourly discovery and code freeze
 
-## Sources and confidence
+An existing **hourly ChatGPT task** prioritizes publicly accessible Instagram Reels, then YouTube Shorts, local agents/builders and permitted property portals for all five cities and three categories. Discovery and repository writes depend on the task's available tools and permissions; the static website does **not** scrape Instagram or autonomously run background jobs. Private/personalized feeds are not accessible through ordinary public search.
 
-The app indexes public property advertisements; a visible post is **not confirmation that a home is unsold**. Users must confirm availability, pricing, seller identity, title and municipal/land-use approvals before paying or visiting. Direct property links are preferred; entries linking to a results page are labeled as such. Eluru includes a clearly labeled outlying layout where the advertised site is about 30 km away. Instagram/YouTube posts are discovery sources only until independently corroborated.
+**After the final quality release, hourly changes are data-only:** `data/properties.js` and `data/review-queue.json`. No scheduled UI, architecture, dependency or documentation rewrites. A substantive code/security regression requires a separately reviewed change. Every data commit must pass syntax, integrity, unit, mobile/desktop E2E, accessibility, deployment and exact-commit live smoke checks. A pending or failed run is not a published update.
 
-## Automated refresh
+Submit a public Reel, Short, listing URL or sold-listing report through the [lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). Do not submit private phone numbers or unverified claims.
 
-An hourly ChatGPT task prioritizes public Instagram Reels and YouTube Shorts, followed by property portals, across all five locations and three categories. It updates the GitHub repository only for supported material changes, runs CI and deploys on success. Personalized/private Instagram feeds and restricted platforms cannot be fully searched without permitted access; the task cannot guarantee every market listing.
+## Further documentation
 
-## Submit missed Reels and report sold listings
-
-Public search does not have access to each buyer's personalized Instagram feed. Submit a **public Instagram Reel / YouTube Short / portal URL** or flag a listing as sold using [the lead-review issue form](https://github.com/varunjakkampudi-tech/property-lens/issues/new?template=property-lead.yml) (GitHub sign-in required). The hourly review can use your exact links to find matching properties; all submissions are review-needed until price and availability are corroborated. Do not submit private individuals' phone numbers.
-
-## Quality gates and release verification
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for module boundaries, data provenance, accessibility, responsive behavior and release policy.
-
-Run `npm install`, `npx playwright install chromium`, then `npm run test:quality` with a local server at `http://127.0.0.1:4173`. GitHub Actions validates data and syntax, exercises mobile/desktop browser journeys and accessibility, then deploys Pages. The deployment workflow checks the published commit marker, homepage, lead dataset and mobile application. Pending, cancelled or failed runs are **not** successful releases.
-
-E2E assertions derive city/category counts from the dataset rather than hard-coding inventory, so legitimate lead changes do not break tests. Empty categories are valid and shown as disabled choices rather than blocking a release.
+[Architecture](docs/ARCHITECTURE.md) · [Deployment](docs/DEPLOYMENT.md) · [Data dictionary](docs/DATA-DICTIONARY.md) · [Lead operations](docs/LEAD-OPERATIONS.md) · [Buyer checklist](docs/BUYING-CHECKLIST.md) · [Research notes](docs/RESEARCH-NOTES.md) · [UI reference](docs/UI-REFERENCE.md)

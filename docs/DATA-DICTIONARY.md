@@ -1,28 +1,45 @@
-# Data Dictionary
+# Property Lens data dictionary
 
-The main dataset is `data/properties.js`.
+The source of truth is `data/properties.js` (public research leads and market metadata) and `data/review-queue.json` (excluded or evidence-pending discoveries). Both are versioned and validated before deployment.
 
-| Field | Meaning |
+## Geographic and category enums
+
+- `city`: `Vizag`, `Tanuku`, `Palakollu`, `Bhimavaram`, `Eluru`.
+- `category`: `Flats`, `Independent Houses`, `Plots`.
+- `type`: `Flat` → Flats; `Independent House` or `Villa` → Independent Houses; `Plot` → Plots.
+
+## Main lead fields
+
+| Field | Meaning / invariant |
 |---|---|
-| `id` | Stable internal lead ID |
-| `city` | Vizag, Tanuku, Palakollu or Bhimavaram |
-| `name` | Project / short lead name |
-| `locality` | Area or neighbourhood |
-| `price` | Asking price in lakh rupees; null when not public |
-| `size` | Advertised/estimated size |
-| `sizeUnit` | sq.ft built-up, sq.ft, sq.yd plot, etc. |
-| `bhk` | BHK or property class |
-| `type` | Flat, Independent House, Villa, Plot or Watchlist |
-| `age` | Human-readable age/status |
-| `ageGroup` | new, resale, or unknown for filtering |
-| `gated` | yes, partial, or no |
-| `status` | Online discoverability / research status |
-| `deal` | Strong Deal, Potential Bargain, Good Value, Fair / Negotiate, Watch |
-| `score` | Internal display sorting score, not a professional valuation |
-| `market` | Working market/locality reference |
-| `askingRate` | Asking-rate calculation or note |
-| `target` | Working negotiation target |
-| `highlights` | Concise reasons the lead is relevant |
-| `source` | Source platform/project |
-| `url` | Direct or best-available source/search URL |
-| `notes` | Risks, missing information and checks |
+| `id` | Stable unique slug, never derived from a mutable display title |
+| `city`, `category`, `type` | Valid geographic and type/category combination |
+| `name`, `locality` | Human-readable advertised project/lead and location |
+| `price` | Public asking price in **lakh INR**, finite and **0 ≤ price < 50**; unknown/₹50L+ belongs in the queue |
+| `size`, `sizeUnit`, `bhk` | Advertised dimensions and property class; do not infer missing measurements |
+| `age`, `ageGroup` | Advertised condition/age and `new`, `resale` or `unknown` filter value |
+| `gated` | `yes`, `partial` or `no`; `partial` means verify |
+| `status` | Human-readable public listing/availability disclaimer |
+| `availabilityStatus` | `publicly_listed_unconfirmed` or `seller_confirmed`; seller confirmation requires dated evidence |
+| `verifiedOn` | ISO `YYYY-MM-DD` date the public source was checked; **not** proof of seller availability |
+| `lastSeen` | Source's visible posting/update text, kept distinct from `verifiedOn` |
+| `source`, `platform`, `poster`, `posterType` | Source platform and publicly visible poster provenance |
+| `url` | Public HTTPS source URL; preserve the exact available source |
+| `linkType` | `Direct listing` or a clearly identified results/search page; never label the latter exact |
+| `mapUrl` | HTTPS Google Maps search URL; not a verified parcel boundary |
+| `publicPhone`, `phoneLabel` | Optional deliberately advertised business/agent inquiry contact and its context |
+| `deal`, `score` | Research heuristics for display/sorting, **not** professional valuations |
+| `market`, `askingRate`, `target` | Working locality reference, advertised/calculated rate and negotiation research |
+| `highlights`, `notes` | Source-backed attributes and outstanding due-diligence questions |
+
+`window.MARKET_DATA` supplies five-city summaries. `window.SOURCE_CONTACTS` lists deliberately published business inquiry contacts, never private numbers harvested from restricted sources.
+
+## Review queue
+
+`excludedFromActiveResults` holds out-of-budget or unknown-price leads with an explicit `reason` and source record. `candidatesNeedingSellerConfirmation` holds incomplete, inconsistent or uncorroborated discoveries with city, category, source URL and evidence. Queue items are **not** counted in main results.
+
+## Data maintenance rules
+
+Preserve IDs and provenance, deduplicate canonical URLs, use explicit uncertainty states, and update dates only when the source is actually rechecked. New public Instagram Reels are discovery evidence; do not infer an unsold property from a live post. A selected UI budget filters results only; it does not limit discovery.
+
+[Lead operations](LEAD-OPERATIONS.md) · [Architecture](ARCHITECTURE.md)

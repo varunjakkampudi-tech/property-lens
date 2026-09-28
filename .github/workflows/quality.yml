@@ -18,29 +18,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
       - name: Validate source and data
         run: |
           npm run test:syntax
           npm run test:data
+          npm run test:unit
           test -s index.html
           test -s robots.txt
           test -s sitemap.xml
           test -s manifest.webmanifest
           test -s assets/favicon.svg
+          test -s assets/core.js
+          test -s package-lock.json
+          test -s docs/diagrams/system-architecture.svg
+          test -s docs/diagrams/lead-lifecycle.svg
       - name: Install browser tests
         run: |
-          npm install --no-audit --no-fund
+          npm ci --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Start static server
-        shell: bash
-        run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/property-lens-server.log 2>&1 &
-          for i in {1..20}; do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
-            sleep 1
-          done
-          cat /tmp/property-lens-server.log
-          exit 1
       - name: Mobile, desktop and accessibility E2E
         run: npm run test:e2e
       - name: Upload test evidence

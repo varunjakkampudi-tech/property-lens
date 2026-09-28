@@ -2,6 +2,7 @@
   var mq = window.matchMedia('(max-width: 850px)');
 
 
+  var core = window.PropertyLensCore;
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
   var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram','Eluru'];
@@ -14,27 +15,14 @@
   var state = { city:null, category:null, view:'all', query:'', budget:'50', sort:'recommended', filtersOpen:false };
   var screen = 'locations';
 
-  function readSaved() {
-    try { return new Set(JSON.parse(localStorage.getItem('ap-shortlist') || '[]')); }
-    catch (e) { return new Set(); }
-  }
-  var saved = readSaved();
+  var saved = new Set(core.readArray('ap-shortlist'));
 
   function persistSaved() {
     try { localStorage.setItem('ap-shortlist', JSON.stringify(Array.from(saved))); } catch (e) {}
   }
 
-  function esc(v) {
-    return String(v == null ? '' : v).replace(/[&<>'"]/g, function (c) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];
-    });
-  }
-
-  function price(p) {
-    if (p == null) return 'Price on request';
-    var n = Number(p);
-    return '₹' + n.toFixed(n % 1 ? 1 : 0) + 'L';
-  }
+  var esc = core.escapeHtml;
+  var price = core.formatPrice;
 
   function iconForCity(city) {
     if (city === 'Vizag') return '🌊';
@@ -44,12 +32,7 @@
     return '🌳';
   }
 
-  function categoryFor(p) {
-    if (p.category) return p.category;
-    if (p.type === 'Flat') return 'Flats';
-    if (p.type === 'Plot') return 'Plots';
-    return 'Independent Houses';
-  }
+  function categoryFor(p) { return p.category; }
 
   function typeLabel(type) {
     return type === 'Independent House' ? 'House' : type;
@@ -57,7 +40,7 @@
 
   function countFor(city, category) {
     return properties.filter(function (p) {
-      return p.city === city && typeof p.price === 'number' && Number.isFinite(p.price) && p.price >= 0 && p.price < 50 && (!category || categoryFor(p) === category);
+      return p.city === city && core.isEligibleLead(p) && (!category || categoryFor(p) === category);
     }).length;
   }
 
@@ -177,7 +160,7 @@
       if (state.view === 'saved' && !saved.has(p.id)) return false;
       if (state.view === 'best' && Number(p.score || 0) < 90) return false;
       if (state.view === 'gated' && p.gated !== 'yes') return false;
-      if (typeof p.price !== 'number' || !Number.isFinite(p.price) || p.price < 0 || p.price >= 50) return false;
+      if (!core.isEligibleLead(p)) return false;
       if (p.price > budget) return false;
       if (q && (p.name + ' ' + p.locality + ' ' + p.city + ' ' + (p.poster || '') + ' ' + (p.platform || '')).toLowerCase().indexOf(q) === -1) return false;
       return true;
@@ -215,7 +198,7 @@
       '<div class="mpl-poster">Posted by ' + esc(p.poster || 'Source listing') + ' · ' + esc(p.lastSeen || 'Recently verified') + '</div>' +
       '<div class="mpl-actions">' +
         '<button type="button" class="mpl-details" data-details="' + esc(p.id) + '">View details</button>' +
-        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">Source ↗</a>' +
+        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
         (p.mapUrl ? '<a class="mpl-map" href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener" aria-label="Open map">⌖</a>' : '<span></span>') +
       '</div>' +
       '<button type="button" class="mpl-compare-toggle ' + (inCompare ? 'active' : '') + '" data-compare="' + esc(p.id) + '" aria-pressed="' + inCompare + '">' + (inCompare ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
@@ -274,7 +257,7 @@
   function openDetails(id) {
     var p = properties.find(function (x) { return x.id === id; });
     if (!p) return;
-    var phone = p.publicPhone ? String(p.publicPhone).replace(/\D/g,'').replace(/^91/,'') : '';
+    var phone = core.normalizeIndianBusinessPhone(p.publicPhone);
     dialog.innerHTML =
       '<div class="mpl-dialog-head"><div><small>' + esc(p.platform || p.source) + '</small><h2>' + esc(p.name) + '</h2><p>' + esc(p.locality) + ', ' + esc(p.city) + '</p></div><button type="button" data-close aria-label="Close">×</button></div>' +
       '<div class="mpl-dialog-body">' +
@@ -290,16 +273,17 @@
         '<h3>Why it is worth checking</h3><ul>' + (p.highlights || []).map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
         '<h3>Availability & source</h3><p>' + esc(p.lastSeen || '') + ' · ' + esc(p.status || 'Publicly listed; confirm availability') + '</p>' +
         '<div class="mpl-dialog-actions">' +
-          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">Open source ↗</a>' +
+          '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(core.sourceLinkLabel(p)) + ' ↗</a>' +
           (p.mapUrl ? '<a href="' + esc(p.mapUrl) + '" target="_blank" rel="noopener">Open map ⌖</a>' : '') +
           (phone ? '<a href="tel:+91' + esc(phone) + '">Call</a>' : '') +
         '</div>' +
-        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '">' + (compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
+        '<button type="button" class="mpl-dialog-compare" data-compare="' + esc(p.id) + '" aria-pressed="' + compare.has(p.id) + '">' + (compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare') + '</button>' +
       '</div>';
     dialog.querySelector('[data-close]').onclick = function () { dialog.close(); };
     dialog.querySelector('[data-compare]').onclick = function () {
       toggleCompare(p.id);
       this.textContent = compare.has(p.id) ? '✓ Added to compare' : '+ Add to compare';
+      this.setAttribute('aria-pressed', String(compare.has(p.id)));
     };
     dialog.showModal();
   }
@@ -307,6 +291,7 @@
   function toggleSaved(id) {
     if (saved.has(id)) saved.delete(id); else saved.add(id);
     persistSaved();
+    window.dispatchEvent(new Event('pl-saved-sync'));
     if (screen === 'compare') renderCompare(); else renderResults();
   }
 
@@ -324,6 +309,7 @@
     if (old) old.remove();
     var t = document.createElement('div');
     t.className = 'mpl-toast';
+    t.setAttribute('role', 'status');
     t.textContent = message;
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, 2200);
@@ -410,6 +396,17 @@
     var sort = document.getElementById('mplSort');
     if (sort) sort.onchange = function () { state.sort = sort.value; renderResults(); };
   }
+
+  window.addEventListener('pl-saved-sync', function () {
+    var ids = core.readArray('ap-shortlist');
+    if (ids.length === saved.size && ids.every(function (id) { return saved.has(id); })) return;
+    saved.clear();
+    ids.forEach(function (id) { saved.add(id); });
+    if (screen === 'compare') renderCompare();
+    else if (screen === 'categories') renderCategories(state.city);
+    else if (screen === 'locations') renderChooser();
+    else renderResults();
+  });
 
   dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
   renderChooser();

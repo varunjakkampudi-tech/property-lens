@@ -1,4 +1,17 @@
+# Operating systems and editors
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+
+# Local dependencies, builds and test evidence
+node_modules/
+_site/
+playwright-report/
+test-results/
+visual-*.png
+coverage/
+*.log
+.env
+.env.*
+!.env.example
