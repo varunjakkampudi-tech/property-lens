@@ -25,7 +25,8 @@
   var esc = core.escapeHtml;
   var price = core.formatPrice;
 
-  function marketEstimate(p) { return core.comparableMarketValue(p, properties); }
+  var benchmarkById = new Map(properties.map(function (p) { return [p.id, core.comparableMarketValue(p, properties)]; }));
+  function marketEstimate(p) { return benchmarkById.get(p.id) || null; }
   function marketValueText(p) {
     var estimate = marketEstimate(p);
     return estimate ? price(estimate.valueLakh) : 'Not available';
@@ -39,8 +40,6 @@
     return delta + ' · ' + estimate.sampleSize + ' comps (' + estimate.scope +
       ') · checked ' + estimate.checkedOn;
   }
-
-  function iconForCity() { return ico('map-pin'); }
 
   function categoryFor(p) { return p.category; }
 
@@ -109,7 +108,7 @@
             cities.map(function (city) {
               var m = markets[city] || {};
               return '<button type="button" class="mpl-city" data-city="' + esc(city) + '">' +
-                '<div class="mpl-city-icon" aria-hidden="true">' + iconForCity() + '</div>' +
+                '<div class="mpl-city-icon" aria-hidden="true">' + ico('map-pin') + '</div>' +
                 '<b>' + countFor(city) + ' listed</b>' +
                 '<strong>' + esc(city) + '</strong>' +
                 '<span>' + esc(m.subtitle || 'Andhra Pradesh') + '</span>' +
