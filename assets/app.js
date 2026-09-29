@@ -2,6 +2,7 @@
   const core = window.PropertyLensCore;
   const properties = window.PROPERTY_DATA || [];
   const markets = window.MARKET_DATA || {};
+  const dataUpdatedAt = window.PROPERTY_DATA_UPDATED_AT;
   const $ = (id) => document.getElementById(id);
   const state = { view: 'all', city: 'all', category: 'all' };
   const shortlist = new Set(core.readArray('ap-shortlist'));
@@ -200,6 +201,7 @@
     $('propertyGrid').innerHTML=list.map(card).join('');
     $('emptyState').hidden=list.length!==0;
     $('resultsMeta').textContent=state.view==='visited' ? `${list.length} visited propert${list.length===1?'y':'ies'}` : `${list.length} lead${list.length===1?'':'s'} shown · ${properties.length} public leads under ₹50L · confirm availability`;
+    $('datasetUpdated').textContent = 'Leads last updated ' + core.formatDataUpdatedAt(dataUpdatedAt);
     $('browseStepLabel').textContent = state.view === 'visited' ? 'YOUR RESEARCH · VISITED' :
       state.view === 'shortlisted' ? 'YOUR RESEARCH · SAVED' :
       state.category !== 'all' ? 'STEP 03 · LISTINGS' :

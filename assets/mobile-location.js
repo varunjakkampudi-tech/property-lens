@@ -6,6 +6,7 @@
   var ico = core.icon;
   var properties = window.PROPERTY_DATA || [];
   var markets = window.MARKET_DATA || {};
+  var dataUpdatedAt = window.PROPERTY_DATA_UPDATED_AT;
   var cities = ['Vizag','Tanuku','Palakollu','Bhimavaram','Eluru'];
   var categories = [
     { key:'Flats', label:'Flats', icon:'building', note:'Apartments & gated communities' },
@@ -236,7 +237,7 @@
               return '<button type="button" aria-pressed="' + (state.view === pair[0] ? 'true' : 'false') + '" class="mpl-pill ' + (state.view === pair[0] ? 'active' : '') + '" data-view="' + pair[0] + '">' + pair[1] + '</button>';
             }).join('') +
           '</div>' +
-          '<div class="mpl-result-head"><div><small>' + esc(categoryLabel) + '</small><h2 aria-live="polite" aria-atomic="true">' + esc(heading) + '</h2></div><span>' + (state.sort === 'recommended' ? 'Best first' : state.sort === 'price-asc' ? 'Lowest price' : 'Highest price') + '</span></div>' +
+          '<div class="mpl-result-head"><div><small>' + esc(categoryLabel) + '</small><h2 aria-live="polite" aria-atomic="true">' + esc(heading) + '</h2><p class="mpl-updated">Leads last updated ' + esc(core.formatDataUpdatedAt(dataUpdatedAt)) + '</p></div><span>' + (state.sort === 'recommended' ? 'Best first' : state.sort === 'price-asc' ? 'Lowest price' : 'Highest price') + '</span></div>' +
           '<div class="mpl-cards">' + (list.length ? list.map(card).join('') : '<div class="mpl-empty"><strong>No matching properties</strong><span>Try another filter or category.</span></div>') + '</div>' +
         '</main>' +
         bottomNav(savedMode ? 'saved' : 'browse') +

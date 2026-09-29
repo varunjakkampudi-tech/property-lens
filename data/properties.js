@@ -1,3 +1,5 @@
+window.PROPERTY_DATA_UPDATED_AT = "2026-09-29T10:44:48+05:30";
+
 window.MARKET_DATA = {
   "Vizag": {
     "subtitle": "Visakhapatnam",

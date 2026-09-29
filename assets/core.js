@@ -98,10 +98,19 @@
   function sourceLinkLabel(lead) {
     return lead && lead.linkType === 'Direct listing' ? 'Open listing' : 'Open source results';
   }
+  function formatDataUpdatedAt(value) {
+    var date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return 'Update time unavailable';
+    try {
+      return new Intl.DateTimeFormat('en-IN', {
+        dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Kolkata'
+      }).format(date) + ' IST';
+    } catch (_) { return String(value); }
+  }
   window.PropertyLensCore = Object.freeze({
     escapeHtml: escapeHtml, formatPrice: formatPrice, isEligibleLead: isEligibleLead,
     readArray: readArray, readRecord: readRecord,
     normalizeIndianBusinessPhone: normalizeIndianBusinessPhone, sourceLinkLabel: sourceLinkLabel,
-    comparableMarketValue: comparableMarketValue, icon: icon
+    comparableMarketValue: comparableMarketValue, formatDataUpdatedAt: formatDataUpdatedAt, icon: icon
   });
 })();

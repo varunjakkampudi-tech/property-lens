@@ -1013,6 +1013,13 @@ dialog::backdrop{
   color:#7a879e
 }
 
+.dataset-updated{
+  color:#086b43;
+  font-size:11px;
+  font-weight:700;
+  margin:5px 0 0
+}
+
 .card-actions{
   flex-wrap:wrap
 }
@@ -1279,6 +1286,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,te
 
 .mobile-location-updated{
   color:#086b43
+}
+
+.mpl-updated{
+  color:#086b43;
+  font-size:11px;
+  font-weight:700;
+  margin:4px 0 0
 }
 
 .mobile-location-kicker{
