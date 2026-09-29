@@ -72,7 +72,7 @@
       if (location) {
         var meta = document.createElement("div");
         meta.className = "lead-source-meta";
-        meta.innerHTML = '<strong>' + esc(p.platform) + '</strong> · Posted by ' + esc(p.poster) + '<br><span>' + esc(p.lastSeen) + ' · ' + esc(p.linkType || "Direct listing") + '</span>';
+        meta.innerHTML = '<strong>' + esc(p.platform) + '</strong> · Posted by ' + esc(p.poster) + '<br><span>Last checked ' + esc(p.verifiedOn || 'date unavailable') + ' · ' + esc(p.lastSeen || 'Source date unavailable') + ' · ' + esc(p.linkType || "Direct listing") + '</span>';
         location.insertAdjacentElement("afterend", meta);
       }
 
