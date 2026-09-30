@@ -171,6 +171,34 @@
   ],
   "candidatesNeedingSellerConfirmation": [
     {
+      "reason": "results_page_only_implausible_price_requires_confirmation",
+      "city": "Eluru",
+      "category": "Independent Houses",
+      "platform": "OLX",
+      "name": "Burugagudem 1BHK independent house",
+      "priceLakh": 5.5,
+      "url": "https://www.olx.in/en-in/eluru_g4058517/q-house-sale",
+      "linkType": "Results page",
+      "poster": "Not shown on indexed results",
+      "sourceCheckedOn": "2026-10-01",
+      "evidence": "Permitted public OLX Eluru house-sale results checked 2026-10-01 show a 1 BHK, 480 sq.ft independent house in Burugagudem at ₹5,50,000 marked Today. The individual ad URL, listing identity and current seller availability were not exposed in the public results page, and the price requires confirmation before publication.",
+      "availabilityStatus": "publicly_listed_unconfirmed"
+    },
+    {
+      "reason": "results_page_only_cross_city_result_requires_confirmation",
+      "city": "Bhimavaram",
+      "category": "Independent Houses",
+      "platform": "Housing.com",
+      "name": "Kumudavalli 1RK independent house",
+      "priceLakh": 18.5,
+      "url": "https://housing.com/in/buy/west-godavari/palakollu-gid/1rk-fid/",
+      "linkType": "Results page; exact property listing URL not verified",
+      "poster": "Owner, as displayed",
+      "sourceCheckedOn": "2026-10-01",
+      "evidence": "Permitted public Housing.com results checked 2026-10-01 show a 1 RK independent house in Kumudavalli, Bhimavaram at ₹18.5 lakh, 2,178 sq.ft, marked updated 1 day ago. The page is a Palakollu results route and the individual listing URL was not exposed, so locality, identity and current availability require confirmation.",
+      "availabilityStatus": "publicly_listed_unconfirmed"
+    },
+    {
       "reason": "results_page_only_current_availability_requires_confirmation",
       "city": "Bhimavaram",
       "category": "Independent Houses",
