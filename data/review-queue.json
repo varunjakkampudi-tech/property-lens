@@ -171,6 +171,20 @@
   ],
   "candidatesNeedingSellerConfirmation": [
     {
+      "reason": "results_page_only_current_availability_requires_confirmation",
+      "city": "Bhimavaram",
+      "category": "Independent Houses",
+      "platform": "OLX",
+      "name": "Gunupudi 2BHK 2-cents house",
+      "priceLakh": 25,
+      "url": "https://www.olx.in/en-in/bhimavaram_g4058508/properties_c3/q-house-sale",
+      "linkType": "Results page",
+      "poster": "Not shown on indexed results",
+      "sourceCheckedOn": "2026-09-29",
+      "evidence": "Permitted public OLX Bhimavaram house-sale results page checked 2026-09-29 shows a 2 BHK, 871 sq.ft house in Gunupudi at ₹25,00,000, listed yesterday. The individual ad URL and current seller availability were not exposed in the public results page, so keep this lead quarantined until the exact source listing and availability are confirmed.",
+      "availabilityStatus": "publicly_listed_unconfirmed"
+    },
+    {
       "reason": "conflicting_plot_area",
       "city": "Eluru",
       "category": "Plots",
