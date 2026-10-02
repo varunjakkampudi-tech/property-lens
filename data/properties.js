@@ -1,4 +1,4 @@
-window.PROPERTY_DATA_UPDATED_AT = "2026-10-01T05:58:46+05:30";
+window.PROPERTY_DATA_UPDATED_AT = "2026-10-02T00:00:00+05:30";
 
 window.MARKET_DATA = {
   "Vizag": {
@@ -34,6 +34,45 @@ window.MARKET_DATA = {
 };
 
 window.PROPERTY_DATA = [
+  {
+    "verifiedOn": "2026-10-02",
+    "status": "Public listing; availability must be confirmed",
+    "availabilityStatus": "publicly_listed_unconfirmed",
+    "ageGroup": "new",
+    "gated": "no",
+    "market": "Duvvada / Lankela Palem",
+    "askingRate": "₹13,500/sq.yd",
+    "target": "Verify VUDA/GVMC approval, title, survey and all-in price",
+    "highlights": [
+      "200 sq.yd residential plot",
+      "₹27L asking price",
+      "East facing; immediate possession"
+    ],
+    "notes": "Direct Housing.com listing checked 2026-10-02 and cross-checked against the matching public OLX ad dated Oct 1, 2026. Sources describe a 200 sq.yd plot in the Kalinga VUDA layout / Pedamusidivada area near Lankela Palem–Sabbavaram. Independently verify title, approval documents, exact survey location, seller authority, charges and current availability before any payment.",
+    "source": "Housing.com / OLX",
+    "platform": "Housing.com",
+    "poster": "Sree Mahadev Developers",
+    "posterType": "Developer / portal listing",
+    "lastSeen": "Updated Oct 1, 2026",
+    "publicPhone": null,
+    "phoneLabel": null,
+    "linkType": "Direct listing",
+    "score": 86,
+    "id": "vzg-housing-plot-21226991",
+    "city": "Vizag",
+    "name": "Kalinga VUDA Layout 200 sq.yd plot",
+    "locality": "Lankela Palem / Pedamusidivada, Visakhapatnam",
+    "price": 27,
+    "size": 200,
+    "sizeUnit": "sq.yd plot",
+    "bhk": "Plot",
+    "type": "Plot",
+    "age": "Residential plot; immediate possession",
+    "deal": "Research Lead",
+    "url": "https://housing.com/buy-200-sqft-residential-plot-in-lankela-palem-for-rs-2700000-rid-21226991",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Lankela%20Palem%20Pedamusidivada%20Visakhapatnam",
+    "category": "Plots"
+  },
   {
     "verifiedOn": "2026-10-01",
     "status": "Public listing; availability must be confirmed",
