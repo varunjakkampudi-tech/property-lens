@@ -171,6 +171,34 @@
   ],
   "candidatesNeedingSellerConfirmation": [
     {
+      "reason": "results_page_only_locality_and_current_availability_require_confirmation",
+      "city": "Vizag",
+      "category": "Flats",
+      "platform": "Housing.com",
+      "name": "Gollala 2BHK flat near Yendada",
+      "priceLakh": 37,
+      "url": "https://housing.com/in/buy/visakhapatnam/yendada-gid/under-50-lakhs-fid/",
+      "linkType": "Results page; exact property listing URL not verified",
+      "poster": "Honeyy Constructions, as displayed",
+      "sourceCheckedOn": "2026-10-02",
+      "evidence": "Housing.com Yendada under-₹50L results checked 2026-10-02 show a 2 BHK flat in Gollala, listed at ₹37L, 700 sq.ft, with lift and fresh-construction highlights. The result is shown 4.9 km from the Yendada search area and the individual listing URL was not exposed in the result page, so locality, identity and current availability require confirmation.",
+      "availabilityStatus": "publicly_listed_unconfirmed"
+    },
+    {
+      "reason": "results_page_only_current_availability_requires_confirmation",
+      "city": "Vizag",
+      "category": "Flats",
+      "platform": "Housing.com",
+      "name": "Srinivasa Nagar Madhurawada 2BHK flat",
+      "priceLakh": 48,
+      "url": "https://housing.com/in/buy/visakhapatnam/srinivasa-nagar-madhurawada-gid/2bhk-fid/",
+      "linkType": "Results page; exact property listing URL not verified",
+      "poster": "B Suri Babu, as displayed",
+      "sourceCheckedOn": "2026-10-02",
+      "evidence": "Housing.com Srinivasa Nagar/Madhurawada results checked 2026-10-02 show a 2 BHK flat at ₹48L, 1,130 sq.ft, with fresh-construction and children-play-area highlights. The results route exposes multiple similar units rather than a unique property URL, so identity and current availability require confirmation.",
+      "availabilityStatus": "publicly_listed_unconfirmed"
+    },
+    {
       "reason": "results_page_only_current_availability_requires_confirmation",
       "city": "Vizag",
       "category": "Flats",

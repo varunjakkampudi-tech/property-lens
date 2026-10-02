@@ -200,6 +200,10 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .mpl-app,.mpl-dialog{font-family:Manrope,Inter,"Segoe UI",system-ui,sans-serif}
   html{scroll-padding-bottom:calc(110px + env(safe-area-inset-bottom))}
   .mpl-results-body{padding-bottom:calc(178px + env(safe-area-inset-bottom))}
+  /* Prevent intrinsic action/text widths from expanding the mobile layout viewport. */
+  .mpl-results-body,.mpl-cards,.mpl-property,.mpl-property-top,.mpl-actions{min-width:0;width:100%}
+  .mpl-cards,.mpl-property{overflow:hidden}
+  .mpl-actions a,.mpl-actions button{min-width:0}
   .mpl-compare-toggle{scroll-margin-bottom:110px}
   .mpl-logo{width:38px;height:38px;background:none;border-radius:12px;overflow:hidden}
   .mpl-logo img{display:block;width:38px;height:38px}
@@ -208,7 +212,8 @@ button .pl-icon,a .pl-icon{pointer-events:none}
   .mpl-city-icon,.mpl-category-icon{color:#245bc8}
   .mpl-city small{padding-right:20px;line-height:1.45}
   .mpl-arrow{right:11px;bottom:11px}
-  .mpl-bottom-nav{bottom:calc(32px + env(safe-area-inset-bottom));padding-bottom:0}
+  /* Keep the mobile navigation viewport-fixed even when the results body grows. */
+  .mpl-bottom-nav{position:fixed!important;top:auto!important;bottom:0!important;left:0;right:0;z-index:1000;padding-bottom:env(safe-area-inset-bottom)}
   .mpl-bottom-nav::after{content:"";position:absolute;left:0;right:0;top:100%;
     height:calc(32px + env(safe-area-inset-bottom));background:#fff;pointer-events:none}
   .mpl-city-icon .pl-icon{width:23px;height:23px}
